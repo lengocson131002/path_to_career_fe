@@ -16,6 +16,7 @@ export default {
       backgroundColor: {
         primary: "#1864AB",
         secondary: "#00000073",
+        "light-blue": "#F2FAFA",
       },
     },
   },

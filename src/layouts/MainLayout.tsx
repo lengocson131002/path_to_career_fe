@@ -9,7 +9,7 @@ function MainLayout({
   return (
     <div>
       <Header />
-      <div id="body" className="pt-20 w-full px-28 pb-12">
+      <div id="body" className="pt-32 w-full px-28 pb-12">
         {children}
       </div>
       <Footer />

@@ -1,3 +1,4 @@
+import { ConfigProvider } from "antd";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -50,7 +51,17 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#1864AB",
+        },
+      }}
+    >
+      <RouterProvider router={router} />{" "}
+    </ConfigProvider>
+  );
 };
 
 export default App;

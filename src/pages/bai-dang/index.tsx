@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ServiceEnum } from "../../adapter/ServiceAdapter";
 import Banner from "../../assets/banner.png";
 import MainLayout from "../../layouts/MainLayout";
+import { useNavigate } from "react-router-dom";
 const { SHOW_PARENT } = TreeSelect;
 
 const treeData = [
@@ -55,6 +56,7 @@ const treeData = [
 ];
 function PostPage() {
   const [value, setValue] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const onChange = (newValue: string[]) => {
     console.log("onChange ", value);
@@ -63,7 +65,7 @@ function PostPage() {
 
   return (
     <MainLayout>
-      <img src={Banner} alt="banner_img" className="w-full my-8" />
+      <img src={Banner} alt="banner_img" className="w-full mb-8" />
       <div className="flex gap-12">
         <div className="sticky top-10">
           <TreeSelect
@@ -115,6 +117,9 @@ function PostPage() {
                   <Tag color="volcano">Công nghệ thông tin</Tag>
                 </div>
               }
+              onClick={() => {
+                navigate("/bai-dang/1");
+              }}
             >
               <div className="flex flex-col gap-2">
                 <div>Nguyễn Văn A</div>
@@ -127,17 +132,13 @@ function PostPage() {
                   techniques, as well as experience in using marketing... Xem
                   thêm
                 </div>
-                <div className="text-primary font-semibold">
-                  Hạn chót:{" "}
-                  <span className="text-black font-normal">
-                    20/10/2023 13:08:23
-                  </span>
+                <div>
+                  <span className="text-primary font-semibold">Hạn chót:</span>{" "}
+                  20/10/2023 13:08:23
                 </div>
-                <div className="text-primary font-semibold">
-                  Ngân sách:{" "}
-                  <span className="text-black font-normal">
-                    500.000đ - 1.000.000đ
-                  </span>
+                <div>
+                  <span className="text-primary font-semibold">Ngân sách:</span>{" "}
+                  500.000đ - 1.000.000đ
                 </div>
               </div>
             </Card>
