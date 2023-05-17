@@ -1,12 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        p2c: "0px 7px 10px rgba(0, 0, 0, 0.15)",
+      },
+      colors: {
+        primary: "#1864AB",
+      },
+    },
   },
   plugins: [],
-}
+};
 

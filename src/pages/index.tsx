@@ -1,5 +1,11 @@
+import HomeLayout from "../layouts/HomeLayout";
+
 const Home = () => {
-  return <div className="text-3xl font-bold">Home</div>;
+  return (
+    <HomeLayout>
+      <>Home</>
+    </HomeLayout>
+  );
 };
 
 export default Home;
