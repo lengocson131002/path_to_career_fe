@@ -1,21 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer base {
-    button,
-    [type='button'],
-    [type='reset'],
-    [type='submit'] {
-        -webkit-appearance: button;
-        background-color: #1864AB;
-        background-image: none;
-    }
-}
-
 * {
+    box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
+    padding: 0;
+    margin: 0;
     width: 100%;
 }

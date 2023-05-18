@@ -7,7 +7,7 @@ type HeaderProps = {
 function Header({}: HeaderProps) {
   return (
     <div id="header">
-      <div className="w-full h-20 shadow-p2c flex justify-between items-center px-28 fixed z-50 bg-white">
+      <div className="w-full h-20 top-0 left-0 shadow-p2c flex justify-between items-center px-28 fixed z-50 bg-white">
         <img src={Logo} alt="p2c_logo" className="h-3/4" />
         <div className="flex gap-8">
           <div className="hover:text-primary cursor-pointer hover:font-semibold">
