@@ -1,9 +1,9 @@
-import { Tag, TreeSelect, Card, Pagination } from "antd";
+import { Card, Pagination, Tag, TreeSelect } from "antd";
 import { useState } from "react";
-import { ServiceEnum } from "../../adapter/ServiceAdapter";
-import Banner from "../../assets/banner.png";
-import MainLayout from "../../layouts/MainLayout";
 import { useNavigate } from "react-router-dom";
+import Banner from "../../assets/banner.png";
+import { ServiceTypes } from "../../commons/enum";
+import MainLayout from "../../layouts/MainLayout";
 const { SHOW_PARENT } = TreeSelect;
 
 const treeData = [
@@ -14,17 +14,17 @@ const treeData = [
     checkable: false,
     children: [
       {
-        title: ServiceEnum["REVIEW_CV"],
+        title: ServiceTypes.REVIEW_CV,
         value: "0-0-0",
         key: "0-0-0",
       },
       {
-        title: ServiceEnum["CREATE_CV"],
+        title: ServiceTypes.CREATE_CV,
         value: "0-0-1",
         key: "0-0-1",
       },
       {
-        title: ServiceEnum["MOCK_INTERVIEW"],
+        title: ServiceTypes.MOCK_INTERVIEW,
         value: "0-0-2",
         key: "0-0-2",
       },
