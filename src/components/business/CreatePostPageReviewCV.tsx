@@ -25,7 +25,7 @@ const props: UploadProps = {
   },
 };
 
-function CreatePostPageMockInterview() {
+function CreatePostPageReviewCV() {
   return (
     <Form layout="vertical" className="w-[500px]">
       <div className="flex text-primary items-end text-2xl mb-4 font-semibold gap-2">
@@ -129,4 +129,4 @@ function CreatePostPageMockInterview() {
   );
 }
 
-export default CreatePostPageMockInterview;
+export default CreatePostPageReviewCV;

@@ -1,9 +1,8 @@
+import Banner from "@/assets/banner.png";
+import { ServiceTypes } from "@/commons/enum";
 import { Card, Pagination, Tag, TreeSelect } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Banner from "../../assets/banner.png";
-import { ServiceTypes } from "../../commons/enum";
-import MainLayout from "../../layouts/MainLayout";
 const { SHOW_PARENT } = TreeSelect;
 
 const treeData = [
@@ -64,7 +63,7 @@ function PostPage() {
   };
 
   return (
-    <MainLayout>
+    <>
       <img src={Banner} alt="banner_img" className="w-full mb-8" />
       <div className="flex gap-12">
         <div className="sticky top-10">
@@ -100,8 +99,9 @@ function PostPage() {
           />
         </div>
         <div className="w-full flex flex-col gap-4">
-          {[1, 2, 3, 4].map(() => (
+          {[1, 2, 3, 4].map((_, index) => (
             <Card
+              key={index}
               className="cursor-pointer"
               title={
                 <div className="flex gap-4 items-end">
@@ -146,7 +146,7 @@ function PostPage() {
           <Pagination className="flex justify-end w-full"></Pagination>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }
 

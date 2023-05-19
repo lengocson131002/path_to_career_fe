@@ -1,14 +1,17 @@
 import { ConfigProvider } from "antd";
 import {
-  createBrowserRouter,
-  RouterProvider,
-  LoaderFunction,
   ActionFunction,
+  BrowserRouter,
+  LoaderFunction,
+  Route,
+  Routes,
 } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import HomeLayout from "./layouts/HomeLayout";
 
 interface IRoute {
   path: string;
-  Element: JSX.Element;
+  Element: React.ComponentType<any>;
   loader?: LoaderFunction;
   action?: ActionFunction;
   ErrorBoundary?: JSX.Element;
@@ -40,15 +43,15 @@ for (const path of Object.keys(pages)) {
   });
 }
 
-const router = createBrowserRouter(
-  routes.map(({ Element, ErrorBoundary, ...rest }) => ({
-    ...rest,
-    // @ts-ignore
-    element: <Element />,
-    // @ts-ignore
-    ...(ErrorBoundary && { errorElement: <ErrorBoundary /> }),
-  }))
-);
+// const router = createBrowserRouter(
+//   routes.map(({ Element, ErrorBoundary, ...rest }) => ({
+//     ...rest,
+//     // @ts-ignore
+//     element: <Element />,
+//     // @ts-ignore
+//     ...(ErrorBoundary && { errorElement: <ErrorBoundary /> }),
+//   }))
+// );
 
 const App = () => {
   return (
@@ -56,10 +59,21 @@ const App = () => {
       theme={{
         token: {
           colorPrimary: "#1864AB",
+          // colorError: "#a10e22 ",
         },
       }}
     >
-      <RouterProvider router={router} />{" "}
+      <BrowserRouter>
+        <MainLayout>
+          <Routes>
+            {routes.map(({ Element, ErrorBoundary, ...rest }, index) => {
+              return (
+                <Route key={index} path={rest.path} element={<Element />} />
+              );
+            })}
+          </Routes>
+        </MainLayout>
+      </BrowserRouter>
     </ConfigProvider>
   );
 };

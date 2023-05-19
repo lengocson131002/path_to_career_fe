@@ -1,20 +1,20 @@
-import Footer from "./Footer";
-import Header from "./Header";
+import { useLocation } from "react-router-dom";
+import HomeLayout from "./HomeLayout";
+import NoLayout from "./NoLayout";
 
-function MainLayout({
-  children,
-}: {
-  children: JSX.Element | JSX.Element[] | string;
-}) {
-  return (
-    <div>
-      <Header />
-      <div id="body" className="pt-32 w-full px-28 pb-12">
-        {children}
-      </div>
-      <Footer />
-    </div>
-  );
+const noLayoutPaths = ["/dang-nhap", "/dang-ky"];
+
+function MainLayout({ children }: { children: JSX.Element }) {
+  const { pathname } = useLocation();
+
+  let Layout: ({ children }: { children: JSX.Element }) => JSX.Element =
+    HomeLayout;
+
+  if (noLayoutPaths.some((path) => pathname.includes(path))) {
+    Layout = NoLayout;
+  }
+
+  return <Layout>{children}</Layout>;
 }
 
 export default MainLayout;

@@ -25,7 +25,7 @@ const props: UploadProps = {
   },
 };
 
-function CreatePostPageReviewCV() {
+function CreatePostPageMockInterview() {
   return (
     <Form layout="vertical" className="w-[500px]">
       <div className="flex text-primary items-end text-2xl mb-4 font-semibold gap-2">
@@ -47,7 +47,6 @@ function CreatePostPageReviewCV() {
           ]}
         />
       </Form.Item>
-
       <Form.Item name="userEmail" noStyle>
         <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
           Vị trí làm việc
@@ -82,28 +81,25 @@ function CreatePostPageReviewCV() {
           ]}
         />
       </Form.Item>
-
       <Form.Item name="userPwd" noStyle>
         <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
           Hạn chót
         </label>
         <DatePicker showTime placement="topRight" className="w-full" />
       </Form.Item>
-
       <Form.Item name="userPwd" noStyle>
         <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
           Nội dung bài đăng
         </label>
         <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
       </Form.Item>
-
       <div className="flex text-primary items-end text-2xl my-4 font-semibold gap-2">
         <AiTwotoneSetting className="text-3xl" />
         Thông tin chi tiết
       </div>
       <Form.Item name="userPwd" noStyle>
         <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
-          Nội dung bài đăng
+          Upload CV của bạn
         </label>
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
@@ -118,6 +114,12 @@ function CreatePostPageReviewCV() {
           </p>
         </Dragger>
       </Form.Item>
+      <Form.Item name="userPwd" noStyle>
+        <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
+          Mô tả
+        </label>
+        <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
+      </Form.Item>
       <Form.Item noStyle></Form.Item>
       <div className="flex gap-4 mt-4">
         <Form.Item noStyle>
@@ -129,4 +131,4 @@ function CreatePostPageReviewCV() {
   );
 }
 
-export default CreatePostPageReviewCV;
+export default CreatePostPageMockInterview;
