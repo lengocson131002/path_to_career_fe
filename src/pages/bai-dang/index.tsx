@@ -1,8 +1,7 @@
-import { Tag, TreeSelect, Card, Pagination } from "antd";
+import Banner from "@/assets/banner.png";
+import { ServiceTypes } from "@/commons/enum";
+import { Card, Pagination, Tag, TreeSelect } from "antd";
 import { useState } from "react";
-import { ServiceEnum } from "../../adapter/ServiceAdapter";
-import Banner from "../../assets/banner.png";
-import MainLayout from "../../layouts/MainLayout";
 import { useNavigate } from "react-router-dom";
 const { SHOW_PARENT } = TreeSelect;
 
@@ -14,17 +13,17 @@ const treeData = [
     checkable: false,
     children: [
       {
-        title: ServiceEnum["REVIEW_CV"],
+        title: ServiceTypes.REVIEW_CV,
         value: "0-0-0",
         key: "0-0-0",
       },
       {
-        title: ServiceEnum["CREATE_CV"],
+        title: ServiceTypes.CREATE_CV,
         value: "0-0-1",
         key: "0-0-1",
       },
       {
-        title: ServiceEnum["MOCK_INTERVIEW"],
+        title: ServiceTypes.MOCK_INTERVIEW,
         value: "0-0-2",
         key: "0-0-2",
       },
@@ -64,7 +63,7 @@ function PostPage() {
   };
 
   return (
-    <MainLayout>
+    <>
       <img src={Banner} alt="banner_img" className="w-full mb-8" />
       <div className="flex gap-12">
         <div className="sticky top-10">
@@ -100,8 +99,9 @@ function PostPage() {
           />
         </div>
         <div className="w-full flex flex-col gap-4">
-          {[1, 2, 3, 4].map(() => (
+          {[1, 2, 3, 4].map((_, index) => (
             <Card
+              key={index}
               className="cursor-pointer"
               title={
                 <div className="flex gap-4 items-end">
@@ -146,7 +146,7 @@ function PostPage() {
           <Pagination className="flex justify-end w-full"></Pagination>
         </div>
       </div>
-    </MainLayout>
+    </>
   );
 }
 

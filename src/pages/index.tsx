@@ -1,11 +1,5 @@
-import HomeLayout from "../layouts/HomeLayout";
+function HomePage() {
+  return <></>;
+}
 
-const Home = () => {
-  return (
-    <HomeLayout>
-      <>Home</>
-    </HomeLayout>
-  );
-};
-
-export default Home;
+export default HomePage;

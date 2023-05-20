@@ -11,6 +11,7 @@ export default {
       },
       colors: {
         primary: "#1864AB",
+        "p2c-red": "#a10e22",
         "p2c-gray": "#B3B3B3",
       },
       borderColor: {
