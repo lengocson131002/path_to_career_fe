@@ -1,3 +1,4 @@
+import HomeCommunity from "@/components/business/home/HomeCommunity";
 import HomeFeature from "@/components/business/home/HomeFeature";
 import HomeHero from "@/components/business/home/HomeHero";
 import HomePost from "@/components/business/home/HomePost";
@@ -8,6 +9,7 @@ function HomePage() {
       <HomeHero />
       <HomeFeature />
       <HomePost />
+      <HomeCommunity />
     </>
   );
 }
