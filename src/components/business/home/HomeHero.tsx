@@ -1,6 +1,6 @@
 import { Button, Col, Row } from "antd";
 import React from "react";
-import HeroDecor from "../../../assets/hero-decor.png";
+import HeroDecor from "@/assets/hero-decor.png";
 
 type Props = {};
 

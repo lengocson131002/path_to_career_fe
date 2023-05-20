@@ -1,7 +1,7 @@
 import React from "react";
-import Connection from "../../../assets/fast-connection.png";
-import Free from "../../../assets/free-post.png";
-import Service from "../../../assets/multi-service.png";
+import Connection from "@/assets/fast-connection.png";
+import Free from "@/assets/free-post.png";
+import Service from "@/assets/multi-service.png";
 
 type Props = {};
 
