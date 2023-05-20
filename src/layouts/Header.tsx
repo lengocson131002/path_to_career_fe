@@ -1,7 +1,7 @@
 import { Avatar, Badge, Button, Dropdown } from "antd";
 import { useEffect, useState } from "react";
 import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 
 type HeaderProps = {
@@ -13,7 +13,7 @@ type UserModel = {
 
 function Header({ type }: HeaderProps) {
   const [user, setUser] = useState<UserModel>();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (type === "authenticated") {
       setUser({
@@ -22,9 +22,13 @@ function Header({ type }: HeaderProps) {
     }
   }, []);
 
+  const handleLogout = () => {
+    navigate("/dang-nhap");
+  };
+
   return (
     <div id="header">
-      <div className="w-full h-20 top-0 left-0 shadow-p2c flex justify-between items-center px-28 fixed z-50 bg-white">
+      <div className="w-full h-20 top-0 left-0 shadow-p2c flex justify-between items-center px-28 fixed z-40 bg-white">
         <img src={Logo} alt="p2c_logo" className="h-3/4" />
         <div className="flex gap-8 items-center">
           {type === "authenticated" ? (
@@ -42,7 +46,7 @@ function Header({ type }: HeaderProps) {
                 Tìm việc làm
               </Link>
               <Link
-                to={"/"}
+                to={"/bai-dang/tao-bai-dang"}
                 className="hover:text-primary cursor-pointer hover:font-semibold"
               >
                 Đăng bài
@@ -63,7 +67,10 @@ function Header({ type }: HeaderProps) {
                     {
                       key: "1",
                       label: (
-                        <div className="flex items-center text-p2c-red gap-2">
+                        <div
+                          className="flex items-center text-p2c-red gap-2"
+                          onClick={handleLogout}
+                        >
                           <AiOutlinePoweroff />
                           <div>Đăng xuất</div>
                         </div>

@@ -1,7 +1,8 @@
 import Banner from "@/assets/banner.png";
 import { ServiceTypes } from "@/commons/enum";
-import { Card, Pagination, Tag, TreeSelect } from "antd";
-import { useState } from "react";
+import CardSkeleton from "@/components/core/CardSkeleton";
+import { Card, Pagination, Skeleton, Tag, TreeSelect } from "antd";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const { SHOW_PARENT } = TreeSelect;
 
@@ -56,6 +57,13 @@ const treeData = [
 function PostPage() {
   const [value, setValue] = useState<string[]>([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const onChange = (newValue: string[]) => {
     console.log("onChange ", value);
@@ -100,7 +108,8 @@ function PostPage() {
         </div>
         <div className="w-full flex flex-col gap-4">
           {[1, 2, 3, 4].map((_, index) => (
-            <Card
+            <CardSkeleton
+              loading={loading}
               key={index}
               className="cursor-pointer"
               title={
@@ -141,7 +150,7 @@ function PostPage() {
                   500.000đ - 1.000.000đ
                 </div>
               </div>
-            </Card>
+            </CardSkeleton>
           ))}
           <Pagination className="flex justify-end w-full"></Pagination>
         </div>
