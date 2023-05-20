@@ -1,19 +1,23 @@
 import { Avatar, Badge, Button, Dropdown } from "antd";
 import { useEffect, useState } from "react";
 import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 
 type HeaderProps = {
   type?: "default" | "float" | "authenticated";
 };
+
 type UserModel = {
   name: string;
 };
 
 function Header({ type }: HeaderProps) {
   const [user, setUser] = useState<UserModel>();
+  const [isFloat, setIsFloat] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   useEffect(() => {
     if (type === "authenticated") {
       setUser({
@@ -21,15 +25,28 @@ function Header({ type }: HeaderProps) {
       });
     }
   }, []);
-
+  useEffect(() => {
+    if (pathname === "/") {
+      setIsFloat(true);
+    } else {
+      setIsFloat(false);
+    }
+  }, [pathname]);
   const handleLogout = () => {
     navigate("/dang-nhap");
   };
 
   return (
     <div id="header">
-      <div className="w-full h-20 top-0 left-0 shadow-p2c flex justify-between items-center px-28 fixed z-40 bg-white">
-        <img src={Logo} alt="p2c_logo" className="h-3/4" />
+      <div
+        className={`h-20 shadow-p2c flex justify-between items-center px-28 fixed z-40 bg-white ${
+          isFloat ? "rounded-full top-4 left-6 right-6" : "top-0 left-0 w-full"
+        }`}
+      >
+        <Link to={"/"} className="h-full flex items-center">
+          <img src={Logo} alt="p2c_logo" className="h-3/4" />
+        </Link>
+
         <div className="flex gap-8 items-center">
           {type === "authenticated" ? (
             <>
