@@ -1,4 +1,4 @@
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Spin } from "antd";
 import {
   ActionFunction,
   BrowserRouter,
@@ -6,8 +6,11 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import ScrollToTop from "./components/core/ScrollToTop";
 import MainLayout from "./layouts/MainLayout";
-import HomeLayout from "./layouts/HomeLayout";
+import { useSelector } from "react-redux";
+import { AppState } from "./stores";
+import Loader from "./components/core/Loader";
 
 interface IRoute {
   path: string;
@@ -54,6 +57,8 @@ for (const path of Object.keys(pages)) {
 // );
 
 const App = () => {
+  const { loading } = useSelector((state: AppState) => state.global);
+
   return (
     <ConfigProvider
       theme={{
@@ -64,6 +69,8 @@ const App = () => {
       }}
     >
       <BrowserRouter>
+        <Loader loading={loading} />
+        <ScrollToTop />
         <MainLayout>
           <Routes>
             {routes.map(({ Element, ErrorBoundary, ...rest }, index) => {
