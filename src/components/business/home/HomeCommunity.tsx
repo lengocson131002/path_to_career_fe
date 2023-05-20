@@ -12,7 +12,7 @@ function HomeCommunity({}: Props) {
           <img src={CommunityMan} alt="" className="w-full" />
         </div>
         <div className="community__decor--stats left-1/2 translate-x-[calc(-100%+36px)] translate-y-[calc(-100%+16px)] absolute top-0">
-          <Card className="text-center rounded-3xl">
+          <Card className="text-center rounded-3xl shadow-[0_1px_6px_0px_rgba(0,0,0,0.05)]">
             <div className="community__stats--number font-semibold text-primary text-3xl">
               500+
             </div>
@@ -22,7 +22,7 @@ function HomeCommunity({}: Props) {
           </Card>
         </div>
         <div className="community__decor--stats right-1/2 translate-x-[calc(100%-20px)] translate-y-[calc(-100%+80px)] absolute bottom-0">
-          <Card className="text-center rounded-3xl">
+          <Card className="text-center rounded-3xl shadow-[0_1px_6px_0px_rgba(0,0,0,0.05)]">
             <div className="community__stats--number font-semibold text-primary text-3xl">
               300+
             </div>
