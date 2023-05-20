@@ -13,6 +13,7 @@ export default {
         primary: "#1864AB",
         "p2c-red": "#a10e22",
         "p2c-gray": "#B3B3B3",
+        "p2c-grey": "#9D9D9D",
       },
       borderColor: {
         "p2c-gray": "#B3B3B3",
@@ -21,6 +22,9 @@ export default {
         primary: "#1864AB",
         secondary: "#00000073",
         "light-blue": "#F2FAFA",
+      },
+      backgroundImage: {
+        "hero-bg": "url(./src/assets/hero-bg.png)",
       },
     },
   },
