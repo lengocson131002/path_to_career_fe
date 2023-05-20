@@ -22,6 +22,9 @@ export default {
         secondary: "#00000073",
         "light-blue": "#F2FAFA",
       },
+      backgroundImage: {
+        "hero-bg": "url(./src/assets/hero-bg.png)",
+      },
     },
   },
   plugins: [],
