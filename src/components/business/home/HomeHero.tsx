@@ -1,13 +1,17 @@
 import { Button, Col, Row } from "antd";
 import React from "react";
 import HeroDecor from "@/assets/hero-decor.png";
+import HeroBg from "@/assets/hero-bg.png";
 
 type Props = {};
 
 function HomeHero({}: Props) {
+  console.log(HeroBg);
   return (
     <>
-      <div className="h-[660px] hero__bg w-full bg-hero-bg bg-[length:1490px_660px] bg-origin-content bg-no-repeat absolute top-0 left-0 -z-50"></div>
+      <div
+        className={`h-[660px] hero__bg w-full bg-[url('${HeroBg}')] bg-[length:1490px_660px] bg-origin-content bg-no-repeat absolute top-0 left-0 -z-50`}
+      ></div>
       <div className="h-[500px] hero__main">
         <Row className="h-full">
           <Col span={13} className="self-center">
