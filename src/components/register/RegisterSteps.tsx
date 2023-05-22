@@ -56,7 +56,7 @@ function RegisterSteps() {
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      message.success("Đăng ký tài khoản   thành công");
+      message.success("Đăng ký tài khoản thành công");
       navigate("/dang-nhap");
     }
   }, [mutation.isSuccess]);
@@ -73,13 +73,6 @@ function RegisterSteps() {
       icon: <AiTwotoneSetting className="text-xl" />,
     },
   ];
-  const handleNext = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
 
   return (
     <div className="register__main--form mt-1 w-[320px]">

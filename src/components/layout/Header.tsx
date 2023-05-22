@@ -1,8 +1,10 @@
+import { getMe } from "@/services/accounts/services";
+import { useQuery } from "@tanstack/react-query";
 import { Avatar, Badge, Button, Dropdown } from "antd";
 import { useEffect, useState } from "react";
 import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Logo from "../assets/logo.png";
+import Logo from "@/assets/logo.png";
 
 type HeaderProps = {
   type?: "default" | "float" | "authenticated";
@@ -17,14 +19,16 @@ function Header({ type }: HeaderProps) {
   const [isFloat, setIsFloat] = useState<boolean>(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { data } = useQuery(["p2c_major_codes"], getMe);
 
   useEffect(() => {
-    if (type === "authenticated") {
+    if (data) {
       setUser({
-        name: "Nguyễn Văn A",
+        name: data?.fullName,
       });
     }
-  }, []);
+  }, [data]);
+
   useEffect(() => {
     if (pathname === "/") {
       setIsFloat(true);
@@ -48,7 +52,7 @@ function Header({ type }: HeaderProps) {
         </Link>
 
         <div className="flex gap-8 items-center">
-          {type === "authenticated" ? (
+          {user ? (
             <>
               <Link
                 to={"/"}

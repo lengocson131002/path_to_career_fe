@@ -1,6 +1,6 @@
-import Logo from "../assets/logo.png";
-import { FaFacebookSquare } from "react-icons/fa";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
+import { FaFacebookSquare } from "react-icons/fa";
+import Logo from "@/assets/logo.png";
 
 type FooterProps = {
   type?: "default" | "float";

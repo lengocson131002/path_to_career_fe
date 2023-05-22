@@ -9,6 +9,7 @@ function RegisterInformation({
   form: FormInstance;
   onFinish: (data: RegisterForm) => void;
 }) {
+
   return (
     <>
       <Form
@@ -17,7 +18,6 @@ function RegisterInformation({
         name="basic"
         autoComplete="off"
         onFinish={onFinish}
-        validateTrigger="onBlur"
       >
         <Form.Item
           name="phone"
@@ -77,10 +77,10 @@ function RegisterInformation({
         >
           <Input.Password placeholder="Xác nhận mật khẩu của bạn" />
         </Form.Item>
-        <Form.Item>
+        <Form.Item noStyle>
           <Button
             type="primary"
-            className="w-full h-10 mt-4 text-base font-semibold"
+            className="w-full h-10 mt-2 text-base font-semibold"
             htmlType="submit"
           >
             Tiếp tục

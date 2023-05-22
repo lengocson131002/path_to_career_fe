@@ -2,8 +2,8 @@ import { Roles, enumToList } from "@/commons/enum";
 import { getMajorCodes } from "@/services/majors/services";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Form, FormInstance, Input, Select } from "antd";
-import { RegisterForm } from "./RegisterSteps";
 import Google from "../../assets/google-icon.png";
+import { RegisterForm } from "./RegisterSteps";
 
 function RegisterConfiguration({
   form,
@@ -19,7 +19,6 @@ function RegisterConfiguration({
       <Form
         form={form}
         layout="vertical"
-        validateTrigger={["onBlur, onChange"]}
         name="basic"
         onFinish={onFinish}
         autoComplete="off"
@@ -72,10 +71,10 @@ function RegisterConfiguration({
             }))}
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item noStyle>
           <Button
             type="primary"
-            className="w-full h-10 mt-4 text-base font-semibold"
+            className="w-full h-10 mt-2 text-base font-semibold"
             htmlType="submit"
           >
             Đăng ký

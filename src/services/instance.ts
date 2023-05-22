@@ -64,14 +64,14 @@ instance.interceptors.response.use(
       errorMessage = error?.response?.data?.message;
     }
 
-    console.dir(error);
     error.message && $message.error(errorMessage);
 
-    return {
-      status: false,
-      message: errorMessage,
-      result: null,
-    };
+    return Promise.reject();
+    // return {
+    //   status: false,
+    //   message: errorMessage,
+    //   result: null,
+    // };
   }
 );
 
