@@ -6,25 +6,21 @@ import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/assets/logo.png";
 
-type HeaderProps = {
-  type?: "default" | "float" | "authenticated";
-};
-
 type UserModel = {
   name: string;
 };
 
-function Header({ type }: HeaderProps) {
+function Header() {
   const [user, setUser] = useState<UserModel>();
   const [isFloat, setIsFloat] = useState<boolean>(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { data } = useQuery(["p2c_major_codes"], getMe);
+  const { data } = useQuery(["p2c_me"], getMe);
 
   useEffect(() => {
     if (data) {
       setUser({
-        name: data?.fullName,
+        name: data?.name,
       });
     }
   }, [data]);
@@ -36,6 +32,7 @@ function Header({ type }: HeaderProps) {
       setIsFloat(false);
     }
   }, [pathname]);
+
   const handleLogout = () => {
     navigate("/dang-nhap");
   };
@@ -102,8 +99,8 @@ function Header({ type }: HeaderProps) {
                 placement="bottomRight"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
-                  <div className="font-semibold">{user?.name}</div>
-                  <Link to={"/"}>
+                  <div className="font-semibold">{user.name}</div>
+                  <Link to={"/ca-nhan"}>
                     <Avatar size="large">{"A"}</Avatar>
                   </Link>
                 </div>

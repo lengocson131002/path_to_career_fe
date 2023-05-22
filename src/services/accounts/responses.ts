@@ -1,3 +1,5 @@
+import { MajorCodeResponse } from "../majors/responses";
+
 export type AccountResponse = {
   id: number;
   email: string;
@@ -6,4 +8,5 @@ export type AccountResponse = {
   fullName: string;
   description: string;
   score: number;
+  majors?: MajorCodeResponse[];
 };

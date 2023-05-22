@@ -1,6 +1,7 @@
 import React from "react";
 import Decor from "@/assets/partnership-decor.png";
 import { Button } from "antd";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -24,12 +25,16 @@ function HomePartnership({}: Props) {
             </span>
             ?
           </div>
-          <Button
-            type="primary"
-            className="h-[52px] w-[268px] font-medium p-0 rounded-[10px] mt-5"
-          >
-            <span className="text-2xl py-3 -mt-1">Đăng ký làm chuyên gia</span>
-          </Button>
+          <Link to="/bai-dang">
+            <Button
+              type="primary"
+              className="h-[52px] w-[268px] font-medium p-0 rounded-[10px] mt-5"
+            >
+              <span className="text-2xl py-3 -mt-1">
+                Đăng ký làm chuyên gia
+              </span>
+            </Button>
+          </Link>
         </div>
         <div className="basis-2/5 self-end">
           <img src={Decor} alt="" className="w-full max-w-[480px]" />

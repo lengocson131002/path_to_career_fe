@@ -16,31 +16,31 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    store.dispatch(
-      setGlobalState({
-        loading: true,
-      })
-    );
+    // store.dispatch(
+    //   setGlobalState({
+    //     loading: true,
+    //   })
+    // );
 
     return config;
   },
   (error) => {
-    store.dispatch(
-      setGlobalState({
-        loading: false,
-      })
-    );
+    // store.dispatch(
+    //   setGlobalState({
+    //     loading: false,
+    //   })
+    // );
     Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
   (config) => {
-    store.dispatch(
-      setGlobalState({
-        loading: false,
-      })
-    );
+    // store.dispatch(
+    //   setGlobalState({
+    //     loading: false,
+    //   })
+    // );
 
     if (config?.data?.message) {
       // $message.success(config.data.message)
@@ -49,17 +49,17 @@ instance.interceptors.response.use(
     return config;
   },
   (error) => {
-    store.dispatch(
-      setGlobalState({
-        loading: false,
-      })
-    );
+    // store.dispatch(
+    //   setGlobalState({
+    //     loading: false,
+    //   })
+    // );
     // if needs to navigate to login page when request exception
     // history.replace('/login');
     let errorMessage = "Có lỗi xảy ra. Vui lòng thử lại sau.";
 
     if (error?.message?.includes("Network Error")) {
-      errorMessage = "Mạng không ổn định. Vui lòng thử lại sau.";
+      errorMessage = "Kết nối không ổn định. Vui lòng thử lại sau.";
     } else {
       errorMessage = error?.response?.data?.message;
     }
@@ -74,20 +74,5 @@ instance.interceptors.response.use(
     // };
   }
 );
-
-export type Response<T = any> = {
-  status: boolean;
-  message: string;
-  result: T;
-};
-
-export type MyResponse<T = any> = Promise<Response<T>>;
-
-/**
- *
- * @param method - request methods
- * @param url - request url
- * @param data - request data or params
- */
 
 export default instance;

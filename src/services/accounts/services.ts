@@ -1,8 +1,8 @@
 import { API_ACCOUNT, API_ACCOUNT_ME } from "@/commons/api";
-import { AccountResponse } from "./responses";
-import { AccountRequest } from "./requests";
 import instance from "../instance";
 import { AccountModel } from "./models";
+import { AccountRequest } from "./requests";
+import { AccountResponse } from "./responses";
 
 export const register = async (
   request: AccountRequest
@@ -11,11 +11,15 @@ export const register = async (
   return {
     description: data.description,
     email: data.email,
-    fullName: data.fullName,
+    name: data.fullName,
     id: data.id,
-    phoneNumber: data.phoneNumber,
+    phone: data.phoneNumber,
     role: data.role,
     score: data.score,
+    majors: data.majors?.map((major) => ({
+      code: major.code,
+      name: major.name,
+    })),
   };
 };
 
@@ -28,10 +32,14 @@ export const getMe = async (): Promise<AccountModel> => {
   return {
     description: data.description,
     email: data.email,
-    fullName: data.fullName,
+    name: data.fullName,
     id: data.id,
-    phoneNumber: data.phoneNumber,
+    phone: data.phoneNumber,
     role: data.role,
     score: data.score,
+    majors: data.majors?.map((major) => ({
+      code: major.code,
+      name: major.name,
+    })),
   };
 };

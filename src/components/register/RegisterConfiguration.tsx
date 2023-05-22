@@ -1,9 +1,10 @@
 import { Roles, enumToList } from "@/commons/enum";
 import { getMajorCodes } from "@/services/majors/services";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Form, FormInstance, Input, Select } from "antd";
+import { Button, Form, FormInstance, Input, Select, Tag } from "antd";
 import Google from "../../assets/google-icon.png";
 import { RegisterForm } from "./RegisterSteps";
+import type { CustomTagProps } from "rc-select/lib/BaseSelect";
 
 function RegisterConfiguration({
   form,
@@ -29,6 +30,12 @@ function RegisterConfiguration({
           rules={[{ required: true, message: "Vui lòng nhập họ và tên." }]}
         >
           <Input placeholder="Họ và tên của bạn" />
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label={<label className="font-medium block">Mô tả</label>}
+        >
+          <Input placeholder="Mô tả vị trí" />
         </Form.Item>
         <Form.Item
           name="role"
@@ -64,6 +71,18 @@ function RegisterConfiguration({
             mode="tags"
             allowClear
             className="w-full"
+            tagRender={({ label, closable, onClose }: CustomTagProps) => {
+              return (
+                <Tag
+                  color={"green"}
+                  closable={closable}
+                  onClose={onClose}
+                  style={{ marginRight: 3 }}
+                >
+                  {label}
+                </Tag>
+              );
+            }}
             placeholder="Lĩnh vực của bạn"
             options={data?.map((d) => ({
               label: d.name,

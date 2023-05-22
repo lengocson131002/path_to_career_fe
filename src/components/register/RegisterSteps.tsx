@@ -13,6 +13,7 @@ export interface RegisterForm {
   email?: string;
   name?: string;
   password?: string;
+  description?: string;
   role?: "Freelancer" | "User";
   majorCodes?: string[];
 }
@@ -48,6 +49,7 @@ function RegisterSteps() {
         fullName: formData.name ?? "",
         role: formData.role ?? "User",
         majorCodes: formData.majorCodes,
+        description: formData.description,
       };
       mutation.mutate(request);
     },

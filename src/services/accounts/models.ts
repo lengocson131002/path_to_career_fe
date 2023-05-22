@@ -1,9 +1,12 @@
+import { MajorCode } from "../majors/models";
+
 export type AccountModel = {
   id: number;
   email: string;
-  phoneNumber: string;
+  phone: string;
   role: string;
-  fullName: string;
+  name: string;
   description: string;
+  majors?: MajorCode[];
   score: number;
 };
