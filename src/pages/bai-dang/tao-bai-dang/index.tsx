@@ -1,7 +1,7 @@
-import { ServiceTypes } from "@/commons/enum";
-import CreatePostPageCreateCV from "@/components/business/CreatePostPageCreateCV";
-import CreatePostPageMockInterview from "@/components/business/CreatePostPageMockInterview";
-import CreatePostPageReviewCV from "@/components/business/CreatePostPageReviewCV";
+import { ServiceTypes, enumToList } from "@/commons/enum";
+import CreatePostPageCreateCV from "@/components/create-post/CreatePostPageCreateCV";
+import CreatePostPageMockInterview from "@/components/create-post/CreatePostPageMockInterview";
+import CreatePostPageReviewCV from "@/components/create-post/CreatePostPageReviewCV";
 import { HomeOutlined } from "@ant-design/icons";
 import { Breadcrumb, Col, Row, Tabs } from "antd";
 import { useState } from "react";
@@ -46,13 +46,7 @@ function ReviewCVPage() {
           defaultActiveKey="1"
           tabPosition={"left"}
           size="large"
-          items={Object.keys(ServiceTypes).map((type, i) => {
-            const id = String(i);
-            return {
-              label: Object.values(ServiceTypes)[i],
-              key: type,
-            };
-          })}
+          items={enumToList(ServiceTypes)}
           onChange={(activeKey) =>
             setService(ServiceTypes[activeKey as keyof typeof ServiceTypes])
           }

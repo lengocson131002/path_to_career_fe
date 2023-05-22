@@ -1,9 +1,9 @@
-import HomeCommunity from "@/components/business/home/HomeCommunity";
-import HomeFeature from "@/components/business/home/HomeFeature";
-import HomeHero from "@/components/business/home/HomeHero";
-import HomePartnership from "@/components/business/home/HomePartnership";
-import HomePost from "@/components/business/home/HomePost";
-import HomeService from "@/components/business/home/HomeService";
+import HomeCommunity from "@/components/home/HomeCommunity";
+import HomeFeature from "@/components/home/HomeFeature";
+import HomeHero from "@/components/home/HomeHero";
+import HomePartnership from "@/components/home/HomePartnership";
+import HomePost from "@/components/home/HomePost";
+import HomeService from "@/components/home/HomeService";
 
 function HomePage() {
   return (

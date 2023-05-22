@@ -1,4 +1,5 @@
-import { ConfigProvider, Spin } from "antd";
+import { ConfigProvider } from "antd";
+import { useSelector } from "react-redux";
 import {
   ActionFunction,
   BrowserRouter,
@@ -6,11 +7,11 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+import Loader from "./components/core/Loader";
 import ScrollToTop from "./components/core/ScrollToTop";
 import MainLayout from "./layouts/MainLayout";
-import { useSelector } from "react-redux";
 import { AppState } from "./stores";
-import Loader from "./components/core/Loader";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface IRoute {
   path: string;
@@ -58,6 +59,7 @@ for (const path of Object.keys(pages)) {
 
 const App = () => {
   const { loading } = useSelector((state: AppState) => state.global);
+  const queryClient = new QueryClient();
 
   return (
     <ConfigProvider
@@ -71,15 +73,17 @@ const App = () => {
       <BrowserRouter>
         <Loader loading={loading} />
         <ScrollToTop />
-        <MainLayout>
-          <Routes>
-            {routes.map(({ Element, ErrorBoundary, ...rest }, index) => {
-              return (
-                <Route key={index} path={rest.path} element={<Element />} />
-              );
-            })}
-          </Routes>
-        </MainLayout>
+        <QueryClientProvider client={queryClient}>
+          <MainLayout>
+            <Routes>
+              {routes.map(({ Element, ErrorBoundary, ...rest }, index) => {
+                return (
+                  <Route key={index} path={rest.path} element={<Element />} />
+                );
+              })}
+            </Routes>
+          </MainLayout>
+        </QueryClientProvider>
       </BrowserRouter>
     </ConfigProvider>
   );
