@@ -7,3 +7,10 @@ export type AccountRequest = {
   description?: string;
   majorCodes?: string[];
 };
+
+export type UpdateAccountRequest = {
+  fullName: string;
+  phoneNumber: string;
+  description: string;
+  majorCodes: string[];
+};

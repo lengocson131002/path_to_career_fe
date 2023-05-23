@@ -9,7 +9,6 @@ function RegisterInformation({
   form: FormInstance;
   onFinish: (data: RegisterForm) => void;
 }) {
-
   return (
     <>
       <Form
@@ -19,19 +18,6 @@ function RegisterInformation({
         autoComplete="off"
         onFinish={onFinish}
       >
-        <Form.Item
-          name="phone"
-          rules={[
-            { required: true, message: "Vui lòng nhập số điện thoại." },
-            {
-              pattern: /(0[3|5|7|8|9])+([0-9]{8})\b/,
-              message: "Số điện thoại không đúng định dạng.",
-            },
-          ]}
-          label={<label className="font-medium block">Số điện thoại</label>}
-        >
-          <Input placeholder="Số điện thoại của bạn" />
-        </Form.Item>
         <Form.Item
           name="email"
           rules={[
@@ -44,6 +30,19 @@ function RegisterInformation({
           label={<label className="font-medium block">Email</label>}
         >
           <Input placeholder="Email của bạn" />
+        </Form.Item>
+        <Form.Item
+          name="phone"
+          rules={[
+            { required: true, message: "Vui lòng nhập số điện thoại." },
+            {
+              pattern: /(0[3|5|7|8|9])+([0-9]{8})\b/,
+              message: "Số điện thoại không đúng định dạng.",
+            },
+          ]}
+          label={<label className="font-medium block">Số điện thoại</label>}
+        >
+          <Input placeholder="Số điện thoại của bạn" />
         </Form.Item>
         <Form.Item
           name="password"

@@ -32,19 +32,13 @@ function RegisterConfiguration({
           <Input placeholder="Họ và tên của bạn" />
         </Form.Item>
         <Form.Item
-          name="description"
-          label={<label className="font-medium block">Mô tả</label>}
-        >
-          <Input placeholder="Mô tả vị trí" />
-        </Form.Item>
-        <Form.Item
           name="role"
           label={
             <label
               htmlFor="role"
               className="font-medium text-sm mt-2 mb-1 block"
             >
-              Vai trò
+              Tôi là
             </label>
           }
           rules={[{ required: true, message: "Vui lòng chọn vai trò." }]}
@@ -57,13 +51,19 @@ function RegisterConfiguration({
           />
         </Form.Item>
         <Form.Item
+          name="description"
+          label={<label className="font-medium block">Chức danh</label>}
+        >
+          <Input placeholder="Giới thiệu ngắn gọn" />
+        </Form.Item>
+        <Form.Item
           name="majorCodes"
           label={
             <label
               htmlFor="majorCodes"
               className="font-medium text-sm mt-2 mb-1 block"
             >
-              Lĩnh vực
+              Kỹ năng chính
             </label>
           }
         >
@@ -83,7 +83,7 @@ function RegisterConfiguration({
                 </Tag>
               );
             }}
-            placeholder="Lĩnh vực của bạn"
+            placeholder="Kỹ năng của bạn"
             options={data?.map((d) => ({
               label: d.name,
               value: d.code,

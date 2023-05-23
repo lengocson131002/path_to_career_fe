@@ -1,10 +1,10 @@
-import UserInformationCard from "@/components/user/UserInformationCard";
+import AccountInformationCard from "@/components/account/AccountInformationCard";
 import { getMe } from "@/services/accounts/services";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, Col, Row, Tag } from "antd";
 import { useState } from "react";
 
-function UserPage() {
+function AccountPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const { data } = useQuery(["p2c_me"], getMe);
 
@@ -43,11 +43,11 @@ function UserPage() {
           </Row>
         </Col>
         <Col span={8}>
-          <UserInformationCard loading={loading} user={data} />
+          <AccountInformationCard loading={loading} user={data} />
         </Col>
       </Row>
     </div>
   );
 }
 
-export default UserPage;
+export default AccountPage;

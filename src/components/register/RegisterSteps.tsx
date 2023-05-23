@@ -65,12 +65,12 @@ function RegisterSteps() {
 
   const steps = [
     {
-      title: <div className="cursor-pointer">Đăng ký tài khoản</div>,
+      title: <div className="cursor-pointer">Thông tin cá nhân</div>,
       content: <RegisterInformation form={form} onFinish={handleNextStep} />,
       icon: <AiFillInfoCircle className="text-xl" />,
     },
     {
-      title: <div className="cursor-pointer">Thiết lập tài khoản</div>,
+      title: <div className="cursor-pointer">Hồ sơ làm việc</div>,
       content: <RegisterConfiguration form={form} onFinish={handleSubmit} />,
       icon: <AiTwotoneSetting className="text-xl" />,
     },
