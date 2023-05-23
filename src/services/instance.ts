@@ -22,7 +22,6 @@ instance.interceptors.request.use(
     //     loading: true,
     //   })
     // );
-
     return config;
   },
   (error) => {
@@ -62,7 +61,6 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     if (error?.response?.status === 401 || error?.response?.status === 403) {
       const refreshToken = localStorage.getItem("refresh_token");
-
       if (!originalRequest?.retry && refreshToken) {
         originalRequest.retry = true;
         const { accessToken } = await refresh(refreshToken);
@@ -73,8 +71,6 @@ instance.interceptors.response.use(
           },
         });
       } else {
-        originalRequest.retry = false;
-
         localStorage.clear();
         errorMessage = "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại";
       }

@@ -59,7 +59,13 @@ for (const path of Object.keys(pages)) {
 
 const App = () => {
   const { loading } = useSelector((state: AppState) => state.global);
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 0,
+      },
+    },
+  });
 
   return (
     <ConfigProvider
