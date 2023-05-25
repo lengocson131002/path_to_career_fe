@@ -1,4 +1,3 @@
-import { ServiceTypes } from "@/commons/enum";
 import UpdateAccountInformation from "@/components/account/UpdateAccountInformation";
 import { getMe } from "@/services/accounts/services";
 import { useQuery } from "@tanstack/react-query";

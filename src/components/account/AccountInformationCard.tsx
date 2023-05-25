@@ -1,10 +1,9 @@
 import CardSkeleton from "@/components/core/CardSkeleton";
 import { AccountModel } from "@/services/accounts/models";
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import { AiTwotoneHome, AiTwotonePhone } from "react-icons/ai";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
-import { Link } from "react-router-dom";
 
 function AccountInformationCard({
   loading,
@@ -44,11 +43,6 @@ function AccountInformationCard({
           </Col>
         </Row>
       </CardSkeleton>
-      <Link to={"/ca-nhan/cap-nhat"}>
-        <Button type="primary" className="w-full mt-4">
-          Cập nhật thông tin
-        </Button>
-      </Link>
     </>
   );
 }

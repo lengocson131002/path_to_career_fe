@@ -13,7 +13,7 @@ interface UpdateAccountForm {
   name: string;
   phone: string;
   description: string;
-  majorCodes: { value: string; label: string }[];
+  majorCodes: string[];
 }
 
 function UpdateAccountInformation() {
@@ -28,7 +28,7 @@ function UpdateAccountInformation() {
     const request: UpdateAccountRequest = {
       description: formData.description,
       fullName: formData.name,
-      majorCodes: formData.majorCodes.map((m) => m.value),
+      majorCodes: formData.majorCodes,
       phoneNumber: formData.phone,
     };
 
@@ -59,10 +59,7 @@ function UpdateAccountInformation() {
           name: data?.name,
           role: data?.role,
           description: data?.description,
-          majorCodes: data?.majors?.map((m) => ({
-            value: m.code,
-            label: m.name,
-          })),
+          majorCodes: data?.majors?.map((m) => m.code),
         }}
       >
         <Form.Item

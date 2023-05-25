@@ -1,8 +1,9 @@
 import AccountInformationCard from "@/components/account/AccountInformationCard";
 import { getMe } from "@/services/accounts/services";
 import { useQuery } from "@tanstack/react-query";
-import { Avatar, Col, Row, Tag } from "antd";
+import { Avatar, Button, Col, Row, Tag } from "antd";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function AccountPage() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -44,6 +45,11 @@ function AccountPage() {
         </Col>
         <Col span={8}>
           <AccountInformationCard loading={loading} user={data} />
+          <Link to={"/ca-nhan/cap-nhat"}>
+            <Button type="primary" className="w-full mt-4">
+              Cập nhật thông tin
+            </Button>
+          </Link>
         </Col>
       </Row>
     </div>
