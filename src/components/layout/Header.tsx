@@ -37,6 +37,43 @@ function Header() {
     navigate("/dang-nhap");
   };
 
+  const authenticatedHeader = [
+    {
+      url: "/",
+      label: "Trang chủ",
+    },
+    {
+      url: "/",
+      label: "Tìm việc làm",
+    },
+    {
+      url: "/",
+      label: "Đăng bài",
+    },
+    {
+      url: "/",
+      label: "Quản lý bài đăng",
+    },
+  ];
+
+  const unauthenticatedHeader = [
+    {
+      url: "/",
+      label: "Trang chủ",
+    },
+    {
+      url: "/bai-dang",
+      label: "Tìm việc làm",
+    },
+    {
+      url: "/dang-nhap",
+      label: "Đăng nhập",
+    },
+    {
+      url: "/dang-ky",
+      label: "Đăng ký",
+    },
+  ];
   return (
     <div id="header">
       <div
@@ -51,30 +88,15 @@ function Header() {
         <div className="flex gap-8 items-center">
           {user ? (
             <>
-              <Link
-                to={"/"}
-                className="hover:text-primary cursor-pointer hover:font-semibold"
-              >
-                Trang chủ
-              </Link>
-              <Link
-                to={"/"}
-                className="hover:text-primary cursor-pointer hover:font-semibold"
-              >
-                Tìm việc làm
-              </Link>
-              <Link
-                to={"/bai-dang/tao-bai-dang"}
-                className="hover:text-primary cursor-pointer hover:font-semibold"
-              >
-                Đăng bài
-              </Link>
-              <Link
-                to={"/bai-dang"}
-                className="hover:text-primary cursor-pointer hover:font-semibold"
-              >
-                Quản lý bài đăng
-              </Link>
+              {authenticatedHeader.map(({ url, label }, index) => (
+                <Link
+                  key={index}
+                  to={url}
+                  className="hover:text-primary cursor-pointer font-semibold"
+                >
+                  {label}
+                </Link>
+              ))}
               <Badge count={10} showZero size="small">
                 <BsFillBellFill className="hover:text-primary cursor-pointer text-xl" />
               </Badge>
@@ -108,36 +130,18 @@ function Header() {
             </>
           ) : (
             <>
-              <Link
-                to={"/"}
-                className="hover:text-primary cursor-pointer hover:font-semibold"
-              >
-                Trang chủ
-              </Link>
-              <Link
-                to={"/bai-dang"}
-                className="hover:text-primary cursor-pointer hover:font-semibold"
-              >
-                Tìm việc làm
-              </Link>
-
-              <>
+              {unauthenticatedHeader.map(({ url, label }, index) => (
                 <Link
-                  to={"/dang-nhap"}
-                  className="hover:text-primary cursor-pointer hover:font-semibold"
+                  to={url}
+                  key={index}
+                  className="hover:text-primary cursor-pointer font-semibold"
                 >
-                  Đăng nhập
+                  {label}
                 </Link>
-                <Link
-                  to={"/dang-ky"}
-                  className="hover:text-primary cursor-pointer hover:font-semibold"
-                >
-                  Đăng ký
-                </Link>
-              </>
+              ))}
               <Button
                 type="primary"
-                className="text-white flex items-center px-6 py-5 rounded-3xl cursor-pointer"
+                className="text-white font-semibold flex items-center px-6 py-5 rounded-3xl cursor-pointer"
               >
                 <Link to={"/bai-dang/tao-bai-dang"}>Đăng bài</Link>
               </Button>

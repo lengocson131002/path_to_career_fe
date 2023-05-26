@@ -28,7 +28,7 @@ function HomePartnership({}: Props) {
           <Link to="/bai-dang">
             <Button
               type="primary"
-              className="h-[52px] w-[268px] font-medium p-0 rounded-[10px] mt-5"
+              className="h-[52px] w-[320px] font-medium p-0 rounded-[10px] mt-5"
             >
               <span className="text-2xl py-3 -mt-1">
                 Đăng ký làm chuyên gia
