@@ -1,4 +1,5 @@
 import UpdateAccountInformation from "@/components/account/UpdateAccountInformation";
+import UpdateAccountPricing from "@/components/account/UpdateAccountPricing";
 import { getMe } from "@/services/accounts/services";
 import { useQuery } from "@tanstack/react-query";
 import { Col, Row, Tabs } from "antd";
@@ -37,6 +38,8 @@ function UpdateAccountPage() {
             switch (tab) {
               case "information":
                 return <UpdateAccountInformation />;
+              case "upgrade-package":
+                return <UpdateAccountPricing />;
             }
           })()}
         </Col>
