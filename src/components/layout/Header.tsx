@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/assets/logo.png";
+import NotificationDropdown from "../core/NotificationDropdown";
 
 type UserModel = {
   name: string;
@@ -85,7 +86,7 @@ function Header() {
           <img src={Logo} alt="p2c_logo" className="h-3/4" />
         </Link>
 
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-8 items-center h-10">
           {user ? (
             <>
               {authenticatedHeader.map(({ url, label }, index) => (
@@ -97,11 +98,12 @@ function Header() {
                   {label}
                 </Link>
               ))}
-              <Badge count={10} showZero size="small">
-                <BsFillBellFill className="hover:text-primary cursor-pointer text-xl" />
-              </Badge>
+              <NotificationDropdown>
+                <BsFillBellFill className="hover:text-primary cursor-pointer text-xl my-auto" />
+              </NotificationDropdown>
 
               <Dropdown
+                align={{ offset: [0, 12] }}
                 menu={{
                   items: [
                     {
