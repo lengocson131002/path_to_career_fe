@@ -102,9 +102,13 @@ function PostPage() {
             }}
           />
         </div> */}
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full">
           {posts && (
-            <CardSkeleton hasTitle loading={isFetching}>
+            <CardSkeleton
+              hasTitle
+              loading={isFetching}
+              className="flex flex-col gap-4"
+            >
               {posts?.map((post, index) => (
                 <Card
                   loading={isFetching}

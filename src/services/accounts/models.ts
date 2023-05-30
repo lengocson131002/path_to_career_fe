@@ -5,7 +5,7 @@ export type AccountModel = {
   id: number;
   email: string;
   phone: string;
-  role: string;
+  role: EnumKeys<typeof Roles>;
   name: string;
   description: string;
   avatar: string;

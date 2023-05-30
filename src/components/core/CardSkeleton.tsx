@@ -1,5 +1,4 @@
 import { Card, CardProps, Skeleton } from "antd";
-import { CardInterface } from "antd/es/card";
 
 function CardSkeleton({
   loading,
@@ -37,7 +36,7 @@ function CardSkeleton({
       </>
     );
   }
-  return <>{children}</>;
+  return <div className={props.className}>{children}</div>;
 }
 
 export default CardSkeleton;

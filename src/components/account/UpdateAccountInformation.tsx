@@ -62,7 +62,7 @@ function UpdateAccountInformation() {
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
+      message.error("Ảnh đại diện chỉ hỗ trợ định dạng JPG/PNG!");
     }
     fileMutation.mutate(file);
 
@@ -101,19 +101,20 @@ function UpdateAccountInformation() {
           showUploadList={false}
           beforeUpload={beforeUpload}
         >
+          <label className="font-medium block">Ảnh đại diện</label>
           <Tooltip title="Cập nhật ảnh đại diện" placement="bottom">
             {fileMutation.isLoading ? (
               <Skeleton.Avatar
                 active={true}
                 size={160}
-                className="cursor-pointer hover:opacity-80 transition-all"
+                className="cursor-pointer hover:opacity-80 transition-all my-4"
               />
             ) : (
               <Avatar
                 src={avatar ?? data?.avatar}
                 alt="avatar"
                 size={160}
-                className="cursor-pointer hover:opacity-80 transition-all"
+                className="cursor-pointer hover:opacity-80 transition-all my-4"
               >
                 {data?.email}
               </Avatar>

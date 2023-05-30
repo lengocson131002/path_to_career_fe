@@ -5,7 +5,7 @@ export type AccountResponse = {
   id: number;
   email: string;
   phoneNumber: string;
-  role: string;
+  role: EnumKeys<typeof Roles>;
   fullName: string;
   description: string;
   score: number;

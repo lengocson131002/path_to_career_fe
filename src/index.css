@@ -48,6 +48,10 @@
     max-height: unset !important;
 }
 
+.ant-btn {
+    min-height: 40px;
+}
+
 * {
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

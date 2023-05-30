@@ -45,8 +45,15 @@ function CreatePostPage() {
   const fileMutation = useMutation((file: RcFile) => upload(file));
 
   const handleUpload = (fileUpload: UploadFile) => {
-    setFile(fileUpload);
-    fileMutation.mutate(fileUpload as RcFile);
+    const isJpgOrPng =
+      fileUpload.type === "image/jpeg" || fileUpload.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("Chỉ hỗ trợ định dạng JPG/PNG!");
+    } else {
+      setFile(fileUpload);
+      fileMutation.mutate(fileUpload as RcFile);
+    }
+    return false;
   };
 
   useEffect(() => {

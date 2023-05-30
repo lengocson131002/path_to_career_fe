@@ -71,7 +71,7 @@ function AccountPricingCard({ pricing, count }: Props) {
             type={`${pricing.selected ? "primary" : "default"}`}
             className="w-full font-semibold text-lg p-0 rounded-md h-[40px]"
           >
-            <span className="py-3 !-mt-1">Nâng cấp</span>
+            <span>Nâng cấp</span>
           </Button>
         </div>
         <div className="card__pricing--perks font-medium">

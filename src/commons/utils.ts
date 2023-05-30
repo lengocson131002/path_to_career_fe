@@ -8,7 +8,6 @@ export const isToday = (date?: dayjs.Dayjs) => {
 };
 
 export function timeSince(date: dayjs.Dayjs) {
-  console.log(dayjs().millisecond() - date.millisecond());
   var seconds = Math.floor((dayjs().valueOf() - date.valueOf()) / 1000);
 
   var interval = seconds / 31536000;

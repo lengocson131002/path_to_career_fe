@@ -13,6 +13,7 @@ export const mapAccountBriefModel = (
     fullName: res.fullName,
     id: res.id,
     phoneNumber: res.phoneNumber,
+    avatar: res.avatar,
     role: res.role,
     score: res.score,
   };

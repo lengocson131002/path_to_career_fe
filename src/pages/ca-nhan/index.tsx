@@ -16,7 +16,9 @@ function AccountPage() {
           <Row gutter={[20, 0]}>
             <Col span={6}>
               <div className="w-full flex justify-center">
-                <Avatar size={160}>H</Avatar>
+                <Avatar size={160} src={data?.avatar}>
+                  {data?.email}
+                </Avatar>
               </div>
             </Col>
             <Col span={18}>
