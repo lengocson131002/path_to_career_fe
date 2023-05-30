@@ -1,34 +1,43 @@
 import { Card, CardProps, Skeleton } from "antd";
+import { CardInterface } from "antd/es/card";
 
 function CardSkeleton({
   loading,
+  hasTitle,
+  count,
   children,
   ...props
 }: {
+  count?: number;
+  hasTitle?: boolean;
   loading?: boolean;
-  children: React.ReactNode | React.ReactNode[];
+  children: JSX.Element | JSX.Element[];
 } & CardProps) {
   if (loading) {
     return (
-      <Card
-        {...props}
-        title={
-          props.title ? (
-            <Skeleton
-              className="w-1/2"
-              active={loading}
-              loading={loading}
-              paragraph={false}
-            />
-          ) : null
-        }
-        extra={null}
-      >
-        <Skeleton active={loading} loading={loading} />
-      </Card>
+      <>
+        {Array.from({ length: count ?? 1 }).map((skeleton) => (
+          <Card
+            className={props.className}
+            title={
+              hasTitle ? (
+                <Skeleton
+                  className="w-1/2"
+                  active={true}
+                  loading={true}
+                  paragraph={false}
+                />
+              ) : null
+            }
+            extra={null}
+          >
+            <Skeleton active={true} loading={true} />
+          </Card>
+        ))}
+      </>
     );
   }
-  return <Card {...props}>{children}</Card>;
+  return <>{children}</>;
 }
 
 export default CardSkeleton;

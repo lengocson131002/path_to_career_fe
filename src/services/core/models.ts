@@ -7,3 +7,12 @@ export type PaginationModel<T> = {
   hasNext: boolean;
   items: Array<T>;
 };
+
+export type PageModel = {
+  pageNumber: number;
+  totalPages?: number;
+  pageSize: number;
+  totalCount?: number;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
+};

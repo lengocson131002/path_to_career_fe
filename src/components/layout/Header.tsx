@@ -1,30 +1,17 @@
+import Logo from "@/assets/logo.png";
 import { getMe } from "@/services/accounts/services";
 import { useQuery } from "@tanstack/react-query";
-import { Avatar, Badge, Button, Dropdown } from "antd";
+import { Avatar, Button, Dropdown } from "antd";
 import { useEffect, useState } from "react";
 import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Logo from "@/assets/logo.png";
 import NotificationDropdown from "../core/NotificationDropdown";
 
-type UserModel = {
-  name: string;
-};
-
 function Header() {
-  const [user, setUser] = useState<UserModel>();
   const [isFloat, setIsFloat] = useState<boolean>(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data } = useQuery(["p2c_me"], getMe);
-
-  useEffect(() => {
-    if (data) {
-      setUser({
-        name: data?.name,
-      });
-    }
-  }, [data]);
 
   useEffect(() => {
     if (pathname === "/") {
@@ -44,11 +31,11 @@ function Header() {
       label: "Trang chủ",
     },
     {
-      url: "/",
+      url: "/bai-dang",
       label: "Tìm việc làm",
     },
     {
-      url: "/",
+      url: "/bai-dang/tao-bai-dang",
       label: "Đăng bài",
     },
     {
@@ -87,7 +74,7 @@ function Header() {
         </Link>
 
         <div className="flex gap-8 items-center h-10">
-          {user ? (
+          {data ? (
             <>
               {authenticatedHeader.map(({ url, label }, index) => (
                 <Link
@@ -123,9 +110,11 @@ function Header() {
                 placement="bottomRight"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
-                  <div className="font-semibold">{user.name}</div>
+                  <div className="font-semibold">{data.name}</div>
                   <Link to={"/ca-nhan"}>
-                    <Avatar size="large">{"A"}</Avatar>
+                    <Avatar size="large" src={data.avatar}>
+                      {"A"}
+                    </Avatar>
                   </Link>
                 </div>
               </Dropdown>

@@ -45,7 +45,6 @@ function HomePost({}: Props) {
               }}
             >
               <div className="flex flex-col gap-2">
-                <div>Nguyễn Văn A</div>
                 <div>
                   We are seeking a skilled Digital Marketing Professional to
                   join our team at Surfline Media. The ideal candidate will be

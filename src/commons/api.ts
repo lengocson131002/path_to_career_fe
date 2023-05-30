@@ -13,3 +13,11 @@ export const API_MAJOR_CODE = `/v1/majors`;
 
 //REVIEW
 export const API_REVIEW = `/v1/reviews`;
+
+//REVIEW
+export const API_POST = `/v1/posts`;
+export const API_POST_DETAIL = `/v1/posts/{id}`;
+
+
+//FILE
+export const API_FILE = `/v1/files`;
