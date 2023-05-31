@@ -1,8 +1,14 @@
 import { getMe } from "@/services/accounts/services";
 import { useQuery } from "@tanstack/react-query";
-import { Avatar, Badge, Button, Dropdown } from "antd";
+import { Avatar, Badge, Button, Drawer, Dropdown } from "antd";
 import { useEffect, useState } from "react";
-import { AiOutlinePoweroff, BsFillBellFill } from "react-icons/all";
+import {
+  AiOutlinePoweroff,
+  BsFillBellFill,
+  FaBars,
+  FaHamburger,
+  FaHome,
+} from "react-icons/all";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "@/assets/logo.png";
 
@@ -13,6 +19,7 @@ type UserModel = {
 function Header() {
   const [user, setUser] = useState<UserModel>();
   const [isFloat, setIsFloat] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data } = useQuery(["p2c_me"], getMe);
@@ -37,18 +44,31 @@ function Header() {
     navigate("/dang-nhap");
   };
 
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div id="header">
       <div
-        className={`h-20 shadow-p2c flex justify-between items-center px-28 fixed z-40 bg-white ${
-          isFloat ? "rounded-full top-4 left-6 right-6" : "top-0 left-0 w-full"
+        className={`md:h-20 h-16 shadow-p2c flex justify-between items-center md:px-28 px-5 fixed z-40 bg-white ${
+          isFloat
+            ? "md:rounded-full md:top-4 md:left-6 md:right-6 md:w-auto w-full"
+            : "top-0 left-0 w-full"
         }`}
       >
+        <div className="md:hidden block"></div>
         <Link to={"/"} className="h-full flex items-center">
-          <img src={Logo} alt="p2c_logo" className="h-3/4" />
+          <img src={Logo} alt="p2c_logo" className="md:h-3/4 h-2/3" />
         </Link>
-
-        <div className="flex gap-8 items-center">
+        <div className="float-right md:hidden">
+          <FaBars size={24} className="text-primary" onClick={showDrawer} />
+        </div>
+        <div className="md:flex gap-8 items-center hidden">
           {user ? (
             <>
               <Link
@@ -145,6 +165,57 @@ function Header() {
           )}
         </div>
       </div>
+      <Drawer
+        placement="right"
+        onClose={onClose}
+        open={open}
+        width={240}
+        maskClosable
+        closable={false}
+        title={
+          <>
+            <div className="h-[36px] flex justify-center">
+              <img src={Logo} alt="p2c_logo" />
+            </div>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-8 items-center">
+          <Link
+            to={"/"}
+            className="hover:text-primary cursor-pointer hover:font-semibold"
+          >
+            Trang chủ
+          </Link>
+          <Link
+            to={"/bai-dang"}
+            className="hover:text-primary cursor-pointer hover:font-semibold"
+          >
+            Tìm việc làm
+          </Link>
+
+          <>
+            <Link
+              to={"/dang-nhap"}
+              className="hover:text-primary cursor-pointer hover:font-semibold"
+            >
+              Đăng nhập
+            </Link>
+            <Link
+              to={"/dang-ky"}
+              className="hover:text-primary cursor-pointer hover:font-semibold"
+            >
+              Đăng ký
+            </Link>
+          </>
+          <Button
+            type="primary"
+            className="text-white flex items-center px-6 py-5 rounded-3xl cursor-pointer justify-center w-[160px]"
+          >
+            <Link to={"/bai-dang/tao-bai-dang"}>Đăng bài</Link>
+          </Button>
+        </div>
+      </Drawer>
     </div>
   );
 }
