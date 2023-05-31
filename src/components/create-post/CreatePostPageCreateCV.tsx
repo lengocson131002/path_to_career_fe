@@ -1,116 +1,153 @@
-import { InboxOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Form, Select, UploadProps, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { disableToCurrentTime, quillConfig } from "@/commons/config";
+import { CvStyle, CvType, JobLevel, enumToList } from "@/commons/enum";
+import { CreatePostForm } from "@/pages/bai-dang/tao-bai-dang";
+import { getMajorCodes } from "@/services/majors/services";
+import { useQuery } from "@tanstack/react-query";
+import { Button, DatePicker, Form, Input, Select, UploadFile } from "antd";
 import Dragger from "antd/es/upload/Dragger";
-import { AiFillTag, AiTwotoneSetting } from "react-icons/ai";
+import dayjs from "dayjs";
+import {
+  AiFillTag,
+  AiOutlineCloudUpload,
+  AiTwotoneSetting,
+} from "react-icons/ai";
 import { HiOutlineInformationCircle } from "react-icons/hi";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const props: UploadProps = {
-  name: "file",
-  multiple: true,
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files);
-  },
-};
+function CreatePostPageCreateCV({
+  onFinish,
+  onUpload,
+  fileUrl,
+  file,
+  setFile,
+}: {
+  onFinish: (values: CreatePostForm) => void;
+  onUpload: (file: UploadFile) => void;
+  setFile: (value?: UploadFile) => void;
+  fileUrl?: string;
+  file?: UploadFile;
+}) {
+  const majors = useQuery(["p2c_major_codes"], getMajorCodes);
 
-function CreatePostPageCreateCV() {
   return (
-    <Form layout="vertical" className="w-[500px]">
+    <Form
+      layout="vertical"
+      onFinish={onFinish}
+      name="basic"
+      autoComplete="off"
+      className="max-w-[600px]"
+    >
       <div className="flex text-primary items-end text-2xl mb-4 font-semibold gap-2">
         <HiOutlineInformationCircle className="text-3xl" />
         Thông tin ứng tuyển
       </div>
-      <Form.Item name="userPhone" noStyle>
-        <label htmlFor="user_phone" className="font-medium mb-1 block">
-          Lĩnh vực ứng tuyển
-        </label>
+      <Form.Item
+        name="majorCode"
+        label={<label className="font-medium">Lĩnh vực ứng tuyển</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn lĩnh vực",
+          },
+        ]}
+      >
         <Select
-          defaultValue="lucy"
+          placeholder="Chọn lĩnh vực"
           className="w-full"
-          options={[
-            { value: "jack", label: "Jack" },
-            { value: "lucy", label: "Lucy" },
-            { value: "Yiminghe", label: "yiminghe" },
-            { value: "disabled", label: "Disabled", disabled: true },
-          ]}
+          options={majors.data?.map((d) => ({
+            label: d.name,
+            value: d.code,
+          }))}
         />
       </Form.Item>
 
-      <Form.Item name="userEmail" noStyle>
-        <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
-          Vị trí làm việc
-        </label>
-        <Select
-          defaultValue="lucy"
-          className="w-full"
-          options={[
-            { value: "jack", label: "Jack" },
-            { value: "lucy", label: "Lucy" },
-            { value: "Yiminghe", label: "yiminghe" },
-            { value: "disabled", label: "Disabled", disabled: true },
-          ]}
-        />
+      <Form.Item
+        name="jobPosition"
+        label={<label className="font-medium">Vị trí làm việc</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập vị trí",
+          },
+        ]}
+      >
+        <Input className="w-full" placeholder="Nhập vị trí làm việc" />
       </Form.Item>
 
-      <Form.Item name="userEmail" noStyle>
-        <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
-          Kinh nghiệm
-        </label>
+      <Form.Item
+        name="jobLevel"
+        label={<label className="font-medium">Kinh nghiệm</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn kinh nghiệm",
+          },
+        ]}
+      >
         <Select
-          defaultValue="lucy"
           className="w-full"
-          options={[
-            { value: "jack", label: "Jack" },
-            { value: "lucy", label: "Lucy" },
-            { value: "Yiminghe", label: "yiminghe" },
-            { value: "disabled", label: "Disabled", disabled: true },
-          ]}
+          options={enumToList(JobLevel)}
+          placeholder="Chọn kinh nghiệm"
         />
       </Form.Item>
       <div className="flex text-primary items-end text-2xl my-4 font-semibold gap-2">
         <AiFillTag className="text-3xl" />
         Thông tin bài đăng
       </div>
-      <Form.Item name="userName" noStyle>
-        <label htmlFor="user_name" className="font-medium  mt-3 mb-1 block">
-          Dịch vụ cần thuê
-        </label>
-        <Select
-          defaultValue="lucy"
+
+      <Form.Item
+        name="finishTime"
+        label={<label className="font-medium">Hạn chót</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn hạn chót",
+          },
+        ]}
+      >
+        <DatePicker
+          showTime
+          placement="topRight"
           className="w-full"
-          options={[
-            { value: "jack", label: "Jack" },
-            { value: "lucy", label: "Lucy" },
-            { value: "Yiminghe", label: "yiminghe" },
-            { value: "disabled", label: "Disabled", disabled: true },
-          ]}
+          placeholder="Chọn hạn chót"
+          disabledDate={(current) =>
+            current && current < dayjs().add(-1, "day")
+          }
+          showSecond={false}
+          disabledTime={disableToCurrentTime}
+          showNow={false}
         />
       </Form.Item>
 
-      <Form.Item name="userPwd" noStyle>
-        <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
-          Hạn chót
-        </label>
-        <DatePicker showTime placement="topRight" className="w-full" />
+      <Form.Item
+        name="title"
+        label={<label className="font-medium">Tiêu đề</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập tiêu đề",
+          },
+        ]}
+      >
+        <Input className="w-full" placeholder="Nhập tiêu đề" />
       </Form.Item>
-
-      <Form.Item name="userPwd" noStyle>
-        <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
-          Nội dung bài đăng
-        </label>
-        <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
+      <Form.Item
+        name="content"
+        label={<label className="font-medium">Nội dung bài đăng</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập nội dung bài đăng",
+          },
+        ]}
+      >
+        <ReactQuill
+          theme="snow"
+          className="antd-input"
+          placeholder="Nhập nội dung bài đăng"
+          modules={quillConfig}
+        />
       </Form.Item>
 
       <div className="flex text-primary items-end text-2xl my-4 font-semibold gap-2">
@@ -118,61 +155,98 @@ function CreatePostPageCreateCV() {
         Thông tin chi tiết
       </div>
 
-      <Form.Item name="userName" noStyle>
-        <label htmlFor="user_name" className="font-medium  mt-3 mb-1 block">
-          Loại CV
-        </label>
+      <Form.Item
+        name="cvType"
+        label={<label className="font-medium">Loại CV</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn loại CV",
+          },
+        ]}
+      >
         <Select
-          defaultValue="lucy"
           className="w-full"
-          options={[
-            { value: "jack", label: "Jack" },
-            { value: "lucy", label: "Lucy" },
-            { value: "Yiminghe", label: "yiminghe" },
-            { value: "disabled", label: "Disabled", disabled: true },
-          ]}
+          options={enumToList(CvType)}
+          placeholder="Chọn loại CV"
         />
       </Form.Item>
 
-      <Form.Item name="userName" noStyle>
-        <label htmlFor="user_name" className="font-medium  mt-3 mb-1 block">
-          Hình thức CV
-        </label>
+      <Form.Item
+        name="cvStyle"
+        label={<label className="font-medium">Hình thức CV</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng chọn hình thức CV",
+          },
+        ]}
+      >
         <Select
-          defaultValue="lucy"
           className="w-full"
-          options={[
-            { value: "jack", label: "Jack" },
-            { value: "lucy", label: "Lucy" },
-            { value: "Yiminghe", label: "yiminghe" },
-            { value: "disabled", label: "Disabled", disabled: true },
-          ]}
+          options={enumToList(CvStyle)}
+          placeholder="Chọn hình thức CV"
         />
       </Form.Item>
-      <Form.Item name="userPwd" noStyle>
-        <label htmlFor="user_email" className="font-medium mt-3 mb-1 block">
-          Nội dung bài đăng
-        </label>
-        <Dragger {...props}>
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">
-            Click or drag file to this area to upload
-          </p>
-          <p className="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibited from
-            uploading company data or other banned files.
-          </p>
+      <Form.Item
+        name="media"
+        label={<label className="font-medium">Upload hình ảnh cá nhân</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng đăng tải hình ảnh cá nhân",
+          },
+        ]}
+      >
+        <Dragger
+          onRemove={() => setFile(undefined)}
+          maxCount={1}
+          fileList={file ? [file] : []}
+          multiple={false}
+          onChange={(info) => {
+            onUpload(info.file);
+          }}
+          beforeUpload={(file) => {
+            return false;
+          }}
+          accept="image/jpeg,image/png,application/pdf"
+        >
+          <AiOutlineCloudUpload className="text-4xl" />
+          <div>Nhấn hoặc kéo thả vào khu vực để đăng tải</div>
+          <div className="text-p2c-gray">Chỉ hổ trợ tệp hình ảnh và pdf</div>
         </Dragger>
       </Form.Item>
-      <Form.Item noStyle></Form.Item>
-      <div className="flex gap-4 mt-4">
-        <Form.Item noStyle>
-          <Button type="primary">Tạo bài đăng</Button>
-          <Button danger>Thoát</Button>
-        </Form.Item>
+      <div className="text-p2c-gray text-sm mt-2">
+        Hình ảnh này sẽ được đưa vào CV của bạn
       </div>
+      <Form.Item
+        name="description"
+        label={<label className="font-medium">Mô tả CV của bạn</label>}
+        rules={[
+          {
+            required: true,
+            message: "Vui lòng nhập mô tả CV",
+          },
+        ]}
+      >
+        <ReactQuill
+          theme="snow"
+          className="antd-input"
+          placeholder="Mô tả CV của bạn"
+          modules={quillConfig}
+        />
+      </Form.Item>
+      <div className="text-p2c-gray text-sm mt-2">
+        Hãy mô tả chi tiết các nội dung trong CV mà bạn muốn có để người viết có
+        thể thực hiện chính xác hơn. Bạn nên có những thông tin sau trong mô tả:
+        Thông tin cá nhân, summary giới thiệu bản thân, học vấn, kĩ năng, kinh
+        nghiệm làm việc, sản phẩm, định hướng tương lai (nếu có),...
+      </div>
+      <Form.Item>
+        <Button size="large" htmlType="submit" type="primary" className="mt-4">
+          Tạo bài đăng
+        </Button>
+      </Form.Item>
     </Form>
   );
 }

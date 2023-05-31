@@ -70,7 +70,9 @@ const AccountDetail = () => {
           <Row gutter={[20, 0]}>
             <Col span={6}>
               <div className="w-full flex justify-center">
-                <Avatar size={160}>H</Avatar>
+                <Avatar size={160} src={account.data?.avatar}>
+                  {account.data?.email}
+                </Avatar>
               </div>
             </Col>
             <Col span={18}>
@@ -105,33 +107,35 @@ const AccountDetail = () => {
             className="my-4"
             loading={!reviews || reviews.isFetching}
           >
-            <List
-              dataSource={reviews.data?.items}
-              renderItem={(item) => (
-                <List.Item>
-                  <div className="w-full">
-                    <div className="flex justify-between w-full">
-                      <div className="font-semibold">
-                        {item.reviewer.fullName}
+            <Card>
+              <List
+                dataSource={reviews.data?.items}
+                renderItem={(item) => (
+                  <List.Item>
+                    <div className="w-full">
+                      <div className="flex justify-between w-full">
+                        <div className="font-semibold">
+                          {item.reviewer.fullName}
+                        </div>
+                        <div className="text-p2c-gray">
+                          {formatDate(item.createdAt)}
+                        </div>
                       </div>
-                      <div className="text-p2c-gray">
-                        {formatDate(item.createdAt)}
-                      </div>
+                      <Rate value={item.score} disabled />
+                      <div className="w-full break-words">{item.content}</div>
                     </div>
-                    <Rate value={item.score} disabled />
-                    <div className="w-full break-words">{item.content}</div>
-                  </div>
-                </List.Item>
-              )}
-              locale={{
-                emptyText: (
-                  <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description={<span>Hiện chưa có đánh giá nào</span>}
-                  />
-                ),
-              }}
-            />
+                  </List.Item>
+                )}
+                locale={{
+                  emptyText: (
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={<span>Hiện chưa có đánh giá nào</span>}
+                    />
+                  ),
+                }}
+              />
+            </Card>
           </CardSkeleton>
           <Button
             type="primary"

@@ -11,6 +11,7 @@ export type AccountRequest = {
 export type UpdateAccountRequest = {
   fullName: string;
   phoneNumber: string;
+  avatar?: string;
   description: string;
   majorCodes: string[];
 };

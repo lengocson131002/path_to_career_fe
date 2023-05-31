@@ -58,7 +58,6 @@ function HomePost({}: Props) {
               }}
             >
               <div className="flex flex-col gap-2">
-                <div>Nguyễn Văn A</div>
                 <div>
                   <span className="md:line-clamp-none line-clamp-4 text-justify">
                     We are seeking a skilled Digital Marketing Professional to

@@ -1,9 +1,7 @@
-import { message as $message, message } from "antd";
+import { message as $message } from "antd";
 import axios from "axios";
 
 import { BASE_URL } from "@/commons/api";
-import store from "@/stores";
-import { setGlobalState } from "@/stores/global.store";
 import { refresh } from "./auth/services";
 // import { history } from '@/routes/history';
 
@@ -81,7 +79,7 @@ instance.interceptors.response.use(
       errorMessage = error?.response?.data?.message;
     }
 
-    if (error?.response?.status !== 401) {
+    if (error?.response?.status !== 401 && error?.response?.status !== 500) {
       error.message && $message.error(errorMessage);
       return Promise.reject();
     }

@@ -16,6 +16,7 @@ export const register = async (
     phone: data.phoneNumber,
     role: data.role,
     score: data.score,
+    avatar: data.avatar,
     majors: data.majors?.map((major) => ({
       code: major.code,
       name: major.name,
@@ -36,6 +37,7 @@ export const getMe = async (): Promise<AccountModel> => {
     id: data.id,
     phone: data.phoneNumber,
     role: data.role,
+    avatar: data.avatar,
     score: data.score,
     majors: data.majors?.map((major) => ({
       code: major.code,
@@ -59,6 +61,7 @@ export const getAccount = async (id?: string): Promise<AccountModel> => {
     name: data.fullName,
     id: data.id,
     phone: data.phoneNumber,
+    avatar: data.avatar,
     role: data.role,
     score: data.score,
     majors: data.majors?.map((major) => ({
@@ -82,6 +85,7 @@ export const updateAccount = async (
     name: data.fullName,
     id: data.id,
     phone: data.phoneNumber,
+    avatar: data.avatar,
     role: data.role,
     score: data.score,
     majors: data.majors?.map((major) => ({

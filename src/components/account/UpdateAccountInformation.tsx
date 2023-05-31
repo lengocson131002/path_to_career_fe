@@ -3,9 +3,23 @@ import { UpdateAccountRequest } from "@/services/accounts/requests";
 import { getMe, updateAccount } from "@/services/accounts/services";
 import { getMajorCodes } from "@/services/majors/services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Form, Input, Select, Skeleton, Tag, message } from "antd";
+import {
+  Avatar,
+  Button,
+  Form,
+  Input,
+  Select,
+  Skeleton,
+  Tag,
+  Tooltip,
+  Upload,
+  message,
+} from "antd";
 import type { CustomTagProps } from "rc-select/lib/BaseSelect";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { RcFile } from "antd/es/upload";
+import { upload } from "@/services/files/services";
 
 interface UpdateAccountForm {
   email: string;
@@ -22,7 +36,9 @@ function UpdateAccountInformation() {
   const { isSuccess, mutate } = useMutation((data: UpdateAccountRequest) =>
     updateAccount(data)
   );
+  const [avatar, setAvatar] = useState<string | undefined>(data?.avatar);
   const queryClient = useQueryClient();
+  const fileMutation = useMutation((file: RcFile) => upload(file));
 
   const onFinish = (formData: UpdateAccountForm) => {
     const request: UpdateAccountRequest = {
@@ -30,6 +46,7 @@ function UpdateAccountInformation() {
       fullName: formData.name,
       majorCodes: formData.majorCodes,
       phoneNumber: formData.phone,
+      avatar: avatar,
     };
 
     mutate(request);
@@ -41,6 +58,22 @@ function UpdateAccountInformation() {
       message.success("Cập nhật thông tin thành công.");
     }
   }, [isSuccess]);
+
+  const beforeUpload = (file: RcFile) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("Ảnh đại diện chỉ hỗ trợ định dạng JPG/PNG!");
+    }
+    fileMutation.mutate(file);
+
+    return false;
+  };
+
+  useEffect(() => {
+    if (fileMutation.isSuccess) {
+      setAvatar(fileMutation.data.url);
+    }
+  }, [fileMutation.isSuccess]);
 
   return (
     <Skeleton
@@ -62,6 +95,33 @@ function UpdateAccountInformation() {
           majorCodes: data?.majors?.map((m) => m.code),
         }}
       >
+        <Upload
+          name="avatar"
+          listType="picture"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+        >
+          <label className="font-medium block">Ảnh đại diện</label>
+          <Tooltip title="Cập nhật ảnh đại diện" placement="bottom">
+            {fileMutation.isLoading ? (
+              <Skeleton.Avatar
+                active={true}
+                size={160}
+                className="cursor-pointer hover:opacity-80 transition-all my-4"
+              />
+            ) : (
+              <Avatar
+                src={avatar ?? data?.avatar}
+                alt="avatar"
+                size={160}
+                className="cursor-pointer hover:opacity-80 transition-all my-4"
+              >
+                {data?.email}
+              </Avatar>
+            )}
+          </Tooltip>
+        </Upload>
+
         <Form.Item
           name="email"
           label={<label className="font-medium block">Email</label>}
