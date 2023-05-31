@@ -11,7 +11,7 @@ function HomeFeature({}: Props) {
         <div className="feature__item--icon md:w-28 md:h-28 w-12 h-12 rounded-full bg-light-blue mb-4 flex items-center justify-center">
           <img src={Connection} alt="" className="md:w-16 w-8" />
         </div>
-        <div className="feature__item--title md:text-2xl text-sm font-medium h-[48px]">
+        <div className="feature__item--title md:text-2xl text-xs font-medium h-[48px]">
           Kết nối nhanh chóng
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">
@@ -22,7 +22,7 @@ function HomeFeature({}: Props) {
         <div className="feature__item--icon md:w-28 md:h-28 w-12 h-12 rounded-full bg-light-blue mb-4 flex items-center justify-center">
           <img src={Free} alt="" className="md:w-16 w-8" />
         </div>
-        <div className="feature__item--title md:text-2xl text-sm font-medium h-[48px]">
+        <div className="feature__item--title md:text-2xl text-xs font-medium h-[48px]">
           Đăng bài không mất phí
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">
@@ -33,7 +33,7 @@ function HomeFeature({}: Props) {
         <div className="feature__item--icon md:w-28 md:h-28 w-12 h-12 rounded-full bg-light-blue mb-4 flex items-center justify-center">
           <img src={Service} alt="" className="md:w-16 w-8" />
         </div>
-        <div className="feature__item--title md:text-2xl text-sm font-medium h-[48px]">
+        <div className="feature__item--title md:text-2xl text-xs font-medium h-[48px]">
           Đa dạng dịch vụ
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">

@@ -29,10 +29,10 @@ function HomePost({}: Props) {
               className="cursor-pointer"
               title={
                 <div className="flex gap-4 items-end">
-                  <div className="font-bold md:text-lg text-sm">
+                  <div className="font-bold md:text-lg text-xs">
                     Cần người tạo CV ứng tuyển ngành CNTT
                   </div>
-                  <div className="text-p2c-grey md:text-sm text:xs self-center">
+                  <div className="text-p2c-grey md:text-sm text-xs self-center md:block hidden">
                     2 phút trước
                   </div>
                 </div>
@@ -59,7 +59,7 @@ function HomePost({}: Props) {
             >
               <div className="flex flex-col gap-2">
                 <div>
-                  <span className="md:line-clamp-none line-clamp-4 text-justify">
+                  <span className="md:line-clamp-none line-clamp-4 text-justify md:text-base text-sm">
                     We are seeking a skilled Digital Marketing Professional to
                     join our team at Surfline Media. The ideal candidate will be
                     responsible for developing and executing digital marketing
@@ -67,14 +67,20 @@ function HomePost({}: Props) {
                     will have a deep understanding of digital marketing trends
                     and techniques, as well as experience in using marketing...{" "}
                   </span>
-                  <span className="text-primary">Xem thêm</span>
+                  <span className="text-primary md:text-base text-sm">
+                    Xem thêm
+                  </span>
                 </div>
-                <div>
-                  <span className="text-primary font-semibold">Hạn chót:</span>{" "}
+                <div className="md:text-base text-sm">
+                  <span className="text-primary font-semibold md:text-base text-sm">
+                    Hạn chót:
+                  </span>{" "}
                   20/10/2023 13:08:23
                 </div>
-                <div>
-                  <span className="text-primary font-semibold">Ngân sách:</span>{" "}
+                <div className="md:text-base text-sm">
+                  <span className="text-primary font-semibold md:text-base text-sm">
+                    Ngân sách:
+                  </span>{" "}
                   500.000đ - 1.000.000đ
                 </div>
               </div>

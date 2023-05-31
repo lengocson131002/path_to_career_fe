@@ -12,23 +12,23 @@ function HomeHero({}: Props) {
       <div
         className={`md:h-[660px] h-[400px] hero__bg w-full bg-[url('${HeroBg}')] bg-[length:1490px_660px] bg-origin-content bg-no-repeat absolute top-0 left-0 -z-50`}
       ></div>
-      <div className="h-[500px] hero__main">
+      <div className="h-[420px] hero__main">
         <Row className="h-full">
           <Col lg={13} xs={{ span: 24, order: 2 }} className="md:self-center">
             <div className="hero__title">
-              <div className="hero__title--upper md:text-4xl text-3xl font-bold md:text-left text-center">
+              <div className="hero__title--upper md:text-4xl text-xl font-bold md:text-left text-center">
                 Hãy để chúng tôi
               </div>
-              <div className="hero__title--lower md:text-5xl text-3xl font-bold md:text-left text-center text-primary uppercase md:my-5 my-2">
+              <div className="hero__title--lower md:text-5xl text-xl font-bold md:text-left text-center text-primary uppercase mt-0 md:!my-5 my-2">
                 Đồng hành cùng bạn trên con đường sự nghiệp
               </div>
             </div>
             <div className="hero__cta md:block flex justify-center md:mt-0 mt-4">
               <Button
                 type="primary"
-                className="md:h-[52px] md:w-[206px] font-medium p-0 md:rounded-[10px] rounded-3xl h-[36px] w-[180px]"
+                className="md:h-[52px] md:w-[206px] font-medium p-0 md:rounded-[10px] rounded-xl h-[36px] w-[180px]"
               >
-                <span className="md:text-2xl text-xl md:py-3 -mt-[2px] py-2">
+                <span className="md:text-2xl text-lg md:py-3 -mt-1 py-2">
                   Khám phá ngay
                 </span>
               </Button>

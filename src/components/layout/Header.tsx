@@ -40,6 +40,36 @@ function Header() {
     setOpen(false);
   };
 
+  const authenticatedHeader = [
+    {
+      url: "/",
+      label: "Trang chủ",
+    },
+    {
+      url: "/bai-dang/tao-bai-dang",
+      label: "Đăng bài",
+    },
+    {
+      url: "/bai-dang",
+      label: "Quản lý bài đăng",
+    },
+  ];
+
+  const unauthenticatedHeader = [
+    {
+      url: "/",
+      label: "Trang chủ",
+    },
+    {
+      url: "/dang-nhap",
+      label: "Đăng nhập",
+    },
+    {
+      url: "/dang-ky",
+      label: "Đăng ký",
+    },
+  ];
+
   return (
     <div id="header">
       <div
@@ -139,33 +169,62 @@ function Header() {
         }
       >
         <div className="flex flex-col gap-8 items-center">
-          <Link
-            to={"/"}
-            className="hover:text-primary cursor-pointer hover:font-semibold"
-          >
-            Trang chủ
-          </Link>
-          <Link
-            to={"/bai-dang"}
-            className="hover:text-primary cursor-pointer hover:font-semibold"
-          >
-            Tìm việc làm
-          </Link>
+          {data ? (
+            <>
+              {authenticatedHeader.map(({ url, label }, index) => (
+                <Link
+                  key={index}
+                  to={url}
+                  className="hover:text-primary cursor-pointer font-semibold"
+                >
+                  {label}
+                </Link>
+              ))}
+              <NotificationDropdown>
+                <BsFillBellFill className="hover:text-primary cursor-pointer text-xl my-auto" />
+              </NotificationDropdown>
 
-              <>
+              <Dropdown
+                align={{ offset: [0, 12] }}
+                menu={{
+                  items: [
+                    {
+                      key: "1",
+                      label: (
+                        <div
+                          className="flex items-center text-p2c-red gap-2"
+                          onClick={handleLogout}
+                        >
+                          <AiOutlinePoweroff />
+                          <div>Đăng xuất</div>
+                        </div>
+                      ),
+                    },
+                  ],
+                }}
+                placement="bottomRight"
+              >
+                <div className="flex gap-2 items-center cursor-pointer">
+                  <div className="font-semibold">{data.name}</div>
+                  <Link to={"/ca-nhan"}>
+                    <Avatar size="large" src={data.avatar}>
+                      {"A"}
+                    </Avatar>
+                  </Link>
+                </div>
+              </Dropdown>
+            </>
+          ) : (
+            <>
+              {unauthenticatedHeader.map(({ url, label }, index) => (
                 <Link
-                  to={"/dang-nhap"}
-                  className="hover:text-primary cursor-pointer hover:font-semibold"
+                  to={url}
+                  key={index}
+                  className="hover:text-primary cursor-pointer font-semibold"
                 >
-                  Đăng nhập
+                  {label}
                 </Link>
-                <Link
-                  to={"/dang-ky"}
-                  className="hover:text-primary cursor-pointer hover:font-semibold"
-                >
-                  Đăng ký
-                </Link>
-              </>
+              ))}
               <Button
                 type="primary"
                 className="text-white font-semibold flex items-center px-6 py-5 rounded-3xl cursor-pointer"

@@ -18,14 +18,14 @@ function HomeService({}: Props) {
             <img src={CVService} alt="" className="w-full" />
           </div>
           <div className="service__item--main md:basis-1/2 basis-full">
-            <div className="service__item--title font-bold md:text-5xl text-2xl md:text-left text-center">
+            <div className="service__item--title font-bold md:text-5xl text-xl md:text-left text-center">
               Hỗ trợ viết, chỉnh sửa{" "}
               <br className="block content-['_'] md:mt-2" />
-              <span className="text-primary md:text-5xl text-2xl font-bold">
+              <span className="text-primary md:text-5xl text-xl font-bold">
                 sơ yếu lý lịch
               </span>
             </div>
-            <div className="service__item--content md:text-xl text-base text-p2c-grey md:mt-9 mt-4 max-w-[500px] md:text-left text-justify">
+            <div className="service__item--content md:text-xl text-sm text-p2c-grey md:mt-9 mt-4 max-w-[500px] md:text-left text-justify">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -38,13 +38,13 @@ function HomeService({}: Props) {
             <img src={InterviewService} alt="" className="w-full" />
           </div>
           <div className="service__item--main md:basis-1/2 basis-full md:pl-[90px]">
-            <div className="service__item--title font-bold md:text-5xl text-2xl md:text-left text-center">
+            <div className="service__item--title font-bold md:text-5xl text-xl md:text-left text-center">
               Hỗ trợ các buổi <br className="block content-['_'] md:mt-2" />
-              <span className="text-primary md:text-5xl text-2xl font-bold">
+              <span className="text-primary md:text-5xl text-xl font-bold">
                 phỏng vấn thử
               </span>
             </div>
-            <div className="service__item--content md:text-xl text-base text-p2c-grey md:mt-9 mt-4 max-w-[500px] md:text-left text-justify">
+            <div className="service__item--content md:text-xl text-sm text-p2c-grey md:mt-9 mt-4 max-w-[500px] md:text-left text-justify">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris

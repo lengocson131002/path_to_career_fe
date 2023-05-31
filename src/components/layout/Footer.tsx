@@ -8,8 +8,8 @@ type FooterProps = {
 
 function Footer({}: FooterProps) {
   return (
-    <div id="footer" className="md:h-[300px] h-[580px]">
-      <div className="w-full md:h-[300px] h-[500px] shadow-p2c flex md:flex-nowrap flex-wrap md:justify-between md:items-start md:px-28 px-5 z-50 bg-white py-12">
+    <div id="footer" className="md:h-[300px] h-[650px]">
+      <div className="w-full md:h-[300px] h-[560px] shadow-p2c flex md:flex-nowrap flex-wrap md:justify-between md:items-start md:px-28 px-5 z-50 bg-white py-12">
         <div className="md:hidden flex gap-4 w-full justify-center mb-10">
           <FaFacebookSquare size={20} />
           <AiFillInstagram size={20} />
@@ -26,7 +26,7 @@ function Footer({}: FooterProps) {
             <div>Thoả thuận</div>
             <div>Cơ hội việc làm</div>
             <div>Quy định bảo mật</div>
-            <div className="md:max-w-none md:mx-[unset] max-w-[200px] mx-auto">
+            <div className="md:max-w-none md:mx-[unset] max-w-[220px] mx-auto">
               Quy chế hoạt động của sàn giao dịch thương mại điện tử
             </div>
           </div>

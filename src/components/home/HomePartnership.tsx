@@ -10,17 +10,17 @@ function HomePartnership({}: Props) {
     <div className="home__partnership md:my-32 my-10 md:mt-60 relative md:min-h-[500px] min-h-[200px] w-full">
       <div className="bg-light-blue absolute w-full md:h-[90%] h-full -z-50 bottom-0 md:scale-x-[1.152] scale-x-[1.105] overflow-x-hidden"></div>
       <div className="flex overflow-visible items-center md:flex-nowrap flex-wrap">
-        <div className="md:basis-3/5 basis-full md:text-left text-center md:pt-0 pt-10">
-          <div className="md:text-5xl text-2xl font-bold">
+        <div className="md:basis-3/5 basis-full md:text-left text-center md:pt-0 pt-5">
+          <div className="md:text-5xl text-xl font-bold">
             Bạn có trên{" "}
-            <span className="md:text-5xl text-2xl font-bold text-primary">
+            <span className="md:text-5xl text-xl font-bold text-primary">
               3 năm
               <br className="block content-['_'] md:mt-2" />
               kinh nghiệm
             </span>{" "}
             và muốn tìm việc <br className="block content-['_'] md:mt-2" />
             để{" "}
-            <span className="md:text-5xl text-2xl font-bold text-primary">
+            <span className="md:text-5xl text-xl font-bold text-primary">
               tăng thu nhập
             </span>
             ?
