@@ -4,9 +4,8 @@ import ChatBox from "@/components/chat/ChatBox";
 import CardSkeleton from "@/components/core/CardSkeleton";
 import { getPostDetail } from "@/services/posts/services";
 import { useQuery } from "@tanstack/react-query";
-import { Avatar, Button, Card, Col, Row, Skeleton, Tag } from "antd";
+import { Card, Col, Row, Skeleton, Tag } from "antd";
 import HTMLReactParser from "html-react-parser";
-import { useState } from "react";
 import { IoDocumentText } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 

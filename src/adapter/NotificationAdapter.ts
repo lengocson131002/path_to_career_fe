@@ -44,7 +44,7 @@ export const mapNotificationLink = ({
       return `/dashboard/freelancers`;
     }
     case "MessageCreated": {
-      return role === "User" ? `/bai-dang/${refId}/lien-he` : `/dashboard/posts/${refId}/messages` ;
+      return role === "User" ? `/bai-dang/${refId}?chat=true` : `/dashboard/posts/${refId}/messages` ;
     }
     case "PostCreated": {
       return `/dashboard/posts/${refId}`;

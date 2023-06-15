@@ -171,7 +171,7 @@ const NotificationDropdown = ({ children }: Props) => {
           arrow={false}
         >
           <div className="h-full flex items-center">
-            <Badge count={notifications.data?.totalCount} showZero size="small">
+            <Badge count={notifications.data?.totalCount} size="small">
               {children}
             </Badge>
           </div>
