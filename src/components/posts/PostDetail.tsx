@@ -1,4 +1,9 @@
-import { PostStatus, PostStatusColor, ServiceTypes } from "@/commons/enum";
+import {
+  PostStatus,
+  PostStatusButton,
+  PostStatusColor,
+  ServiceTypes,
+} from "@/commons/enum";
 import { formatDate } from "@/commons/utils";
 import CardSkeleton from "@/components/core/CardSkeleton";
 import { PostDetailModel } from "@/services/posts/models";
@@ -116,15 +121,15 @@ function PostDetail({
                   Mở chat box
                 </Button>
               )}
-              {/* {post.status !== "Accepted" && (
+              {post.status !== "Accepted" && (
                 <Button
                   disabled
                   className="w-full mt-8"
                   onClick={() => setShowChat(true)}
                 >
-                  Yêu cầu đã hoàn tất
+                  {PostStatusButton[post.status]}
                 </Button>
-              )} */}
+              )}
             </Card>
           </CardSkeleton>
         </Col>

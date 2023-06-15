@@ -10,6 +10,12 @@ export enum PostStatusColor {
   Accepted = "blue",
 }
 
+export enum PostStatusButton {
+  New = "Đang gửi yêu cầu hỗ trợ",
+  Done = "Yêu cầu đã được hỗ trợ",
+  Paid = "Đang gửi yêu cầu hỗ trợ",
+}
+
 export enum ServiceTypes {
   ReviewCV = "Review CV",
   CreateCV = "Tạo CV",
