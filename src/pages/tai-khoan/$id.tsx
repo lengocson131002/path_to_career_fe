@@ -71,7 +71,7 @@ const AccountDetail = () => {
             <Col span={6}>
               <div className="w-full flex justify-center">
                 <Avatar size={160} src={account.data?.avatar}>
-                  {account.data?.email}
+                  {account?.data?.email.charAt(0)?.toLocaleUpperCase()}
                 </Avatar>
               </div>
             </Col>

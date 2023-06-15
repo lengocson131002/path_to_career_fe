@@ -1,7 +1,9 @@
 import {
   CvStyle,
   CvType,
+  EnumKeys,
   JobLevel,
+  PaymentMethod,
   ServiceTypes,
   enumToList,
   getEnumKeyByValue,
@@ -9,15 +11,17 @@ import {
 import CreatePostPageCreateCV from "@/components/create-post/CreatePostPageCreateCV";
 import CreatePostPageMockInterview from "@/components/create-post/CreatePostPageMockInterview";
 import CreatePostPageReviewCV from "@/components/create-post/CreatePostPageReviewCV";
+import PostPayment from "@/components/create-post/PostPayment";
+import PostPaymentQR from "@/components/create-post/PostPaymentQR";
 import { upload } from "@/services/files/services";
 import { CreatePostRequest } from "@/services/posts/requests";
-import { createPost } from "@/services/posts/services";
+import { createPost, payPost } from "@/services/posts/services";
 import { HomeOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
-import { Breadcrumb, Col, Row, Tabs, message } from "antd";
+import { Breadcrumb, Col, Row, Steps, Tabs, message } from "antd";
 import { RcFile, UploadFile } from "antd/es/upload";
 import dayjs from "dayjs";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -27,6 +31,7 @@ export interface CreatePostForm {
   jobLevel: JobLevel;
   finishTime: dayjs.Dayjs;
   content: string;
+  description?: string;
   supportCount?: number;
   mediaUrl: string;
   cvStyle: CvStyle;
@@ -36,19 +41,33 @@ export interface CreatePostForm {
 function CreatePostPage() {
   const [service, setService] = useState<ServiceTypes>(ServiceTypes.ReviewCV);
   const [fileUrl, setFileUrl] = useState<string>();
+  const [step, setStep] = useState(0);
+  const [postId, setPostId] = useState<number>();
   const [file, setFile] = useState<UploadFile>();
   const navigate = useNavigate();
 
-  const { isSuccess, mutate } = useMutation((data: CreatePostRequest) =>
+  const { data, isSuccess, mutate } = useMutation((data: CreatePostRequest) =>
     createPost(data)
+  );
+
+  const payment = useMutation(
+    ({
+      postId,
+      method,
+    }: {
+      postId: number;
+      method: EnumKeys<typeof PaymentMethod>;
+    }) => payPost(postId, method)
   );
   const fileMutation = useMutation((file: RcFile) => upload(file));
 
   const handleUpload = (fileUpload: UploadFile) => {
-    const isJpgOrPng =
-      fileUpload.type === "image/jpeg" || fileUpload.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("Chỉ hỗ trợ định dạng JPG/PNG!");
+    const isAccepted =
+      fileUpload.type === "image/jpeg" ||
+      fileUpload.type === "image/png" ||
+      fileUpload.type === "application/pdf";
+    if (!isAccepted) {
+      message.error("Chỉ hỗ trợ định dạng JPG/PNG/PDF!");
     } else {
       setFile(fileUpload);
       fileMutation.mutate(fileUpload as RcFile);
@@ -58,6 +77,7 @@ function CreatePostPage() {
 
   useEffect(() => {
     if (fileMutation.isSuccess) {
+      message.success("Upload thành công!");
       setFileUrl(fileMutation.data?.url);
     }
   }, [fileMutation.isSuccess]);
@@ -75,16 +95,20 @@ function CreatePostPage() {
         majorCode: form.majorCode,
         mediaUrl: fileUrl,
         serviceType: getEnumKeyByValue(ServiceTypes, service),
-        supportCount: form.supportCount,
+        supportCount: form.supportCount ? +form.supportCount : undefined,
         title: form.title,
+        description: form.description,
       });
     }
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data.status === "Paid") {
       message.success("Tạo bài đăng thành công.");
-      navigate("/quan-ly-bai-dang");
+      navigate("/bai-dang");
+    } else if (isSuccess) {
+      setPostId(data.id);
+      setStep(step + 1);
     }
   }, [isSuccess]);
 
@@ -92,10 +116,26 @@ function CreatePostPage() {
     setFile(undefined);
   }, [service]);
 
+  const handlePay = ({
+    method,
+  }: {
+    method: EnumKeys<typeof PaymentMethod>;
+  }) => {
+    if (postId) {
+      payment.mutate({ postId: postId, method: method });
+    }
+  };
+
+  useEffect(() => {
+    if (payment.isSuccess) {
+      message.success("Chọn phương thức thành công.");
+      setStep(step + 1);
+    }
+  }, [payment.isSuccess]);
   return (
-    <Row gutter={[24, 24]}>
-      <Col span={8}></Col>
-      <Col span={16}>
+    <Row gutter={[60, 24]}>
+      <Col span={6}></Col>
+      <Col span={18}>
         <Breadcrumb
           items={[
             {
@@ -122,7 +162,7 @@ function CreatePostPage() {
           ]}
         />
       </Col>
-      <Col span={8}>
+      <Col span={6}>
         <Tabs
           className="sticky float-right"
           defaultActiveKey="1"
@@ -134,41 +174,66 @@ function CreatePostPage() {
           }
         />
       </Col>
-      <Col span={16}>
+      <Col span={12}>
         {(() => {
-          switch (service) {
-            case ServiceTypes.ReviewCV:
-              return (
-                <CreatePostPageReviewCV
-                  onFinish={onFinish}
-                  file={file}
-                  setFile={setFile}
-                  onUpload={handleUpload}
-                  fileUrl={fileUrl}
-                />
-              );
-            case ServiceTypes.CreateCV:
-              return (
-                <CreatePostPageCreateCV
-                  onFinish={onFinish}
-                  file={file}
-                  setFile={setFile}
-                  onUpload={handleUpload}
-                  fileUrl={fileUrl}
-                />
-              );
-            case ServiceTypes.MockInterview:
-              return (
-                <CreatePostPageMockInterview
-                  onFinish={onFinish}
-                  file={file}
-                  setFile={setFile}
-                  onUpload={handleUpload}
-                  fileUrl={fileUrl}
-                />
-              );
+          switch (step) {
+            case 0:
+              return (() => {
+                switch (service) {
+                  case ServiceTypes.ReviewCV:
+                    return (
+                      <CreatePostPageReviewCV
+                        onFinish={onFinish}
+                        file={file}
+                        setFile={setFile}
+                        onUpload={handleUpload}
+                        fileUrl={fileUrl}
+                      />
+                    );
+                  case ServiceTypes.CreateCV:
+                    return (
+                      <CreatePostPageCreateCV
+                        onFinish={onFinish}
+                        file={file}
+                        setFile={setFile}
+                        onUpload={handleUpload}
+                        fileUrl={fileUrl}
+                      />
+                    );
+                  case ServiceTypes.MockInterview:
+                    return (
+                      <CreatePostPageMockInterview
+                        onFinish={onFinish}
+                        file={file}
+                        setFile={setFile}
+                        onUpload={handleUpload}
+                        fileUrl={fileUrl}
+                      />
+                    );
+                }
+              })();
+            case 1:
+              return <PostPayment onSubmit={handlePay} />;
+            case 2:
+              return <PostPaymentQR />;
           }
         })()}
+      </Col>
+      <Col span={6}>
+        <Steps
+          direction="vertical"
+          current={step}
+          className="h-52"
+          items={[
+            { title: "Tạo bài đăng" },
+            {
+              title: "Chọn phương thức",
+            },
+            {
+              title: "Thanh toán",
+            },
+          ]}
+        />
       </Col>
     </Row>
   );

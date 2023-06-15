@@ -1,5 +1,7 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConfigProvider } from "antd";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ActionFunction,
   BrowserRouter,
@@ -10,8 +12,9 @@ import {
 import Loader from "./components/core/Loader";
 import ScrollToTop from "./components/core/ScrollToTop";
 import MainLayout from "./layouts/MainLayout";
+import { getMe } from "./services/accounts/services";
 import { AppState } from "./stores";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { setUserState } from "./stores/user.store";
 
 interface IRoute {
   path: string;
@@ -59,6 +62,20 @@ for (const path of Object.keys(pages)) {
 
 const App = () => {
   const { loading } = useSelector((state: AppState) => state.global);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("refresh_token")) {
+      getMe().then((res) => {
+        dispatch(
+          setUserState({
+            account: res,
+          })
+        );
+      });
+    }
+  }, []);
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -67,7 +84,6 @@ const App = () => {
       },
     },
   });
-
   return (
     <ConfigProvider
       theme={{

@@ -25,10 +25,10 @@ function HomePartnership({}: Props) {
             </span>
             ?
           </div>
-          <Link to="/bai-dang">
+          <Link to="/dang-ky">
             <Button
               type="primary"
-              className="md:h-[52px] md:w-[268px] h-[36px] w-[200px] font-medium p-0 rounded-[10px] mt-5"
+              className="md:h-[52px] h-[36px] font-medium p-0 px-4 rounded-[10px] mt-5"
             >
               <span className="md:text-2xl text-base md:py-3 -mt-1">
                 Đăng ký làm chuyên gia

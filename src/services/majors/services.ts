@@ -11,6 +11,7 @@ export const getMajorCodes = async (): Promise<MajorCode[]> => {
     return Promise.reject();
   }
   return data.map((d) => ({
+    id: d.id,
     name: d.name,
     code: d.code,
   }));

@@ -1,0 +1,42 @@
+.chatbox__message {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.chatbox__message.chatbox__message--sender {
+    justify-content: flex-end;
+}
+
+.chatbox__message--sender svg {
+    color: white;
+}
+
+.chat__message {
+    display: flex;
+    align-items: center;
+    border-radius: 0.5rem;
+    padding: 12px;
+    background-color: #f3f3f3;
+}
+
+.chatbox__message.chatbox__message--receiver {
+    border-bottom-left-radius: 0;
+}
+
+.chatbox__message.chatbox__message--sender .chat__message {
+    background-color: #1864ab;
+    color: #fff;
+    border-bottom-right-radius: 0;
+}
+
+.chatbox__message .chat__timestamp {
+    font-size: 12px;
+    color: #9d9d9d;
+    margin-left: 8px;
+}
+
+.chatbox__message.chatbox__message--sender .chat__timestamp {
+    order: -1;
+    margin-right: 8px;
+}

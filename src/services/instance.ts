@@ -1,13 +1,11 @@
+import { BASE_URL } from "@/commons/api";
 import { message as $message } from "antd";
 import axios from "axios";
-
-import { BASE_URL } from "@/commons/api";
 import { refresh } from "./auth/services";
 // import { history } from '@/routes/history';
 
 const instance = axios.create({
   timeout: 6000,
-  baseURL: BASE_URL,
   headers: {
     Accept: "application/json",
   },
@@ -79,6 +77,12 @@ instance.interceptors.response.use(
       errorMessage = error?.response?.data?.message;
     }
 
+    if (error?.response?.status === 500) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("current_user");
+      window.location.replace("/");
+    }
     if (error?.response?.status !== 401 && error?.response?.status !== 500) {
       error.message && $message.error(errorMessage);
       return Promise.reject();

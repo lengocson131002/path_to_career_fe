@@ -49,7 +49,7 @@ function PostApplication({ postId }: { postId: string }) {
                   <label>Số lần hỗ trợ:</label>
                 </Col>
                 <Col>
-                  <InputNumber placeholder="0" min={0} />
+                  <InputNumber placeholder="0" min={0} max={10} />
                 </Col>
                 <Col>lần</Col>
               </Row>

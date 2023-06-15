@@ -1,7 +1,9 @@
+import { EnumKeys, Roles } from "@/commons/enum";
+
 export type AccountRequest = {
   email: string;
   password: string;
-  role: "User" | "Freelancer";
+  role?: EnumKeys<typeof Roles>;
   fullName: string;
   phoneNumber: string;
   description?: string;
@@ -13,5 +15,5 @@ export type UpdateAccountRequest = {
   phoneNumber: string;
   avatar?: string;
   description: string;
-  majorCodes: string[];
+  majorCodes?: string[];
 };

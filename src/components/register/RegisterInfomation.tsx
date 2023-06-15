@@ -1,6 +1,7 @@
 import { Button, Form, FormInstance, Input } from "antd";
 import Google from "../../assets/google-icon.png";
 import { RegisterForm } from "./RegisterSteps";
+import LoginGoogle from "../core/LoginGoogle";
 
 function RegisterInformation({
   form,
@@ -93,17 +94,7 @@ function RegisterInformation({
           <div className="divider__line bg-p2c-gray h-[1px] w-full"></div>
         </div>
         <Form.Item noStyle>
-          <Button
-            type="default"
-            className="group bg-white text-primary border-primary border-2 hover:!bg-primary hover:!text-white hover:!border-primary w-full h-10 text-base font-semibold"
-          >
-            <div className="flex justify-center items-center group-hover:brightness-0 group-hover:saturate-100 group-hover:invert group-hover:duration-100">
-              <div className="w-5 h-5 mr-4">
-                <img src={Google} alt="" className="w-full" />
-              </div>
-              <div className="">Đăng ký với Google</div>
-            </div>
-          </Button>
+          <LoginGoogle />
         </Form.Item>
       </Form>
     </>

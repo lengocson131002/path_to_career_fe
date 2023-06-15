@@ -7,9 +7,10 @@ export type AccountResponse = {
   phoneNumber: string;
   role: EnumKeys<typeof Roles>;
   fullName: string;
-  description: string;
+  description?: string;
   score: number;
   avatar: string;
+  isAccepted?: boolean;
   majors?: MajorCodeResponse[];
 };
 

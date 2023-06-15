@@ -18,4 +18,5 @@ export type CreatePostRequest = {
   cvStyle?: CvStyle;
   cvType?: CvType;
   majorCode: string;
+  description?: string;
 };
