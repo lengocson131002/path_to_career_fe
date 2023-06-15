@@ -8,8 +8,8 @@ type FooterProps = {
 
 function Footer({}: FooterProps) {
   return (
-    <div id="footer" className="md:h-[300px] h-[650px]">
-      <div className="w-full md:h-[300px] h-[560px] shadow-p2c flex md:flex-nowrap flex-wrap md:justify-between md:items-start md:px-28 px-5 z-50 bg-white py-12">
+    <div id="footer" className="md:h-[300px]">
+      <div className="w-full md:h-[300px] shadow-p2c flex md:flex-nowrap flex-wrap md:justify-between md:items-start md:px-28 px-5 z-50 bg-white py-12">
         <div className="md:hidden flex gap-4 w-full justify-center mb-10">
           <FaFacebookSquare size={20} />
           <AiFillInstagram size={20} />

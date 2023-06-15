@@ -1,31 +1,33 @@
 import AccountInformationCard from "@/components/account/AccountInformationCard";
-import { getMe } from "@/services/accounts/services";
-import { useQuery } from "@tanstack/react-query";
+import { AppState } from "@/stores";
 import { Avatar, Button, Col, Row, Tag } from "antd";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function AccountPage() {
   const [loading, setLoading] = useState<boolean>(false);
-  const { data } = useQuery(["p2c_me"], getMe);
+  const { account } = useSelector((state: AppState) => state.user);
 
   return (
     <div className="flex w-ful">
-      <Row className="w-full px-20">
+      <Row className="w-full lg:px-20">
         <Col span={16}>
           <Row gutter={[20, 0]}>
-            <Col span={6}>
+            <Col xl={6}>
               <div className="w-full flex justify-center">
-                <Avatar size={160} src={data?.avatar}>
-                  {data?.email}
+                <Avatar size={160} src={account?.avatar}>
+                  {account?.email}
                 </Avatar>
               </div>
             </Col>
-            <Col span={18}>
-              <div className="font-bold text-2xl">{data?.name}</div>
-              <div className="text-p2c-gray mt-2 mb-4">{data?.description}</div>
-              <div className="">
-                {data?.majors?.map((major, index) => (
+            <Col xl={18}>
+              <div className="font-bold text-2xl">{account?.name}</div>
+              <div className="text-p2c-gray mt-2 mb-4">
+                {account?.description}
+              </div>
+              <div className="flex gap-2">
+                {account?.majors?.map((major, index) => (
                   <Tag color="green" key={index}>
                     {major.name}
                   </Tag>
@@ -46,7 +48,7 @@ function AccountPage() {
           </Row>
         </Col>
         <Col span={8}>
-          <AccountInformationCard loading={loading} user={data} />
+          <AccountInformationCard loading={loading} user={account} />
           <Link to={"/ca-nhan/cap-nhat"}>
             <Button type="primary" className="w-full mt-4">
               Cập nhật thông tin

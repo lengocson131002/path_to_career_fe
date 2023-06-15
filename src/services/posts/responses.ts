@@ -3,35 +3,18 @@ import {
   CvType,
   EnumKeys,
   JobLevel,
+  PaymentMethod,
   PostStatus,
   ServiceTypes,
 } from "@/commons/enum";
-import dayjs from "dayjs";
-import { AccountBriefResponse } from "../accounts/responses";
+import { AccountResponse } from "../accounts/responses";
+import { MajorCode } from "../majors/models";
+import { TransactionResponse } from "../transactions/responses";
 
-export type CreatePostResponse = {
-  id: number;
-  title: string;
-  accountId: number;
-  acceptedAccountId: number;
-  status: EnumKeys<typeof PostStatus>;
-  majorId: number;
-  jobPosition: string;
-  jobLevel: EnumKeys<typeof JobLevel>;
-  serviceType: EnumKeys<typeof ServiceTypes>;
-  finishTime: string;
-  content: string;
-  supportCount: number;
-  mediaUrl: string;
-  cvStyle: EnumKeys<typeof CvStyle>;
-  cvType: EnumKeys<typeof CvType>;
-};
 
 export type PostResponse = {
   id: number;
   title: string;
-  accountId: number;
-  acceptedAccountId: number;
   status: EnumKeys<typeof PostStatus>;
   majorId: number;
   jobPosition: string;
@@ -45,31 +28,42 @@ export type PostResponse = {
   mediaUrl: string;
   cvStyle: EnumKeys<typeof CvStyle>;
   cvType: EnumKeys<typeof CvType>;
+  description?: string;
+  major: MajorCode;
+  account?: AccountResponse;
+  freelancer?: AccountResponse;
 };
 
 export type PostDetailResponse = {
   id: number;
   title: string;
-  accountId: number;
-  acceptedAccountId: number;
   status: EnumKeys<typeof PostStatus>;
-  majorId: number;
   jobPosition: string;
-  serviceType: EnumKeys<typeof ServiceTypes>;
   jobLevel: EnumKeys<typeof JobLevel>;
-  finishTime?: string;
+  serviceType: EnumKeys<typeof ServiceTypes>;
+  finishTime: string;
   content: string;
-  createdAt?: string;
-  updatedAt?: string;
-  supportCount: number;
+  supportCount?: number;
   mediaUrl: string;
   cvStyle: EnumKeys<typeof CvStyle>;
   cvType: EnumKeys<typeof CvType>;
-  major: {
-    id: number;
-    name: string;
-    code: string;
-  };
-  account?: AccountBriefResponse;
-  acceptedAccount?: AccountBriefResponse;
+  createdAt: string;
+  updatedAt: string;
+  description?: string;
+  major: MajorCode;
+  account?: AccountResponse;
+  freelancer?: AccountResponse;
+  transaction?: TransactionResponse;
+};
+
+export type PostPaymentResponse = {
+  id: number;
+  account: AccountResponse;
+  referenceTransactionId: string;
+  amount: number;
+  payMethod: EnumKeys<typeof PaymentMethod>;
+  createdAt: string;
+  updatedAt: string;
+  postId: number;
+  // status: EnumKeys<typeof PostStatus>;
 };

@@ -33,3 +33,28 @@ export function timeSince(date: dayjs.Dayjs) {
   }
   return "vài giây trước";
 }
+
+export const formatCurrency = (currency?: number) => {
+  return currency?.toLocaleString("vi", { style: "currency", currency: "VND" });
+};
+
+export const jsonParseUtil = (json?: string | null) => {
+  if (!json) {
+    return undefined;
+  }
+  return JSON.parse(json);
+};
+
+export const customParamsSerializer = (params: any) => {
+  return Object.entries(params)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return value.map((v) => `${key}=${v}`).join("&");
+      }
+      if (!value) {
+        return;
+      }
+      return `${key}=${value}`;
+    })
+    .join("&");
+};

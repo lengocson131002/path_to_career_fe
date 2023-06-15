@@ -1,7 +1,5 @@
 import UpdateAccountInformation from "@/components/account/UpdateAccountInformation";
 import UpdateAccountPricing from "@/components/account/UpdateAccountPricing";
-import { getMe } from "@/services/accounts/services";
-import { useQuery } from "@tanstack/react-query";
 import { Col, Row, Tabs } from "antd";
 import { useState } from "react";
 
@@ -16,8 +14,6 @@ const tabs = [
   },
 ];
 function UpdateAccountPage() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const { data } = useQuery(["p2c_me"], getMe);
   const [tab, setTab] = useState<string>("information");
 
   return (

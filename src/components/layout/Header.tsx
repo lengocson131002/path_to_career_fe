@@ -1,15 +1,10 @@
 import Logo from "@/assets/logo.png";
-import { getMe } from "@/services/accounts/services";
-import { useQuery } from "@tanstack/react-query";
-import { Avatar, Badge, Button, Drawer, Dropdown } from "antd";
+import { logout } from "@/services/auth/services";
+import { AppState } from "@/stores";
+import { Avatar, Button, Drawer, Dropdown } from "antd";
 import { useEffect, useState } from "react";
-import {
-  AiOutlinePoweroff,
-  BsFillBellFill,
-  FaBars,
-  FaHamburger,
-  FaHome,
-} from "react-icons/all";
+import { AiOutlinePoweroff, BsFillBellFill, FaBars } from "react-icons/all";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import NotificationDropdown from "../core/NotificationDropdown";
 
@@ -18,7 +13,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { data } = useQuery(["p2c_me"], getMe);
+  const { account } = useSelector((state: AppState) => state.user);
 
   useEffect(() => {
     if (pathname === "/") {
@@ -29,6 +24,7 @@ function Header() {
   }, [pathname]);
 
   const handleLogout = () => {
+    logout();
     navigate("/dang-nhap");
   };
 
@@ -61,10 +57,6 @@ function Header() {
       label: "Trang chủ",
     },
     {
-      url: "/dang-nhap",
-      label: "Đăng nhập",
-    },
-    {
       url: "/dang-ky",
       label: "Đăng ký",
     },
@@ -87,7 +79,7 @@ function Header() {
           <FaBars size={24} className="text-primary" onClick={showDrawer} />
         </div>
         <div className="md:flex gap-8 items-center h-10 hidden">
-          {data ? (
+          {account ? (
             <>
               {authenticatedHeader.map(({ url, label }, index) => (
                 <Link
@@ -123,10 +115,12 @@ function Header() {
                 placement="bottomRight"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
-                  <div className="font-semibold">{data.name}</div>
+                  <div className="font-semibold max-w-[160px] text-ellipsis overflow-hidden whitespace-nowrap">
+                    {account.name}
+                  </div>
                   <Link to={"/ca-nhan"}>
-                    <Avatar size="large" src={data.avatar}>
-                      {"A"}
+                    <Avatar size="large" src={account.avatar}>
+                      {account.email.charAt(0)?.toLocaleUpperCase()}
                     </Avatar>
                   </Link>
                 </div>
@@ -147,7 +141,7 @@ function Header() {
                 type="primary"
                 className="text-white font-semibold flex items-center px-6 py-5 rounded-3xl cursor-pointer"
               >
-                <Link to={"/bai-dang/tao-bai-dang"}>Đăng bài</Link>
+                <Link to={"/dang-nhap "}>Đăng nhập</Link>
               </Button>
             </>
           )}
@@ -169,7 +163,7 @@ function Header() {
         }
       >
         <div className="flex flex-col gap-8 items-center">
-          {data ? (
+          {account ? (
             <>
               {authenticatedHeader.map(({ url, label }, index) => (
                 <Link
@@ -205,9 +199,9 @@ function Header() {
                 placement="bottomRight"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
-                  <div className="font-semibold">{data.name}</div>
+                  <div className="font-semibold">{account.name}</div>
                   <Link to={"/ca-nhan"}>
-                    <Avatar size="large" src={data.avatar}>
+                    <Avatar size="large" src={account.avatar}>
                       {"A"}
                     </Avatar>
                   </Link>
@@ -229,7 +223,7 @@ function Header() {
                 type="primary"
                 className="text-white font-semibold flex items-center px-6 py-5 rounded-3xl cursor-pointer"
               >
-                <Link to={"/bai-dang/tao-bai-dang"}>Đăng bài</Link>
+                <Link to={"/dang-nhap"}>Đăng nhập</Link>
               </Button>
             </>
           )}

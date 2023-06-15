@@ -1,105 +1,125 @@
-import { mapAccountBriefModel } from "@/adapter/AccountAdapter";
-import { API_POST, API_POST_DETAIL } from "@/commons/api";
-import dayjs from "dayjs";
+import { mapPage } from "@/adapter/PaginationAdapter";
+import {
+  mapPostDetailModel,
+  mapPostModel,
+  mapPostPaymentModel,
+} from "@/adapter/PostAdapter";
+import {
+  API_POST,
+  API_POST_ACCEPT,
+  API_POST_COMPLETE,
+  API_POST_DETAIL,
+  API_POST_PAYMENT,
+} from "@/commons/api";
+import {
+  EnumKeys,
+  PaymentMethod,
+  PostStatus,
+  ServiceTypes,
+  SortDir,
+} from "@/commons/enum";
+import { customParamsSerializer } from "@/commons/utils";
 import { PaginationModel } from "../core/models";
 import { PaginationResponse } from "../core/responses";
 import instance from "../instance";
-import { PostDetailModel, PostModel } from "./models";
+import { PostDetailModel, PostModel, PostPaymentModel } from "./models";
 import { CreatePostRequest } from "./requests";
 import {
-  CreatePostResponse,
   PostDetailResponse,
+  PostPaymentResponse,
   PostResponse,
 } from "./responses";
 
 export const createPost = async (
   request: CreatePostRequest
 ): Promise<PostModel> => {
-  const { data, status } = await instance.post<CreatePostResponse>(
-    API_POST,
-    request,
+  console.log(request);
+  const { data } = await instance.post<PostResponse>(API_POST, request, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+  return mapPostModel(data);
+};
+
+export const payPost = async (
+  id: number,
+  method: EnumKeys<typeof PaymentMethod>
+): Promise<PostPaymentModel> => {
+  const { data } = await instance.post<PostPaymentResponse>(
+    API_POST_PAYMENT.replace("{id}", id.toString()),
+    {
+      method: method,
+    },
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     }
   );
-  return {
-    acceptedAccountId: data.acceptedAccountId,
-    accountId: data.accountId,
-    content: data.content,
-    cvStyle: data.cvStyle,
-    cvType: data.cvType,
-    finishTime: data.finishTime ? dayjs(data.finishTime) : undefined,
-    id: data.id,
-    jobPosition: data.jobPosition,
-    majorId: data.majorId,
-    mediaUrl: data.mediaUrl,
-    serviceType: data.serviceType,
-    status: data.status,
-    title: data.title,
-    supportCount: data.supportCount,
-    jobLevel: data.jobLevel,
-  };
+  return mapPostPaymentModel(data);
 };
 
-export const getPosts = async (): Promise<PaginationModel<PostModel>> => {
-  const { data, status } = await instance.get<PaginationResponse<PostResponse>>(
-    API_POST
+export const getPosts = async ({
+  id,
+  status,
+  freelancerId,
+  keyword,
+  pageNumber,
+  majorIds,
+  serviceType,
+}: {
+  id?: number;
+  freelancerId?: number;
+  status?: EnumKeys<typeof PostStatus>;
+  keyword?: string;
+  pageNumber?: number;
+  majorIds?: number[];
+  serviceType?: EnumKeys<typeof ServiceTypes>;
+}): Promise<PaginationModel<PostModel>> => {
+  const { data } = await instance.get<PaginationResponse<PostResponse>>(
+    API_POST,
+    {
+      params: {
+        status: status,
+        accountId: id,
+        sortDir: SortDir.Desc,
+        freelancerId: freelancerId,
+        sortColumn: "createdAt",
+        keyword: keyword,
+        pageNumber: pageNumber,
+        pageSize: 10,
+        majorIds: majorIds,
+        serviceType: serviceType,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+      paramsSerializer: customParamsSerializer,
+    }
   );
-  return {
-    hasNext: data.hasNext,
-    hasPrevious: data.hasPrevious,
-    items: data.items.map((item) => ({
-      acceptedAccountId: item.acceptedAccountId,
-      accountId: item.accountId,
-      content: item.content,
-      cvStyle: item.cvStyle,
-      cvType: item.cvType,
-      finishTime: item.finishTime ? dayjs(item.finishTime) : undefined,
-      createdAt: item.createdAt ? dayjs(item.createdAt) : undefined,
-      updatedAt: item.updatedAt ? dayjs(item.updatedAt) : undefined,
-      id: item.id,
-      jobLevel: item.jobLevel,
-      jobPosition: item.jobPosition,
-      majorId: item.majorId,
-      mediaUrl: item.mediaUrl,
-      serviceType: item.serviceType,
-      status: item.status,
-      title: item.title,
-      supportCount: item.supportCount,
-    })),
-    pageNumber: data.pageNumber,
-    pageSize: data.pageSize,
-    totalCount: data.totalCount,
-    totalPages: data.totalPages,
-  };
+  return mapPage(data, mapPostModel);
 };
 
 export const getPostDetail = async (id: string): Promise<PostDetailModel> => {
-  const { data, status } = await instance.get<PostDetailResponse>(
+  const { data } = await instance.get<PostDetailResponse>(
     API_POST_DETAIL.replace("{id}", id)
   );
-  return {
-    acceptedAccountId: data.acceptedAccountId,
-    accountId: data.accountId,
-    content: data.content,
-    cvStyle: data.cvStyle,
-    cvType: data.cvType,
-    finishTime: data.finishTime ? dayjs(data.finishTime) : undefined,
-    createdAt: data.createdAt ? dayjs(data.createdAt) : undefined,
-    updatedAt: data.updatedAt ? dayjs(data.updatedAt) : undefined,
-    id: data.id,
-    jobLevel: data.jobLevel,
-    jobPosition: data.jobPosition,
-    majorId: data.majorId,
-    mediaUrl: data.mediaUrl,
-    serviceType: data.serviceType,
-    status: data.status,
-    title: data.title,
-    supportCount: data.supportCount,
-    acceptedAccount: mapAccountBriefModel(data.acceptedAccount),
-    account: mapAccountBriefModel(data.account),
-    major: data.major,
-  };
+  return mapPostDetailModel(data);
+};
+
+export const acceptPost = async (id: string) => {
+  await instance.post<PostResponse>(API_POST_ACCEPT.replace("{id}", id), {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
+export const completePost = async (id: string) => {
+  await instance.post<PostResponse>(API_POST_COMPLETE.replace("{id}", id), {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
 };

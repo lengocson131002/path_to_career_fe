@@ -1,3 +1,4 @@
+import { EnumKeys, Roles, getEnumKeyByValue } from "@/commons/enum";
 import { AccountRequest } from "@/services/accounts/requests";
 import { register } from "@/services/accounts/services";
 import { useMutation } from "@tanstack/react-query";
@@ -14,7 +15,7 @@ export interface RegisterForm {
   name?: string;
   password?: string;
   description?: string;
-  role?: "Freelancer" | "User";
+  role?: EnumKeys<typeof Roles>;
   majorCodes?: string[];
 }
 
@@ -47,7 +48,7 @@ function RegisterSteps() {
         password: data.password ?? "",
         phoneNumber: data.phone ?? "",
         fullName: formData.name ?? "",
-        role: formData.role ?? "User",
+        role: formData.role ?? getEnumKeyByValue(Roles, Roles.User),
         majorCodes: formData.majorCodes,
         description: formData.description,
       };

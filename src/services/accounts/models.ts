@@ -7,10 +7,11 @@ export type AccountModel = {
   phone: string;
   role: EnumKeys<typeof Roles>;
   name: string;
-  description: string;
+  description?: string;
   avatar: string;
   majors?: MajorCode[];
   score: number;
+  isAccepted?: boolean;
 };
 
 export type AccountBriefModel = {

@@ -1,7 +1,9 @@
-import { Roles, enumToList } from "@/commons/enum";
 import { UpdateAccountRequest } from "@/services/accounts/requests";
 import { getMe, updateAccount } from "@/services/accounts/services";
+import { upload } from "@/services/files/services";
 import { getMajorCodes } from "@/services/majors/services";
+import store from "@/stores";
+import { setUserState } from "@/stores/user.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Avatar,
@@ -15,11 +17,10 @@ import {
   Upload,
   message,
 } from "antd";
+import { RcFile } from "antd/es/upload";
 import type { CustomTagProps } from "rc-select/lib/BaseSelect";
 import { useEffect, useState } from "react";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { RcFile } from "antd/es/upload";
-import { upload } from "@/services/files/services";
+import { AiOutlineCamera } from "react-icons/ai";
 
 interface UpdateAccountForm {
   email: string;
@@ -31,12 +32,13 @@ interface UpdateAccountForm {
 }
 
 function UpdateAccountInformation() {
-  const { data, isFetching } = useQuery(["p2c_me"], getMe);
+  const me = useQuery(["p2c_me"], getMe);
+
   const majors = useQuery(["p2c_major_codes"], getMajorCodes);
   const { isSuccess, mutate } = useMutation((data: UpdateAccountRequest) =>
     updateAccount(data)
   );
-  const [avatar, setAvatar] = useState<string | undefined>(data?.avatar);
+  const [avatar, setAvatar] = useState<string | undefined>(me.data?.avatar);
   const queryClient = useQueryClient();
   const fileMutation = useMutation((file: RcFile) => upload(file));
 
@@ -46,9 +48,8 @@ function UpdateAccountInformation() {
       fullName: formData.name,
       majorCodes: formData.majorCodes,
       phoneNumber: formData.phone,
-      avatar: avatar,
+      avatar: avatar ?? me.data?.avatar,
     };
-
     mutate(request);
   };
 
@@ -56,15 +57,27 @@ function UpdateAccountInformation() {
     if (isSuccess) {
       queryClient.invalidateQueries(["p2c_me"]);
       message.success("Cập nhật thông tin thành công.");
+      me.refetch();
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (me.isSuccess) {
+      store.dispatch(
+        setUserState({
+          account: me.data,
+        })
+      );
+    }
+  }, [me.data]);
 
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
       message.error("Ảnh đại diện chỉ hỗ trợ định dạng JPG/PNG!");
+    } else {
+      fileMutation.mutate(file);
     }
-    fileMutation.mutate(file);
 
     return false;
   };
@@ -77,8 +90,8 @@ function UpdateAccountInformation() {
 
   return (
     <Skeleton
-      loading={!data || isFetching}
-      active={!data || isFetching}
+      loading={!me.data || me.isFetching}
+      active={!me.data || me.isFetching}
       paragraph={{ rows: 10 }}
     >
       <Form
@@ -87,12 +100,12 @@ function UpdateAccountInformation() {
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
-          email: data?.email,
-          phone: data?.phone,
-          name: data?.name,
-          role: data?.role,
-          description: data?.description,
-          majorCodes: data?.majors?.map((m) => m.code),
+          email: me.data?.email,
+          phone: me.data?.phone,
+          name: me.data?.name,
+          role: me.data?.role,
+          description: me.data?.description,
+          majorCodes: me.data?.majors?.map((m) => m.code),
         }}
       >
         <Upload
@@ -107,17 +120,23 @@ function UpdateAccountInformation() {
               <Skeleton.Avatar
                 active={true}
                 size={160}
-                className="cursor-pointer hover:opacity-80 transition-all my-4"
-              />
+                className="my-4"
+              ></Skeleton.Avatar>
             ) : (
-              <Avatar
-                src={avatar ?? data?.avatar}
-                alt="avatar"
-                size={160}
-                className="cursor-pointer hover:opacity-80 transition-all my-4"
-              >
-                {data?.email}
-              </Avatar>
+              <div className="relative">
+                <Avatar
+                  src={avatar ?? me.data?.avatar}
+                  alt="avatar"
+                  size={160}
+                  className="cursor-pointer transition-all my-4"
+                ></Avatar>
+                <div className="absolute top-4 bg-gray-50 rounded-full cursor-pointer bottom-4 bg-opacity-50 right-0 left-0 flex flex-col py-4 items-center justify-center gap-2">
+                  <AiOutlineCamera className="text-lg" />
+                  <div className="leading-none text-sm">
+                    {"Cập nhật ảnh đại diện"}
+                  </div>
+                </div>
+              </div>
             )}
           </Tooltip>
         </Upload>
@@ -147,25 +166,6 @@ function UpdateAccountInformation() {
           <Input placeholder="Họ và tên của bạn" />
         </Form.Item>
         <Form.Item
-          name="role"
-          label={
-            <label
-              htmlFor="role"
-              className="font-medium text-sm mt-2 mb-1 block"
-            >
-              Tôi là
-            </label>
-          }
-          initialValue={"User"}
-        >
-          <Select
-            className="w-full"
-            options={enumToList(Roles)}
-            placeholder="Vai trò của bạn"
-            disabled
-          />
-        </Form.Item>
-        <Form.Item
           name="description"
           label={<label className="font-medium block">Chức danh</label>}
         >
@@ -181,6 +181,12 @@ function UpdateAccountInformation() {
               Kỹ năng chính
             </label>
           }
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn kỹ năng.",
+            },
+          ]}
         >
           <Select
             mode="tags"

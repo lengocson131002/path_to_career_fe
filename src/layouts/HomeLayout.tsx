@@ -8,6 +8,9 @@ function HomeLayout({ children }: { children: JSX.Element }) {
       <div
         id="body"
         className="md:pt-32 pt-20 w-full md:px-28 md:pb-12 pb-6 px-5"
+        style={{
+          minHeight: "calc(100vh - 300px)",
+        }}
       >
         {children}
       </div>

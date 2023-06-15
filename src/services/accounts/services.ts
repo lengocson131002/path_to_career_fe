@@ -1,27 +1,24 @@
-import { API_ACCOUNT, API_ACCOUNT_DETAIL, API_ACCOUNT_ME } from "@/commons/api";
+import {
+  API_ACCOUNT,
+  API_ACCOUNT_ACCEPT,
+  API_ACCOUNT_DETAIL,
+  API_ACCOUNT_ME,
+} from "@/commons/api";
 import instance from "../instance";
 import { AccountModel } from "./models";
 import { AccountRequest, UpdateAccountRequest } from "./requests";
 import { AccountResponse } from "./responses";
+import { PaginationModel } from "../core/models";
+import { PaginationResponse } from "../core/responses";
+import { mapAccountModel } from "@/adapter/AccountAdapter";
+import { mapPage } from "@/adapter/PaginationAdapter";
+import { EnumKeys, Roles } from "@/commons/enum";
 
 export const register = async (
   request: AccountRequest
 ): Promise<AccountModel> => {
   const { data } = await instance.post<AccountResponse>(API_ACCOUNT, request);
-  return {
-    description: data.description,
-    email: data.email,
-    name: data.fullName,
-    id: data.id,
-    phone: data.phoneNumber,
-    role: data.role,
-    score: data.score,
-    avatar: data.avatar,
-    majors: data.majors?.map((major) => ({
-      code: major.code,
-      name: major.name,
-    })),
-  };
+  return mapAccountModel(data);
 };
 
 export const getMe = async (): Promise<AccountModel> => {
@@ -30,20 +27,8 @@ export const getMe = async (): Promise<AccountModel> => {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },
   });
-  return {
-    description: data.description,
-    email: data.email,
-    name: data.fullName,
-    id: data.id,
-    phone: data.phoneNumber,
-    role: data.role,
-    avatar: data.avatar,
-    score: data.score,
-    majors: data.majors?.map((major) => ({
-      code: major.code,
-      name: major.name,
-    })),
-  };
+  localStorage.setItem("current_user", JSON.stringify(data));
+  return mapAccountModel(data);
 };
 
 export const getAccount = async (id?: string): Promise<AccountModel> => {
@@ -55,20 +40,28 @@ export const getAccount = async (id?: string): Promise<AccountModel> => {
       },
     }
   );
-  return {
-    description: data.description,
-    email: data.email,
-    name: data.fullName,
-    id: data.id,
-    phone: data.phoneNumber,
-    avatar: data.avatar,
-    role: data.role,
-    score: data.score,
-    majors: data.majors?.map((major) => ({
-      code: major.code,
-      name: major.name,
-    })),
-  };
+  return mapAccountModel(data);
+};
+
+export const getAccounts = async ({
+  id,
+  role,
+}: {
+  id?: string;
+  role?: EnumKeys<typeof Roles>;
+}): Promise<PaginationModel<AccountModel>> => {
+  const { data } = await instance.get<PaginationResponse<AccountResponse>>(
+    API_ACCOUNT,
+    {
+      params: {
+        role: role,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+  return mapPage<AccountResponse, AccountModel>(data, mapAccountModel);
 };
 
 export const updateAccount = async (
@@ -89,8 +82,20 @@ export const updateAccount = async (
     role: data.role,
     score: data.score,
     majors: data.majors?.map((major) => ({
+      id: major.id,
       code: major.code,
       name: major.name,
     })),
   };
+};
+
+export const acceptFreelancer = async (id: number) => {
+  await instance.post<AccountResponse>(
+    API_ACCOUNT_ACCEPT.replace("{id}", id.toString()),
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
 };
