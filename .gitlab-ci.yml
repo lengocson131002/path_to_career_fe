@@ -23,7 +23,7 @@ build:
   stage: build
   image: docker:20.10.16
   services:
-    - docker:19-dind
+    - docker:20.10.16-dind
   before_script:
     - cp ${ENV_FILE} .env
     - docker --version
