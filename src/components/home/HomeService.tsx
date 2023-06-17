@@ -26,10 +26,12 @@ function HomeService({}: Props) {
               </span>
             </div>
             <div className="service__item--content md:text-xl text-sm text-p2c-grey md:mt-9 mt-4 max-w-[500px] md:text-left text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              CV là một yếu tố được các nhà tuyển dụng đánh giá đầu tiên khi bạn
+              ứng tuyển vào các vị trí. Vì vậy đừng để ấn tượng đầu tiên của bạn
+              không tốt trong mắt nhà tuyển dụng. Hay để P2C giúp bạn làm điều
+              đó nhé. Bằng việc gửi CV đã có hoặc yêu cầu tạo một CV cùng với mô
+              tả nhu cầu của bạn, bạn sẽ ngay lập tức có một CV phù hợp với
+              ngành nghề và ghi điểm trong nhà tuyển dụng
             </div>
           </div>
         </div>
@@ -45,10 +47,12 @@ function HomeService({}: Props) {
               </span>
             </div>
             <div className="service__item--content md:text-xl text-sm text-p2c-grey md:mt-9 mt-4 max-w-[500px] md:text-left text-justify">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              Chắc hẳn ai cũng đã rất hồi hộp lo lắng trong các buổi phỏng vấn?
+              Và đặc biệc là có những câu hỏi mà chúng ta không lường trước
+              được. P2C sẽ giúp bạn chuẩn bị cho việc đó thông qua các buổi
+              phỏng vấn thử không khác gì buổi phỏng vấn thật và đúng với vị trí
+              ngành nghề bạn đang chọn cùng với các chuyên gia / cộng tác viên
+              có nhiều năm kinh nghiệm.
             </div>
           </div>
         </div>

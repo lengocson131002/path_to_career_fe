@@ -105,7 +105,7 @@ function Login() {
           <LoginGoogle />
         </Form.Item>
       </Form>
-      <div className="login__main--nav font-semibold mt-2">
+      <div className="login__main--nav font-semibold mt-5">
         Chưa có tài khoản?{" "}
         <Link to="/dang-ky" className="text-primary">
           Đăng ký

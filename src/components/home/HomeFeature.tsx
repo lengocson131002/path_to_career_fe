@@ -15,7 +15,8 @@ function HomeFeature({}: Props) {
           Kết nối nhanh chóng
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">
-          Kết nối bạn với chuyên gia/cộng tác viên trên lãnh thổ Việt Nam.
+          Kết nối bạn với chuyên gia/cộng tác viên trên lãnh thổ ngay sau khi
+          đăng bài.
         </div>
       </div>
       <div className="home__feature--item flex flex-col max-w-[280px] items-center text-center">
@@ -23,10 +24,11 @@ function HomeFeature({}: Props) {
           <img src={Free} alt="" className="md:w-16 w-8" />
         </div>
         <div className="feature__item--title md:text-2xl text-xs font-medium h-[48px]">
-          Đăng bài không mất phí
+          Miễn phí 3 lần hỗ trợ đầu
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">
-          Bạn sẽ nhanh chóng nhận được chào giá từ các chuyên gia/cộng tác viên.
+          Hỗ trợ miễn phí cho người dùng mới 3 lần đầu đăng bài đầu tiền cho tất
+          cả các dịch vụ
         </div>
       </div>
       <div className="home__feature--item flex flex-col max-w-[280px] items-center text-center">
@@ -34,10 +36,11 @@ function HomeFeature({}: Props) {
           <img src={Service} alt="" className="md:w-16 w-8" />
         </div>
         <div className="feature__item--title md:text-2xl text-xs font-medium h-[48px]">
-          Đa dạng dịch vụ
+          Đa dạng lĩnh vực
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">
-          Hỗ trợ đa dạng dịch hỗ trợ cho việc phỏng vấn và tìm việc của bạn.
+          Chúng tôi có đội ngũ cộng tác viên thuộc các lĩnh vực khác nhau, đáp
+          ứng nhu cầu khách hàng thuộc mọi lĩnh vực
         </div>
       </div>
     </div>

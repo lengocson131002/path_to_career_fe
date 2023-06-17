@@ -97,7 +97,7 @@ function RegisterSteps() {
 
       <div>{steps[current].content}</div>
 
-      <div className="register__main--nav font-semibold mt-2">
+      <div className="register__main--nav font-semibold mt-5">
         Đã có tài khoản?{" "}
         <Link to="/dang-nhap" className="text-primary">
           Đăng nhập

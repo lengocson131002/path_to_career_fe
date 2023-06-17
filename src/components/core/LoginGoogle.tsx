@@ -73,7 +73,7 @@ function LoginGoogle() {
   return (
     <Button
       type="default"
-      className="group bg-white text-primary border-primary border-2 hover:!bg-primary hover:!text-white hover:!border-primary w-full h-10 text-base font-semibold"
+      className="group bg-white text-primary border-primary border-1 hover:!bg-primary hover:!text-white hover:!border-primary w-full h-10 text-base font-semibold"
       onClick={handleGoogleLogin}
     >
       <div className="flex justify-center items-center group-hover:brightness-0 group-hover:saturate-100 group-hover:invert group-hover:duration-100">

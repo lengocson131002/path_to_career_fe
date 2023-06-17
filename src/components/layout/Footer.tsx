@@ -20,7 +20,7 @@ function Footer({}: FooterProps) {
         </div>
         <div className="flex md:justify-between justify-center md:gap-12 gap-6 md:flex-nowrap flex-wrap w-full md:w-auto">
           <div className="md:!max-w-[260px] md:basis-1/3 basis-full md:text-left text-center">
-            <div className="font-bold md:mb-4 mb-2">Về chúng tôi</div>
+            <div className="font-bold md:mb-4 mb-2 text-xl">Về chúng tôi</div>
             <div>Về chúng tôi</div>
             <div>Liên hệ</div>
             <div>Thoả thuận</div>
@@ -31,17 +31,28 @@ function Footer({}: FooterProps) {
             </div>
           </div>
           <div className="md:basis-1/3 basis-full md:text-left text-center">
-            <div className="font-bold md:mb-4 mb-1">Dịch vụ</div>
+            <div className="font-bold md:mb-4 mb-1 text-xl">Dịch vụ</div>
             <div>Đăng bài hỗ trợ</div>
             <div>Tìm kím việc làm</div>
             <div>Chỉnh sửa hồ sơ</div>
           </div>
           <div className="md:basis-1/3 basis-full md:text-left text-center md:block hidden">
-            <div className="font-bold md:mb-4 mb-1">Theo dõi chúng tôi tại</div>
+            <div className="font-bold md:mb-4 mb-1 text-xl">
+              Theo dõi chúng tôi
+            </div>
             <div className="flex text-xl gap-4">
-              <FaFacebookSquare />
-              <AiFillInstagram />
-              <AiOutlineTwitter />
+              <a
+                href="https://www.facebook.com/profile.php?id=100092570486628"
+                target="_blank"
+              >
+                <FaFacebookSquare />
+              </a>
+              <a>
+                <AiFillInstagram />
+              </a>
+              <a>
+                <AiOutlineTwitter />
+              </a>
             </div>
           </div>
         </div>
