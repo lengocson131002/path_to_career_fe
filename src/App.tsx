@@ -15,6 +15,7 @@ import MainLayout from "./layouts/MainLayout";
 import { getMe } from "./services/accounts/services";
 import { AppState } from "./stores";
 import { setUserState } from "./stores/user.store";
+import { setGlobalState } from "./stores/global.store";
 
 interface IRoute {
   path: string;
@@ -66,10 +67,20 @@ const App = () => {
 
   useEffect(() => {
     if (localStorage.getItem("refresh_token")) {
+      dispatch(
+        setGlobalState({
+          loading: true,
+        })
+      );
       getMe().then((res) => {
         dispatch(
           setUserState({
             account: res,
+          })
+        );
+        dispatch(
+          setGlobalState({
+            loading: false,
           })
         );
       });
