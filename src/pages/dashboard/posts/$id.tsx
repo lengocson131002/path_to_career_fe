@@ -154,23 +154,29 @@ function Posts() {
           )}
         </Descriptions>
 
-        {account.role === "Freelancer" && postDetail.data.status === "Paid" && (
-          <Button
-            type="primary"
-            className="mt-4 float-right"
-            onClick={handleAcceptPost}
-          >
-            Nhận bài đăng
-          </Button>
-        )}
+        {account?.role === "Freelancer" &&
+          postDetail.data.status === "Paid" && (
+            <Button
+              type="primary"
+              className="mt-4 float-right"
+              onClick={handleAcceptPost}
+            >
+              Nhận bài đăng
+            </Button>
+          )}
 
-        {account.role === "Freelancer" &&
-          postDetail.data.status === "Accepted" &&
-          postDetail.data.freelancer?.id === account?.id && (
+        {postDetail.data.status === "Accepted" &&
+          (postDetail.data.freelancer?.id === account?.id ||
+            account?.role === "Admin") && (
             <div className="float-right flex gap-4 mt-4">
               <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
                 <Button type="default">Liên hệ</Button>
               </Link>
+            </div>
+          )}
+        {postDetail.data.status === "Accepted" &&
+          postDetail.data.freelancer?.id === account?.id && (
+            <div className="float-right flex gap-4 mt-4">
               <Button onClick={handleCompletePost} type="primary">
                 Hoàn tất
               </Button>

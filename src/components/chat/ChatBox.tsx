@@ -42,7 +42,9 @@ function ChatBox({ receiver, postId }: Props) {
   );
 
   useEffect(() => {
-    joinRoom(account.id, postId);
+    if (account) {
+      joinRoom(account.id, postId);
+    }
     return () => {
       connection?.stop();
     };
@@ -193,6 +195,7 @@ function ChatBox({ receiver, postId }: Props) {
       >
         <div className="chatbox__input--extra h-full align-middle">
           <Upload
+            disabled={account?.role === "Admin"}
             showUploadList={false}
             beforeUpload={(file: RcFile) => {
               fileMutation.mutate(file);
@@ -206,6 +209,7 @@ function ChatBox({ receiver, postId }: Props) {
           <Input
             placeholder="Nhập nội dung cần gửi"
             className="h-12"
+            disabled={account?.role === "Admin"}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
