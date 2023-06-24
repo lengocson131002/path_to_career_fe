@@ -175,7 +175,7 @@ function Posts() {
         {account?.role === "Admin" && (
           <div className="float-right flex gap-4 mt-4">
             <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
-              <Button type="default">Liên hệ</Button>
+              <Button type="default">Xem tin nhắn</Button>
             </Link>
           </div>
         )}
