@@ -158,7 +158,7 @@ function ChatBox({ receiver, postId }: Props) {
         {messages.data?.map((msg) => (
           <div
             className={`chatbox__message ${
-              msg.accountId === account.id
+              msg.accountId === account?.id
                 ? "chatbox__message--sender"
                 : "chatbox__message--receiver"
             }`}

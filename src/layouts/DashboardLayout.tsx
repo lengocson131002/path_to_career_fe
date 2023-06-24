@@ -36,7 +36,9 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
-    joinRoom(account.id);
+    if (account) {
+      joinRoom(account.id);
+    }
     return () => {
       connection?.stop();
     };
@@ -72,7 +74,7 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
               to={mapNotificationLink({
                 type: notification.type,
                 refId: notification.referenceId,
-                role: account.role,
+                role: account?.role,
               })}
             >
               {notification.content}
