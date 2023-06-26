@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function Notification() {
   const { account } = useSelector((state: AppState) => state.user);
   const [page, setPage] = useState<number>(1);
-  const notifications = useQuery([`p2c_notification_${account.id}`], () =>
+  const notifications = useQuery([`p2c_notification_${account?.id}`], () =>
     getNotification({ pageNumber: page })
   );
 
@@ -50,7 +50,7 @@ function Notification() {
                 to={mapNotificationLink({
                   type: item.type,
                   refId: item.referenceId,
-                  role: account.role,
+                  role: account?.role,
                 })}
               >
                 <List.Item className="cursor-pointer hover:bg-gray-50">

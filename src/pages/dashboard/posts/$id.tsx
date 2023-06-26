@@ -169,6 +169,9 @@ function Posts() {
               <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
                 <Button type="default">Liên hệ</Button>
               </Link>
+              <Button onClick={handleCompletePost} type="primary">
+                Hoàn tất
+              </Button>
             </div>
           )}
 
@@ -179,14 +182,6 @@ function Posts() {
             </Link>
           </div>
         )}
-        {postDetail.data.status === "Accepted" &&
-          postDetail.data.freelancer?.id === account?.id && (
-            <div className="float-right flex gap-4 mt-4">
-              <Button onClick={handleCompletePost} type="primary">
-                Hoàn tất
-              </Button>
-            </div>
-          )}
       </Card>
     )
   );

@@ -21,14 +21,16 @@ type Props = {
 const NotificationDropdown = ({ children }: Props) => {
   const [connection, setConnection] = useState<HubConnection>();
   const { account } = useSelector((state: AppState) => state.user);
-  const notifications = useQuery([`p2c_notification_${account.id}`], () =>
+  const notifications = useQuery([`p2c_notification_${account?.id}`], () =>
     getNotification({ pageSize: 5 })
   );
   const Context = React.createContext({ name: "Default" });
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
-    joinRoom(account.id);
+    if (account) {
+      joinRoom(account.id);
+    }
     return () => {
       connection?.stop();
     };
@@ -125,7 +127,7 @@ const NotificationDropdown = ({ children }: Props) => {
                     to={mapNotificationLink({
                       type: item.type,
                       refId: item.referenceId,
-                      role: account.role,
+                      role: account?.role,
                     })}
                   >
                     <List.Item

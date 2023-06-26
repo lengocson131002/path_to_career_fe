@@ -73,6 +73,14 @@
     height: 100%;
 }
 
+.ant-select-selection-overflow {
+    gap: 4px;
+}
+
+.ant-popconfirm-inner-content {
+    padding: 0 16px;
+}
+
 * {
     box-sizing: border-box;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
