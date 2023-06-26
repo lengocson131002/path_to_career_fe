@@ -44,6 +44,8 @@ function CreatePostPage() {
   const [step, setStep] = useState(0);
   const [postId, setPostId] = useState<number>();
   const [file, setFile] = useState<UploadFile>();
+  const [paymentMethod, setPaymentMethod] =
+    useState<EnumKeys<typeof PaymentMethod>>("Banking");
   const navigate = useNavigate();
 
   const { data, isSuccess, mutate } = useMutation((data: CreatePostRequest) =>
@@ -123,6 +125,7 @@ function CreatePostPage() {
   }) => {
     if (postId) {
       payment.mutate({ postId: postId, method: method });
+      setPaymentMethod(method);
     }
   };
 
@@ -215,7 +218,7 @@ function CreatePostPage() {
             case 1:
               return <PostPayment onSubmit={handlePay} />;
             case 2:
-              return <PostPaymentQR />;
+              return <PostPaymentQR type={paymentMethod} />;
           }
         })()}
       </Col>
