@@ -46,3 +46,10 @@ export const API_NOTIFICATION_CONFIRM =
   BASE_URL + "/v1/notifications/{id}/confirm";
 export const API_NOTIFICATION_CANCEL =
   BASE_URL + "/v1/notifications/{id}/cancel";
+
+//STATISTIC
+export const API_DASHBOARD_STATISTICS = BASE_URL + "/v1/dashboard/statistics";
+export const API_DASHBOARD_ACCOUNTS = BASE_URL + "/v1/dashboard/accounts";
+export const API_DASHBOARD_POSTS = BASE_URL + "/v1/dashboard/posts";
+export const API_DASHBOARD_FREELANCERS =
+  BASE_URL + "/v1/dashboard/freelancers/top";

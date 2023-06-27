@@ -23,7 +23,7 @@ import { RxDashboard } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 function DashboardLayout({ children }: { children: JSX.Element }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -234,7 +234,6 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
         <Layout
           className={`transition-all ${collapsed ? "ml-[80px]" : "ml-[200px]"}`}
         >
-          <Header className="bg-white w-full" />
           <Content className="m-6">
             <Breadcrumb className="mb-4 cursor-pointer">
               <Breadcrumb.Item key={0} onClick={() => navigate("/dashboard")}>
