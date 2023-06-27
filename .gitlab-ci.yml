@@ -41,7 +41,7 @@ deploy:
     - docker stop $APP_NAME || true
     - docker rm $APP_NAME || true
     - docker pull $CI_REGISTRY_IMAGE
-    - docker container run -d  --network $NETWORK --name $APP_NAME -p $PORT:80 $CI_REGISTRY_IMAGE
+    - docker container run -d --restart unless-stopped --network $NETWORK --name $APP_NAME -p $PORT:80 $CI_REGISTRY_IMAGE
     - docker logout
   tags:
     - shell
