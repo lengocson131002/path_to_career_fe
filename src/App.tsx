@@ -14,8 +14,8 @@ import ScrollToTop from "./components/core/ScrollToTop";
 import MainLayout from "./layouts/MainLayout";
 import { getMe } from "./services/accounts/services";
 import { AppState } from "./stores";
-import { setUserState } from "./stores/user.store";
 import { setGlobalState } from "./stores/global.store";
+import { setUserState } from "./stores/user.store";
 
 interface IRoute {
   path: string;

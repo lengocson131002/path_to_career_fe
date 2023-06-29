@@ -6,7 +6,8 @@ import Logo from "@/assets/logo.png";
 import { logout } from "@/services/auth/services";
 import { NotificationModel } from "@/services/notifications/models";
 import { NotificationResponse } from "@/services/notifications/responses";
-import { AppState } from "@/stores";
+import store, { AppState } from "@/stores";
+import { setGlobalState } from "@/stores/global.store";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { Avatar, Breadcrumb, Layout, Menu, notification } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
@@ -36,6 +37,12 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
+    if (account?.role === "User" || account?.role === undefined) {
+      navigate("/");
+    }
+  }, [account]);
+
+  useEffect(() => {
     if (account) {
       joinRoom(account.id);
     }
@@ -60,6 +67,11 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
       await connection.start();
       await connection.invoke("JoinRoom", { accountId });
       setConnection(connection);
+      store.dispatch(
+        setGlobalState({
+          loading: false,
+        })
+      );
     } catch (e) {
       console.log(e);
     }

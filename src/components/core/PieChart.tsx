@@ -1,3 +1,4 @@
+import { current } from "@reduxjs/toolkit";
 import { Badge, Col, List, Row } from "antd";
 import { Cell, Pie, PieChart as PieChartRechart } from "recharts";
 
@@ -25,8 +26,14 @@ function PieChart({ data }: { data: { name: string; value?: number }[] }) {
         dataSource={data}
         size="small"
         renderItem={(item, index) => {
-          const total = 2;
-          const percent = ((item.value ?? 0 / total) * 100).toFixed(2) + "%";
+          const total = data.reduce(
+            (accumulator, currentValue) =>
+              accumulator + (currentValue?.value ?? 0),
+            0
+          );
+          const percent = item.value
+            ? ((item.value / total) * 100).toFixed(2) + "%"
+            : 0;
 
           return (
             <List.Item key={item.value} className="w-full">
