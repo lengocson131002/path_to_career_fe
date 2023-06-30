@@ -6,6 +6,7 @@ import {
   getStatistic,
   getTopFreelancers,
 } from "@/services/dashboard/services";
+import { AppState } from "@/stores";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, Card, DatePicker, List, Statistic } from "antd";
 import { FormatConfig } from "antd/es/statistic/utils";
@@ -13,6 +14,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { AiFillStar } from "react-icons/ai";
+import { useSelector } from "react-redux";
 const { RangePicker } = DatePicker;
 
 const rangePresets: {
@@ -33,6 +35,11 @@ function Dashboard() {
   const [range, setRange] = useState<
     [dayjs.Dayjs | undefined, dayjs.Dayjs | undefined]
   >([undefined, undefined]);
+  const { account } = useSelector((state: AppState) => state.user);
+
+  if (account?.role !== "Admin") {
+    return <>Dashboard</>;
+  }
 
   const statistic = useQuery([`p2c_dashboard_statistics`], () =>
     getStatistic({ from: range[0], to: range[1] })
