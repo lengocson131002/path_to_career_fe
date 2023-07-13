@@ -38,7 +38,7 @@ function Dashboard() {
   const { account } = useSelector((state: AppState) => state.user);
 
   if (account?.role !== "Admin") {
-    return <>Dashboard</>;
+    return <></>;
   }
 
   const statistic = useQuery([`p2c_dashboard_statistics`], () =>

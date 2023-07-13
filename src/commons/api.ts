@@ -41,11 +41,7 @@ export const API_TRANSACTION_CANCEL = BASE_URL + "/v1/transactions/{id}/cancel";
 
 //NOTIFICATION
 export const API_NOTIFICATION = BASE_URL + "/v1/notifications";
-export const API_NOTIFICATION_DETAIL = BASE_URL + "/v1/notifications/{id}";
-export const API_NOTIFICATION_CONFIRM =
-  BASE_URL + "/v1/notifications/{id}/confirm";
-export const API_NOTIFICATION_CANCEL =
-  BASE_URL + "/v1/notifications/{id}/cancel";
+export const API_NOTIFICATION_READ = BASE_URL + "/v1/notifications/{id}/read";
 
 //STATISTIC
 export const API_DASHBOARD_STATISTICS = BASE_URL + "/v1/dashboard/statistics";

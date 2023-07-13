@@ -5,10 +5,13 @@ import {
 import { timeSince } from "@/commons/utils";
 import { NotificationModel } from "@/services/notifications/models";
 import { NotificationResponse } from "@/services/notifications/responses";
-import { getNotification } from "@/services/notifications/services";
+import {
+  getNotification,
+  readNotification,
+} from "@/services/notifications/services";
 import { AppState } from "@/stores";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Badge, Empty, List, Popover, notification } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
@@ -26,6 +29,15 @@ const NotificationDropdown = ({ children }: Props) => {
   );
   const Context = React.createContext({ name: "Default" });
   const [api, contextHolder] = notification.useNotification();
+  const readNotificationMutation = useMutation((id: number) =>
+    readNotification(id)
+  );
+
+  useEffect(() => {
+    if (readNotificationMutation.isSuccess) {
+      notifications.refetch();
+    }
+  }, [readNotificationMutation.isSuccess]);
 
   useEffect(() => {
     if (account) {
@@ -129,6 +141,7 @@ const NotificationDropdown = ({ children }: Props) => {
                       refId: item.referenceId,
                       role: account?.role,
                     })}
+                    onClick={() => readNotificationMutation.mutate(item.id)}
                   >
                     <List.Item
                       className="cursor-pointer hover:bg-gray-50"
