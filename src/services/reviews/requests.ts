@@ -1,11 +1,12 @@
 export type SendReviewRequest = {
-  accountId?: number;
+  postId?: number;
   score?: number;
   content?: string;
 };
 
 export type GetReviewsRequest = {
-  reviewId?: number;
+  reviewerId?: number;
   accountId?: number;
   query?: number;
+  page?: number;
 };

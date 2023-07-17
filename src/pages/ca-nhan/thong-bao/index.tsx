@@ -69,6 +69,7 @@ function Notification() {
               >
                 <List.Item className="cursor-pointer hover:bg-gray-50">
                   <List.Item.Meta
+                    className="px-4"
                     title={
                       <div className="flex justify-between">
                         <div

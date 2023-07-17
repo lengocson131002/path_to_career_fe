@@ -15,6 +15,7 @@ export const API_MAJOR_CODE = BASE_URL + "/v1/majors";
 
 //REVIEW
 export const API_REVIEW = BASE_URL + "/v1/reviews";
+export const API_REVIEW_DETAIL = BASE_URL + "/v1/reviews/{id}";
 
 //POST
 export const API_POST = BASE_URL + "/v1/posts";

@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { AccountModel } from "../accounts/models";
 import { MajorCode } from "../majors/models";
 import { TransactionModel } from "../transactions/models";
+import { ReviewModel } from "../reviews/models";
 
 export type PostModel = {
   id: number;
@@ -54,6 +55,7 @@ export type PostDetailModel = {
   account?: AccountModel;
   freelancer?: AccountModel;
   transaction?: TransactionModel;
+  review?: ReviewModel;
 };
 
 export type PostPaymentModel = {

@@ -1,25 +1,10 @@
 import dayjs from "dayjs";
+import { AccountModel } from "../accounts/models";
 
 export type ReviewModel = {
   id: number;
-  reviewer: {
-    id: number;
-    email: string;
-    phoneNumber: string;
-    role: "Admin" | "Freelancer" | "User";
-    fullName: string;
-    description: string;
-    score: number;
-  };
-  account: {
-    id: number;
-    email: string;
-    phoneNumber: string;
-    role: "Admin" | "Freelancer" | "User";
-    fullName: string;
-    description: string;
-    score: number;
-  };
+  reviewer?: AccountModel;
+  account?: AccountModel;
   score: number;
   content: string;
   createdAt: dayjs.Dayjs;

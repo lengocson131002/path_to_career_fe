@@ -17,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Card, Descriptions, Popconfirm, Tag, message } from "antd";
 import HTMLReactParser from "html-react-parser";
 import { useEffect } from "react";
+import { AiFillStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
@@ -150,6 +151,21 @@ function Posts() {
           {postDetail.data.description && (
             <Descriptions.Item label="Mô tả" span={3}>
               <div>{HTMLReactParser(postDetail.data.description)}</div>
+            </Descriptions.Item>
+          )}
+          {postDetail.data.review?.score && (
+            <Descriptions.Item label="Điểm đánh giá">
+              <div>{postDetail.data.review.score}</div>
+            </Descriptions.Item>
+          )}
+          {postDetail.data.review?.content && (
+            <Descriptions.Item label="Nội dung đánh giá">
+              <div>{postDetail.data.review.content}</div>
+            </Descriptions.Item>
+          )}
+          {postDetail.data.review?.createdAt && (
+            <Descriptions.Item label="Thời gian đánh giá">
+              <div>{formatDate(postDetail.data.review.updatedAt)}</div>
             </Descriptions.Item>
           )}
         </Descriptions>

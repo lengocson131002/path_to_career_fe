@@ -7,7 +7,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 
 const PostDetailPage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useQuery([`p2c_post_${id}`], () => {
+  const { data, isLoading, refetch } = useQuery([`p2c_post_${id}`], () => {
     if (id) {
       return getPostDetail(id);
     }
@@ -29,6 +29,7 @@ const PostDetailPage = () => {
         post={data}
         isLoading={isLoading}
         setShowChat={setShowChat}
+        refetch={refetch}
       ></PostDetail>
     ) : (
       <PostDetailChat

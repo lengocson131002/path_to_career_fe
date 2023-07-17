@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Popconfirm, Table, Tag, message } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Freelancers() {
   const accounts = useQuery([`p2c_accounts_freelancer`], () =>
@@ -28,6 +29,7 @@ function Freelancers() {
       key: "index",
       align: "center",
       ellipsis: true,
+      width: "10%",
       render: (_, record, index) => <>{index + 1}</>,
     },
     {
@@ -48,6 +50,7 @@ function Freelancers() {
       dataIndex: "phone",
       ellipsis: true,
       key: "phone",
+      align: "center",
     },
     {
       title: "Trạng thái",
@@ -80,7 +83,9 @@ function Freelancers() {
             <Button type="default">Duyệt freelancer</Button>
           </Popconfirm>
         ) : (
-          <></>
+          <Link to={`/dashboard/freelancers/${record.id}/reviews`}>
+            <Button type="default">Danh sách đánh giá</Button>
+          </Link>
         ),
     },
   ];
