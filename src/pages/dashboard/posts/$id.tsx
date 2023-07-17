@@ -169,6 +169,7 @@ function Posts() {
             </Descriptions.Item>
           )}
         </Descriptions>
+
         {account?.role === "Freelancer" &&
           postDetail.data.status === "Paid" && (
             <Button
@@ -179,6 +180,15 @@ function Posts() {
               Nhận bài đăng
             </Button>
           )}
+        {postDetail.data.status === "Done" &&
+          postDetail.data.freelancer?.id === account?.id && (
+            <div className="float-right flex gap-4 mt-4">
+              <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
+                <Button type="default">Xem tin nhắn</Button>
+              </Link>
+            </div>
+          )}
+
         {postDetail.data.status === "Accepted" &&
           postDetail.data.freelancer?.id === account?.id && (
             <div className="float-right flex gap-4 mt-4">
