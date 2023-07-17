@@ -65,5 +65,6 @@ export type PostPaymentModel = {
   createdAt: dayjs.Dayjs;
   updatedAt: dayjs.Dayjs;
   postId: number;
+  content: string;
   // status: EnumKeys<typeof PostStatus>;
 };

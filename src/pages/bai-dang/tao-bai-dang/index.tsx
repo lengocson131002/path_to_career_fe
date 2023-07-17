@@ -38,12 +38,19 @@ export interface CreatePostForm {
   cvType: CvType;
   majorCode: string;
 }
+
+export interface PaymentInfo {
+  amount: number;
+  content: string;
+}
+
 function CreatePostPage() {
   const [service, setService] = useState<ServiceTypes>(ServiceTypes.ReviewCV);
   const [fileUrl, setFileUrl] = useState<string>();
   const [step, setStep] = useState(0);
   const [postId, setPostId] = useState<number>();
   const [file, setFile] = useState<UploadFile>();
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>();
   const [paymentMethod, setPaymentMethod] =
     useState<EnumKeys<typeof PaymentMethod>>("Banking");
   const navigate = useNavigate();
@@ -132,9 +139,14 @@ function CreatePostPage() {
   useEffect(() => {
     if (payment.isSuccess) {
       message.success("Chọn phương thức thành công.");
+      setPaymentInfo({
+        amount: payment.data.amount,
+        content: payment.data.content,
+      });
       setStep(step + 1);
     }
   }, [payment.isSuccess]);
+
   return (
     <Row gutter={[60, 24]}>
       <Col span={6}></Col>
@@ -218,7 +230,9 @@ function CreatePostPage() {
             case 1:
               return <PostPayment onSubmit={handlePay} />;
             case 2:
-              return <PostPaymentQR type={paymentMethod} />;
+              return (
+                <PostPaymentQR type={paymentMethod} paymentInfo={paymentInfo} />
+              );
           }
         })()}
       </Col>

@@ -26,6 +26,7 @@ export const mapPostPaymentModel = (
     postId: res.postId,
     referenceTransactionId: res.referenceTransactionId,
     updatedAt: dayjs(res.updatedAt),
+    content: res.content,
   };
 };
 

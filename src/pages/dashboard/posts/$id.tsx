@@ -14,7 +14,7 @@ import {
 } from "@/services/posts/services";
 import { AppState } from "@/stores";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Card, Descriptions, Tag, message } from "antd";
+import { Button, Card, Descriptions, Popconfirm, Tag, message } from "antd";
 import HTMLReactParser from "html-react-parser";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -169,9 +169,17 @@ function Posts() {
               <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
                 <Button type="default">Liên hệ</Button>
               </Link>
-              <Button onClick={handleCompletePost} type="primary">
-                Hoàn tất
-              </Button>
+
+              <Popconfirm
+                title="Hoàn tất bài đăng"
+                placement="topRight"
+                description="Bạn có chắc hoàn tất bài đăng"
+                onConfirm={handleCompletePost}
+                okText="Xác nhận"
+                cancelText="Hủy"
+              >
+                <Button type="primary">Hoàn tất</Button>
+              </Popconfirm>
             </div>
           )}
 
