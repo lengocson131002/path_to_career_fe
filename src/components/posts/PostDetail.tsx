@@ -157,16 +157,17 @@ function PostDetail({
                   </Row>
                 </>
               )}
-              {post.freelancer && post.status === "Accepted" && (
-                <Button
-                  type="primary"
-                  className="w-full mt-8"
-                  onClick={() => setShowChat(true)}
-                >
-                  Mở chat box
-                </Button>
-              )}
-              {post.status !== "Accepted" && (
+              {post.freelancer &&
+                (post.status === "Accepted" || post.status === "Done") && (
+                  <Button
+                    type="primary"
+                    className="w-full mt-8"
+                    onClick={() => setShowChat(true)}
+                  >
+                    Mở chat box
+                  </Button>
+                )}
+              {post.status !== "Accepted" && post.status !== "Done" && (
                 <Button
                   disabled
                   className="w-full mt-8"

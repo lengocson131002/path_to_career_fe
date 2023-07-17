@@ -72,15 +72,16 @@ function PostDetailChat({
                       <></>
                     )}
                   </Row>
-                  {post.freelancer && post.status === "Accepted" && (
-                    <Button
-                      type="primary"
-                      className="w-full mt-8"
-                      onClick={() => setShowChat(false)}
-                    >
-                      Đóng chat box
-                    </Button>
-                  )}
+                  {post.freelancer &&
+                    (post.status === "Accepted" || post.status === "Done") && (
+                      <Button
+                        type="primary"
+                        className="w-full mt-8"
+                        onClick={() => setShowChat(false)}
+                      >
+                        Đóng chat box
+                      </Button>
+                    )}
                 </Card>
               </CardSkeleton>
             </Col>
@@ -115,7 +116,11 @@ function PostDetailChat({
         </Col>
         {post.freelancer && (
           <Col span={16} className="h-full -mt-4">
-            <ChatBox receiver={post.freelancer} postId={post.id}></ChatBox>
+            <ChatBox
+              receiver={post.freelancer}
+              postId={post.id}
+              disable={post.status !== "Accepted"}
+            ></ChatBox>
           </Col>
         )}
       </Row>

@@ -13,7 +13,13 @@ function Messages() {
 
   return (
     postDetail.data?.account &&
-    id && <ChatBox receiver={postDetail.data?.account} postId={+id}></ChatBox>
+    id && (
+      <ChatBox
+        receiver={postDetail.data?.account}
+        postId={+id}
+        disable={postDetail.data.status !== "Accepted"}
+      ></ChatBox>
+    )
   );
 }
 

@@ -5,19 +5,9 @@ import { getMessages } from "@/services/message/services";
 import { AppState } from "@/stores";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  Avatar,
-  Button,
-  Card,
-  Dropdown,
-  Image,
-  Input,
-  MenuProps,
-  Upload,
-} from "antd";
+import { Avatar, Button, Card, Image, Input, MenuProps, Upload } from "antd";
 import { RcFile } from "antd/es/upload";
 import { useEffect, useRef, useState } from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiPaperclip } from "react-icons/fi";
 import { ImAttachment } from "react-icons/im";
 import { IoSend } from "react-icons/io5";
@@ -28,9 +18,10 @@ import "./ChatBox.css";
 type Props = {
   receiver: AccountModel;
   postId: number;
+  disable: boolean;
 };
 
-function ChatBox({ receiver, postId }: Props) {
+function ChatBox({ receiver, postId, disable }: Props) {
   const [connection, setConnection] = useState<HubConnection>();
   const [content, setContent] = useState<string>();
   const { account } = useSelector((state: AppState) => state.user);
@@ -209,7 +200,7 @@ function ChatBox({ receiver, postId }: Props) {
           <Input
             placeholder="Nhập nội dung cần gửi"
             className="h-12"
-            disabled={account?.role === "Admin"}
+            disabled={account?.role === "Admin" || disable}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
