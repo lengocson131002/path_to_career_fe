@@ -22,6 +22,7 @@ export type TransactionDetailResponse = {
   payMethod: EnumKeys<typeof PaymentMethod>;
   createdAt: string;
   updatedAt: string;
+  content: string;
   post?: PostResponse;
   status: EnumKeys<typeof TransactionStatus>;
 };

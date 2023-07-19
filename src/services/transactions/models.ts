@@ -24,5 +24,6 @@ export type TransactionDetailModel = {
   createdAt: dayjs.Dayjs;
   updatedAt: dayjs.Dayjs;
   post?: PostModel;
+  content: string;
   status: EnumKeys<typeof TransactionStatus>;
 };

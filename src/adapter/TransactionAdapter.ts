@@ -39,5 +39,6 @@ export const mapTransactionDetailModel = (
     referenceTransactionId: res.referenceTransactionId,
     status: res.status,
     updatedAt: dayjs(res.updatedAt),
+    content: res.content,
   };
 };
