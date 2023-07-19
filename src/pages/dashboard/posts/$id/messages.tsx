@@ -17,6 +17,7 @@ function Messages() {
       <ChatBox
         receiver={postDetail.data?.account}
         postId={+id}
+        post={postDetail.data}
         disable={postDetail.data.status !== "Accepted"}
       ></ChatBox>
     )

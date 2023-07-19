@@ -18,6 +18,8 @@
     border-radius: 0.5rem;
     padding: 12px;
     background-color: #f3f3f3;
+    max-width: 800px;
+    margin: 2px 0;
 }
 
 .chatbox__message.chatbox__message--receiver {

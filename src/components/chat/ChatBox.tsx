@@ -14,14 +14,16 @@ import { IoSend } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./ChatBox.css";
+import { PostDetailModel } from "@/services/posts/models";
 
 type Props = {
   receiver: AccountModel;
   postId: number;
   disable: boolean;
+  post?: PostDetailModel;
 };
 
-function ChatBox({ receiver, postId, disable }: Props) {
+function ChatBox({ receiver, postId, disable, post }: Props) {
   const [connection, setConnection] = useState<HubConnection>();
   const [content, setContent] = useState<string>();
   const { account } = useSelector((state: AppState) => state.user);
@@ -119,28 +121,40 @@ function ChatBox({ receiver, postId, disable }: Props) {
   return (
     <Card className="mt-4">
       <div className="chatbox__header bg-white p-2 pb-4 flex justify-between items-center border-t-0 border-l-0 border-r-0 border-b border-b-gray-100 border-solid">
-        <div className="chatbox__header--receiver">
-          <div className="flex gap-4">
-            <Avatar size={56} src={receiver.avatar} />
-            <div className="chatbox__receiver--info self-center">
-              <div className="font-medium">{receiver.name}</div>
+        <div className="chatbox__header--receiver flex justify-between w-full">
+          {account?.role != "Admin" && (
+            <div className="flex gap-4">
+              <Avatar size={56} src={receiver.avatar} />
+              <div className="chatbox__receiver--info self-center">
+                <div className="font-medium">{receiver.name}</div>
+                <div className="text-gray-500 text-sm">
+                  {account?.role === "Freelancer" ? "Khách hàng" : "Freelancer"}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+          {account?.role === "Admin" && (
+            <>
+              <div className="flex gap-4">
+                <Avatar size={56} src={receiver.avatar} />
+                <div className="chatbox__receiver--info self-center">
+                  <div className="font-medium">{post?.freelancer?.name}</div>
+                  {account?.role == "Admin" && (
+                    <div className="text-gray-500 text-sm">Freelancer</div>
+                  )}
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="chatbox__receiver--info self-center flex flex-col items-end">
+                  <div className="font-medium">{post?.account?.name}</div>
+                  <div className="text-gray-500 text-sm">Khách hàng</div>
+                </div>
+                <Avatar size={56} src={receiver.avatar} />
+              </div>
+            </>
+          )}
         </div>
-        <div className="chatbox__header--action mr-2">
-          {/* <Dropdown
-            menu={{ items }}
-            trigger={["click"]}
-            placement="bottomRight"
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <BsThreeDotsVertical
-                size={24}
-                className="text-p2c-grey cursor-pointer"
-              />
-            </a>
-          </Dropdown> */}
-        </div>
+        <div className="chatbox__header--action mr-2"></div>
       </div>
       <div
         ref={messageRef}
@@ -149,7 +163,11 @@ function ChatBox({ receiver, postId, disable }: Props) {
         {messages.data?.map((msg) => (
           <div
             className={`chatbox__message ${
-              msg.accountId === account?.id
+              account?.role != "Admin"
+                ? msg.accountId === account?.id
+                  ? "chatbox__message--sender"
+                  : "chatbox__message--receiver"
+                : msg.accountId === post?.account?.id
                 ? "chatbox__message--sender"
                 : "chatbox__message--receiver"
             }`}
@@ -175,7 +193,7 @@ function ChatBox({ receiver, postId, disable }: Props) {
               }
             })()}
             <div className="chat__timestamp">
-              {msg.createdAt.format("HH:mm")}
+              {msg.createdAt.format("HH:mm DD/MM")}
             </div>
           </div>
         ))}
