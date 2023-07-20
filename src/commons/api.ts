@@ -3,7 +3,7 @@ export const BASE_URL = import.meta.env.VITE_API_HOST_URL;
 //ACCOUNTS
 export const API_ACCOUNT = BASE_URL + "/v1/accounts";
 export const API_ACCOUNT_DETAIL = BASE_URL + "/v1/accounts/{id}";
-export const API_ACCOUNT_ACCEPT = BASE_URL + "/v1/accounts/accept/{id}";
+export const API_ACCOUNT_ACCEPT = BASE_URL + "/v1/accounts/{id}/accept";
 export const API_ACCOUNT_ME = BASE_URL + "/v1/accounts/me";
 
 //AUTH
