@@ -24,10 +24,6 @@ export const API_POST_ACCEPT = BASE_URL + "/v1/posts/{id}/accept";
 export const API_POST_COMPLETE = BASE_URL + "/v1/posts/{id}/complete";
 export const API_POST_PAYMENT = BASE_URL + "/v1/posts/{id}/pay";
 
-//POST APPLICATION
-export const API_POST_APPLICATION = BASE_URL + "/v1/posts/{id}/applications";
-
-//MESSAGE
 export const API_POST_MESSAGE = BASE_URL + "/v1/posts/{id}/messages";
 
 //FILE
