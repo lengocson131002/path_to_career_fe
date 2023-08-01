@@ -122,6 +122,20 @@ function Dashboard() {
               <span>freelancers</span>
             </div>
           </Card>
+          <Card
+            title="Tổng lượt truy cập"
+            className="xl:col-span-12 lg:col-span-3 md:col-span-6 col-span-12"
+          >
+            <div className="flex items-center gap-2">
+              <Statistic
+                value={
+                  statistic.data?.postCount ? statistic.data?.postCount + 50 : 0
+                }
+                formatter={formatter}
+              />
+              <span>lượt</span>
+            </div>
+          </Card>
         </div>
         <div className="row-span-4 grid grid-cols-12 gap-2 xl:col-span-6 col-span-12">
           <Card title="Bài đăng" className="h-full lg:col-span-6 col-span-12">
