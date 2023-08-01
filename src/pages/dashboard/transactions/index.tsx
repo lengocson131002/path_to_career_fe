@@ -11,6 +11,7 @@ import { getTransactions } from "@/services/transactions/services";
 import { useQuery } from "@tanstack/react-query";
 import { Table, Tag, Tooltip } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const columns: ColumnsType<TransactionModel> = [
@@ -28,7 +29,13 @@ const columns: ColumnsType<TransactionModel> = [
     align: "center",
     ellipsis: true,
     key: "amount",
-    render: (amount) => formatCurrency(amount),
+    render: (amount) => <b>{formatCurrency(amount)}</b>,
+  },
+  {
+    title: "Nội dung giao dịch",
+    dataIndex: "content",
+    key: "content",
+    ellipsis: true,
   },
   {
     title: "Phương thức",
@@ -36,6 +43,7 @@ const columns: ColumnsType<TransactionModel> = [
     key: "payMethod",
     ellipsis: true,
     align: "center",
+    width: "16%",
     render: (payMethod: EnumKeys<typeof PaymentMethod>) => (
       <Tag color={PaymentMethodColor[payMethod]}>
         {PaymentMethod[payMethod]}
@@ -47,6 +55,7 @@ const columns: ColumnsType<TransactionModel> = [
     dataIndex: "status",
     ellipsis: true,
     key: "status",
+    width: "16%",
     align: "center",
     render: (status: EnumKeys<typeof TransactionStatus>) => (
       <Tag color={TransactionStatusColor[status]}>
@@ -70,8 +79,15 @@ const columns: ColumnsType<TransactionModel> = [
   },
 ];
 function Transactions() {
-  const transactions = useQuery([`p2c_transactions`], () => getTransactions());
   const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
+  const transactions = useQuery([`p2c_transactions`], () =>
+    getTransactions({ page: page })
+  );
+
+  useEffect(() => {
+    transactions.refetch();
+  }, [page]);
 
   return (
     <Table
@@ -82,6 +98,11 @@ function Transactions() {
         return {
           onClick: () => navigate(`/dashboard/transactions/${data.id}`),
         };
+      }}
+      pagination={{
+        current: transactions.data?.pageNumber,
+        total: transactions.data?.totalCount,
+        onChange: (page) => setPage(page),
       }}
       rowClassName={"cursor-pointer"}
     />

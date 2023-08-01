@@ -6,7 +6,8 @@ import Logo from "@/assets/logo.png";
 import { logout } from "@/services/auth/services";
 import { NotificationModel } from "@/services/notifications/models";
 import { NotificationResponse } from "@/services/notifications/responses";
-import { AppState } from "@/stores";
+import store, { AppState } from "@/stores";
+import { setGlobalState } from "@/stores/global.store";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { Avatar, Breadcrumb, Layout, Menu, notification } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
@@ -23,7 +24,7 @@ import { RxDashboard } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 function DashboardLayout({ children }: { children: JSX.Element }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -36,7 +37,15 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
   const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
-    joinRoom(account.id);
+    if (account?.role === "User" || account?.role === undefined) {
+      navigate("/");
+    }
+  }, [account]);
+
+  useEffect(() => {
+    if (account) {
+      joinRoom(account.id);
+    }
     return () => {
       connection?.stop();
     };
@@ -58,6 +67,11 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
       await connection.start();
       await connection.invoke("JoinRoom", { accountId });
       setConnection(connection);
+      store.dispatch(
+        setGlobalState({
+          loading: false,
+        })
+      );
     } catch (e) {
       console.log(e);
     }
@@ -72,7 +86,7 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
               to={mapNotificationLink({
                 type: notification.type,
                 refId: notification.referenceId,
-                role: account.role,
+                role: account?.role,
               })}
             >
               {notification.content}
@@ -232,7 +246,6 @@ function DashboardLayout({ children }: { children: JSX.Element }) {
         <Layout
           className={`transition-all ${collapsed ? "ml-[80px]" : "ml-[200px]"}`}
         >
-          <Header className="bg-white w-full" />
           <Content className="m-6">
             <Breadcrumb className="mb-4 cursor-pointer">
               <Breadcrumb.Item key={0} onClick={() => navigate("/dashboard")}>

@@ -7,21 +7,66 @@ import {
 import { formatDate } from "@/commons/utils";
 import CardSkeleton from "@/components/core/CardSkeleton";
 import { PostDetailModel } from "@/services/posts/models";
-import { Avatar, Button, Card, Col, Row, Skeleton, Tag } from "antd";
+import { SendReviewRequest } from "@/services/reviews/requests";
+import { sendReview, updateReview } from "@/services/reviews/services";
+import { useMutation } from "@tanstack/react-query";
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Rate,
+  Row,
+  Skeleton,
+  Tag,
+  message,
+} from "antd";
+import TextArea from "antd/es/input/TextArea";
 import HTMLReactParser from "html-react-parser";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { AiFillStar } from "react-icons/ai";
 import { IoDocumentText } from "react-icons/io5";
-import { Link } from "react-router-dom";
+interface ReviewForm {
+  score: number;
+  content?: string;
+}
 
 function PostDetail({
   post,
   setShowChat,
   isLoading,
+  refetch,
 }: {
   post: PostDetailModel;
   setShowChat: Dispatch<SetStateAction<boolean>>;
   isLoading?: boolean;
+  refetch: () => void;
 }) {
+  const [review, setReview] = useState<ReviewForm>({
+    score: post.review?.score ?? 3,
+    content: post.review?.content,
+  });
+  const sendReviewMutation = useMutation((review: SendReviewRequest) =>
+    sendReview(review)
+  );
+  const updateReviewMutation = useMutation(
+    (review: Pick<SendReviewRequest, "content" | "score">) =>
+      updateReview({
+        id: post.review?.id ?? 0,
+        request: review,
+      })
+  );
+
+  useEffect(() => {
+    refetch();
+    if (sendReviewMutation.isSuccess) {
+      message.success("Đánh giá thành công");
+    }
+    if (updateReviewMutation.isSuccess) {
+      message.success("Cập nhật đánh giá thành công");
+    }
+  }, [sendReviewMutation.isSuccess, updateReviewMutation.isSuccess]);
+
   return (
     <div id="post-detail">
       <Row gutter={[40, 40]}>
@@ -112,16 +157,17 @@ function PostDetail({
                   </Row>
                 </>
               )}
-              {post.freelancer && post.status === "Accepted" && (
-                <Button
-                  type="primary"
-                  className="w-full mt-8"
-                  onClick={() => setShowChat(true)}
-                >
-                  Mở chat box
-                </Button>
-              )}
-              {post.status !== "Accepted" && (
+              {post.freelancer &&
+                (post.status === "Accepted" || post.status === "Done") && (
+                  <Button
+                    type="primary"
+                    className="w-full mt-8"
+                    onClick={() => setShowChat(true)}
+                  >
+                    Mở chat box
+                  </Button>
+                )}
+              {post.status !== "Accepted" && post.status !== "Done" && (
                 <Button
                   disabled
                   className="w-full mt-8"
@@ -131,7 +177,57 @@ function PostDetail({
                 </Button>
               )}
             </Card>
-          </CardSkeleton>
+          </CardSkeleton>{" "}
+          {post.status === "Accepted" ||
+            (post.status === "Done" && (
+              <CardSkeleton className="h-fit mt-4">
+                <Card>
+                  <div className="font-bold text-lg mb-2">
+                    Đánh giá Freelancer
+                  </div>
+                  <div>
+                    <Rate
+                      character={<AiFillStar className={"text-2xl"} />}
+                      className="my-2"
+                      value={review.score}
+                      onChange={(value) =>
+                        setReview((prev) => ({ ...prev, score: value }))
+                      }
+                    />
+                    <TextArea
+                      placeholder="Nhập nội dung đánh giá"
+                      value={review.content}
+                      onChange={(value) =>
+                        setReview((prev) => ({
+                          ...prev,
+                          content: value.target.value,
+                        }))
+                      }
+                    />
+                    <Button
+                      type="primary"
+                      className="w-full mt-4"
+                      onClick={() => {
+                        if (!post.review) {
+                          sendReviewMutation.mutate({
+                            postId: post.id,
+                            content: review.content,
+                            score: review.score,
+                          });
+                        } else {
+                          updateReviewMutation.mutate({
+                            content: review.content,
+                            score: review.score,
+                          });
+                        }
+                      }}
+                    >
+                      Đánh giá Freelancer
+                    </Button>
+                  </div>
+                </Card>
+              </CardSkeleton>
+            ))}
         </Col>
       </Row>
     </div>

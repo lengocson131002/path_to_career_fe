@@ -1,11 +1,11 @@
-import { API_REVIEW } from "@/commons/api";
-import dayjs from "dayjs";
-import instance from "../instance";
-import { ReviewModel } from "./models";
-import { SendReviewRequest } from "./requests";
-import { ReviewResponse } from "./responses";
+import { mapReviewModel } from "@/adapter/ReviewAdapter";
+import { API_REVIEW, API_REVIEW_DETAIL } from "@/commons/api";
 import { PaginationModel } from "../core/models";
 import { PaginationResponse } from "../core/responses";
+import instance from "../instance";
+import { ReviewModel } from "./models";
+import { GetReviewsRequest, SendReviewRequest } from "./requests";
+import { ReviewResponse } from "./responses";
 
 export const sendReview = async (
   request: SendReviewRequest
@@ -22,19 +22,11 @@ export const sendReview = async (
   if (status !== 200) {
     return Promise.reject();
   }
-  return {
-    id: data.id,
-    account: data.account,
-    reviewer: data.reviewer,
-    content: data.content,
-    score: data.score,
-    createdAt: dayjs(data.createdAt),
-    updatedAt: dayjs(data.updatedAt),
-  };
+  return mapReviewModel(data);
 };
 
 export const getReviews = async (
-  request?: SendReviewRequest
+  request?: GetReviewsRequest
 ): Promise<PaginationModel<ReviewModel>> => {
   const { data } = await instance.get<PaginationResponse<ReviewResponse>>(
     API_REVIEW,
@@ -52,14 +44,37 @@ export const getReviews = async (
     pageSize: data.pageSize,
     totalCount: data.totalCount,
     totalPages: data.totalPages,
-    items: data.items.map((item) => ({
-      id: item.id,
-      account: item.account,
-      reviewer: item.reviewer,
-      content: item.content,
-      score: item.score,
-      createdAt: dayjs(item.createdAt),
-      updatedAt: dayjs(item.updatedAt),
-    })),
+    items: data.items.map((item) => mapReviewModel(item)),
   };
+};
+
+export const getReview = async (id: number): Promise<ReviewModel> => {
+  const { data } = await instance.get<ReviewResponse>(
+    API_REVIEW_DETAIL.replace("{id}", id.toString()),
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+  return mapReviewModel(data);
+};
+
+export const updateReview = async ({
+  id,
+  request,
+}: {
+  id: number;
+  request: Pick<SendReviewRequest, "content" | "score">;
+}): Promise<ReviewModel> => {
+  const { data } = await instance.put<ReviewResponse>(
+    API_REVIEW_DETAIL.replace("{id}", id.toString()),
+    request,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
+  return mapReviewModel(data);
 };

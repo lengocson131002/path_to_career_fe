@@ -1,18 +1,18 @@
+import { mapAccountModel } from "@/adapter/AccountAdapter";
+import { mapPage } from "@/adapter/PaginationAdapter";
 import {
   API_ACCOUNT,
   API_ACCOUNT_ACCEPT,
   API_ACCOUNT_DETAIL,
   API_ACCOUNT_ME,
 } from "@/commons/api";
+import { EnumKeys, Roles } from "@/commons/enum";
+import { PaginationModel } from "../core/models";
+import { PaginationResponse } from "../core/responses";
 import instance from "../instance";
 import { AccountModel } from "./models";
 import { AccountRequest, UpdateAccountRequest } from "./requests";
 import { AccountResponse } from "./responses";
-import { PaginationModel } from "../core/models";
-import { PaginationResponse } from "../core/responses";
-import { mapAccountModel } from "@/adapter/AccountAdapter";
-import { mapPage } from "@/adapter/PaginationAdapter";
-import { EnumKeys, Roles } from "@/commons/enum";
 
 export const register = async (
   request: AccountRequest
@@ -27,7 +27,6 @@ export const getMe = async (): Promise<AccountModel> => {
       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
     },
   });
-  localStorage.setItem("current_user", JSON.stringify(data));
   return mapAccountModel(data);
 };
 

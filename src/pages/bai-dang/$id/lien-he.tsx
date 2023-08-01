@@ -107,7 +107,11 @@ function Contact() {
           </Col>
           {data.freelancer && (
             <Col span={14} className="h-full -mt-4">
-              <ChatBox receiver={data.freelancer} postId={data.id}></ChatBox>
+              <ChatBox
+                receiver={data.freelancer}
+                postId={data.id}
+                disable={data.status !== "Accepted"}
+              ></ChatBox>
             </Col>
           )}
         </Row>

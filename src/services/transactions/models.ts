@@ -11,6 +11,7 @@ export type TransactionModel = {
   payMethod: EnumKeys<typeof PaymentMethod>;
   createdAt: dayjs.Dayjs;
   updatedAt: dayjs.Dayjs;
+  content: string;
   postId: number;
   status: EnumKeys<typeof TransactionStatus>;
 };
@@ -24,5 +25,6 @@ export type TransactionDetailModel = {
   createdAt: dayjs.Dayjs;
   updatedAt: dayjs.Dayjs;
   post?: PostModel;
+  content: string;
   status: EnumKeys<typeof TransactionStatus>;
 };

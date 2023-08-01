@@ -24,6 +24,7 @@ function PostPayment({
             Vui lòng chọn phương thức thanh toán:
           </label>
         }
+        initialValue={"Momo"}
       >
         <Radio.Group
           defaultValue={getEnumKeys(PaymentMethod)[option]}

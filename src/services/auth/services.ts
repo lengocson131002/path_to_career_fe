@@ -51,5 +51,4 @@ export const loginGoogle = async (idToken: string): Promise<LoginModel> => {
 export const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
-  localStorage.removeItem("current_user");
 };

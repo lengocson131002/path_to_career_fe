@@ -101,6 +101,9 @@ function TransactionDetail() {
               {transactionDetail.data.payMethod}
             </Tag>
           </Descriptions.Item>
+          <Descriptions.Item label="Nội dung thanh toán" span={3}>
+            {transactionDetail.data.content}
+          </Descriptions.Item>
           {transactionDetail.data.account && (
             <Descriptions.Item label="Mã khách hàng">
               {transactionDetail.data.account.id}

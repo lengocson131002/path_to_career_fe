@@ -14,9 +14,10 @@ import {
 } from "@/services/posts/services";
 import { AppState } from "@/stores";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Card, Descriptions, Tag, message } from "antd";
+import { Button, Card, Descriptions, Popconfirm, Tag, message } from "antd";
 import HTMLReactParser from "html-react-parser";
 import { useEffect } from "react";
+import { AiFillStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
@@ -152,30 +153,69 @@ function Posts() {
               <div>{HTMLReactParser(postDetail.data.description)}</div>
             </Descriptions.Item>
           )}
+          {postDetail.data.review?.score && (
+            <Descriptions.Item label="Điểm đánh giá">
+              <div>{postDetail.data.review.score}</div>
+            </Descriptions.Item>
+          )}
+          {postDetail.data.review?.content && (
+            <Descriptions.Item label="Nội dung đánh giá">
+              <div>{postDetail.data.review.content}</div>
+            </Descriptions.Item>
+          )}
+          {postDetail.data.review?.createdAt && (
+            <Descriptions.Item label="Thời gian đánh giá">
+              <div>{formatDate(postDetail.data.review.updatedAt)}</div>
+            </Descriptions.Item>
+          )}
         </Descriptions>
 
-        {account.role === "Freelancer" && postDetail.data.status === "Paid" && (
-          <Button
-            type="primary"
-            className="mt-4 float-right"
-            onClick={handleAcceptPost}
-          >
-            Nhận bài đăng
-          </Button>
-        )}
+        {account?.role === "Freelancer" &&
+          postDetail.data.status === "Paid" && (
+            <Button
+              type="primary"
+              className="mt-4 float-right"
+              onClick={handleAcceptPost}
+            >
+              Nhận bài đăng
+            </Button>
+          )}
+        {postDetail.data.status === "Done" &&
+          postDetail.data.freelancer?.id === account?.id && (
+            <div className="float-right flex gap-4 mt-4">
+              <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
+                <Button type="default">Xem tin nhắn</Button>
+              </Link>
+            </div>
+          )}
 
-        {account.role === "Freelancer" &&
-          postDetail.data.status === "Accepted" &&
+        {postDetail.data.status === "Accepted" &&
           postDetail.data.freelancer?.id === account?.id && (
             <div className="float-right flex gap-4 mt-4">
               <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
                 <Button type="default">Liên hệ</Button>
               </Link>
-              <Button onClick={handleCompletePost} type="primary">
-                Hoàn tất
-              </Button>
+
+              <Popconfirm
+                title="Hoàn tất bài đăng"
+                placement="topRight"
+                description="Bạn có chắc hoàn tất bài đăng"
+                onConfirm={handleCompletePost}
+                okText="Xác nhận"
+                cancelText="Hủy"
+              >
+                <Button type="primary">Hoàn tất</Button>
+              </Popconfirm>
             </div>
           )}
+
+        {account?.role === "Admin" && (
+          <div className="float-right flex gap-4 mt-4">
+            <Link to={`/dashboard/posts/${postDetail.data.id}/messages`}>
+              <Button type="default">Xem tin nhắn</Button>
+            </Link>
+          </div>
+        )}
       </Card>
     )
   );

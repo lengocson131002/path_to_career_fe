@@ -5,10 +5,13 @@ import {
 import { timeSince } from "@/commons/utils";
 import { NotificationModel } from "@/services/notifications/models";
 import { NotificationResponse } from "@/services/notifications/responses";
-import { getNotification } from "@/services/notifications/services";
+import {
+  getNotification,
+  readNotification,
+} from "@/services/notifications/services";
 import { AppState } from "@/stores";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Badge, Empty, List, Popover, notification } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
@@ -21,14 +24,25 @@ type Props = {
 const NotificationDropdown = ({ children }: Props) => {
   const [connection, setConnection] = useState<HubConnection>();
   const { account } = useSelector((state: AppState) => state.user);
-  const notifications = useQuery([`p2c_notification_${account.id}`], () =>
+  const notifications = useQuery([`p2c_notification_${account?.id}`], () =>
     getNotification({ pageSize: 5 })
   );
   const Context = React.createContext({ name: "Default" });
   const [api, contextHolder] = notification.useNotification();
+  const readNotificationMutation = useMutation((id: number) =>
+    readNotification(id)
+  );
 
   useEffect(() => {
-    joinRoom(account.id);
+    if (readNotificationMutation.isSuccess) {
+      notifications.refetch();
+    }
+  }, [readNotificationMutation.isSuccess]);
+
+  useEffect(() => {
+    if (account) {
+      joinRoom(account.id);
+    }
     return () => {
       connection?.stop();
     };
@@ -125,8 +139,9 @@ const NotificationDropdown = ({ children }: Props) => {
                     to={mapNotificationLink({
                       type: item.type,
                       refId: item.referenceId,
-                      role: account.role,
+                      role: account?.role,
                     })}
+                    onClick={() => readNotificationMutation.mutate(item.id)}
                   >
                     <List.Item
                       className="cursor-pointer hover:bg-gray-50"

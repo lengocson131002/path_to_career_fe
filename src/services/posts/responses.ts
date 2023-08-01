@@ -10,7 +10,7 @@ import {
 import { AccountResponse } from "../accounts/responses";
 import { MajorCode } from "../majors/models";
 import { TransactionResponse } from "../transactions/responses";
-
+import { ReviewResponse } from "../reviews/responses";
 
 export type PostResponse = {
   id: number;
@@ -54,6 +54,7 @@ export type PostDetailResponse = {
   account?: AccountResponse;
   freelancer?: AccountResponse;
   transaction?: TransactionResponse;
+  review?: ReviewResponse;
 };
 
 export type PostPaymentResponse = {
@@ -64,6 +65,7 @@ export type PostPaymentResponse = {
   payMethod: EnumKeys<typeof PaymentMethod>;
   createdAt: string;
   updatedAt: string;
+  content: string;
   postId: number;
   // status: EnumKeys<typeof PostStatus>;
 };

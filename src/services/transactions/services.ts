@@ -16,14 +16,20 @@ import {
 import { TransactionDetailModel, TransactionModel } from "./models";
 import { TransactionDetailResponse, TransactionResponse } from "./responses";
 
-export const getTransactions = async (): Promise<
-  PaginationModel<TransactionModel>
-> => {
+export const getTransactions = async ({
+  page,
+}: {
+  page: number;
+}): Promise<PaginationModel<TransactionModel>> => {
   const { data } = await instance.get<PaginationResponse<TransactionResponse>>(
     API_TRANSACTION,
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+      params: {
+        pageSize: 10,
+        pageNumber: page,
       },
     }
   );

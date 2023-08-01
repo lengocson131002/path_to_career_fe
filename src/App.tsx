@@ -14,6 +14,7 @@ import ScrollToTop from "./components/core/ScrollToTop";
 import MainLayout from "./layouts/MainLayout";
 import { getMe } from "./services/accounts/services";
 import { AppState } from "./stores";
+import { setGlobalState } from "./stores/global.store";
 import { setUserState } from "./stores/user.store";
 
 interface IRoute {
@@ -66,10 +67,20 @@ const App = () => {
 
   useEffect(() => {
     if (localStorage.getItem("refresh_token")) {
+      dispatch(
+        setGlobalState({
+          loading: true,
+        })
+      );
       getMe().then((res) => {
         dispatch(
           setUserState({
             account: res,
+          })
+        );
+        dispatch(
+          setGlobalState({
+            loading: false,
           })
         );
       });

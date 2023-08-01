@@ -1,4 +1,4 @@
-import { API_NOTIFICATION } from "@/commons/api";
+import { API_NOTIFICATION, API_NOTIFICATION_READ } from "@/commons/api";
 import { PaginationModel } from "../core/models";
 import { PaginationResponse } from "../core/responses";
 import instance from "../instance";
@@ -28,4 +28,14 @@ export const getNotification = async ({
     }
   );
   return mapPage(data, mapNotificationModel);
+};
+export const readNotification = async (id: number) => {
+  const { data } = await instance.put(
+    API_NOTIFICATION_READ.replace("{id}", id.toString()),
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }
+  );
 };

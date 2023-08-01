@@ -13,6 +13,7 @@ import { mapAccountModel } from "./AccountAdapter";
 import { mapTransactionModel } from "./TransactionAdapter";
 import { MessageModel } from "@/services/message/models";
 import { MessageResponse } from "@/services/message/responses";
+import { mapReviewModel } from "./ReviewAdapter";
 
 export const mapPostPaymentModel = (
   res: PostPaymentResponse
@@ -26,6 +27,7 @@ export const mapPostPaymentModel = (
     postId: res.postId,
     referenceTransactionId: res.referenceTransactionId,
     updatedAt: dayjs(res.updatedAt),
+    content: res.content,
   };
 };
 
@@ -78,6 +80,7 @@ export const mapPostDetailModel = (
       ? mapTransactionModel(res.transaction)
       : undefined,
     updatedAt: dayjs(res.updatedAt),
+    review: res.review ? mapReviewModel(res.review) : undefined,
   };
 };
 

@@ -1,8 +1,11 @@
 import { mapNotificationLink } from "@/adapter/NotificationAdapter";
 import { timeSince } from "@/commons/utils";
-import { getNotification } from "@/services/notifications/services";
+import {
+  getNotification,
+  readNotification,
+} from "@/services/notifications/services";
 import { AppState } from "@/stores";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Badge, Card, Empty, List, Pagination } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -11,13 +14,23 @@ import { Link } from "react-router-dom";
 function Notification() {
   const { account } = useSelector((state: AppState) => state.user);
   const [page, setPage] = useState<number>(1);
-  const notifications = useQuery([`p2c_notification_${account.id}`], () =>
+  const notifications = useQuery([`p2c_notification_${account?.id}`], () =>
     getNotification({ pageNumber: page })
+  );
+
+  const readNotificationMutation = useMutation((id: number) =>
+    readNotification(id)
   );
 
   useEffect(() => {
     notifications.refetch();
   }, [page]);
+
+  useEffect(() => {
+    if (readNotificationMutation.isSuccess) {
+      notifications.refetch();
+    }
+  }, [readNotificationMutation.isSuccess]);
 
   return (
     <Card>
@@ -50,11 +63,13 @@ function Notification() {
                 to={mapNotificationLink({
                   type: item.type,
                   refId: item.referenceId,
-                  role: account.role,
+                  role: account?.role,
                 })}
+                onClick={() => readNotificationMutation.mutate(item.id)}
               >
                 <List.Item className="cursor-pointer hover:bg-gray-50">
                   <List.Item.Meta
+                    className="px-4"
                     title={
                       <div className="flex justify-between">
                         <div

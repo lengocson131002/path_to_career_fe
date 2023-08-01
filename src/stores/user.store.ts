@@ -1,16 +1,15 @@
-import { jsonParseUtil } from "@/commons/utils";
 import { AccountModel } from "@/services/accounts/models";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserState {
-  account: AccountModel;
+  account?: AccountModel;
 }
 
 const initialState: UserState = {
-  account: jsonParseUtil(localStorage.getItem("current_user")),
 };
+
 const userSlice = createSlice({
   name: "user",
   initialState,

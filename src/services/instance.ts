@@ -80,7 +80,6 @@ instance.interceptors.response.use(
     if (error?.response?.status === 500) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      localStorage.removeItem("current_user");
       window.location.replace("/");
     }
     if (error?.response?.status !== 401 && error?.response?.status !== 500) {

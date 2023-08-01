@@ -1,23 +1,9 @@
+import { AccountResponse } from "../accounts/responses";
+
 export type ReviewResponse = {
   id: number;
-  reviewer: {
-    id: number;
-    email: string;
-    phoneNumber: string;
-    role: "Admin" | "Freelancer" | "User";
-    fullName: string;
-    description: string;
-    score: number;
-  };
-  account: {
-    id: number;
-    email: string;
-    phoneNumber: string;
-    role: "Admin" | "Freelancer" | "User";
-    fullName: string;
-    description: string;
-    score: number;
-  };
+  reviewer?: AccountResponse;
+  account?: AccountResponse;
   score: number;
   content: string;
   createdAt: string;
