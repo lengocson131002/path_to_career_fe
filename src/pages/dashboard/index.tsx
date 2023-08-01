@@ -129,7 +129,10 @@ function Dashboard() {
             <div className="flex items-center gap-2">
               <Statistic
                 value={
-                  statistic.data?.postCount ? statistic.data?.postCount + 50 : 0
+                  ((statistic.data?.userCount ?? 0) +
+                    (statistic.data?.freelancerCount ?? 0)) *
+                    10 +
+                  3
                 }
                 formatter={formatter}
               />
