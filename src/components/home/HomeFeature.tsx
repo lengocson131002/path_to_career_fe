@@ -24,10 +24,10 @@ function HomeFeature({}: Props) {
           <img src={Free} alt="" className="md:w-16 w-8" />
         </div>
         <div className="feature__item--title md:text-2xl text-xs font-medium h-[48px]">
-          Miễn phí 3 lần hỗ trợ đầu
+          Miễn phí lần hỗ trợ đầu
         </div>
         <div className="feature__item--description md:text-xl text-xs text-p2c-grey">
-          Hỗ trợ miễn phí cho người dùng mới 3 lần đầu đăng bài đầu tiền cho tất
+          Hỗ trợ miễn phí cho người dùng mới lần đăng bài đầu tiền cho tất
           cả các dịch vụ
         </div>
       </div>
