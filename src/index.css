@@ -97,3 +97,22 @@ a {
     text-decoration: none;
     color: unset;
 }
+
+.card svg * {
+    fill: inherit;
+}
+
+.embla {
+    overflow: hidden;
+}
+
+.embla__container {
+    width: 100%;
+    display: flex;
+}
+
+.embla__slide {
+    flex: 0 0 32%;
+    min-width: 0;
+    margin: 0 25px;
+}

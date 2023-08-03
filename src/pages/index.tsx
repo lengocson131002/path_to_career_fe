@@ -1,3 +1,4 @@
+import Events from "@/components/home/Events";
 import HomeCommunity from "@/components/home/HomeCommunity";
 import HomeFeature from "@/components/home/HomeFeature";
 import HomeHero from "@/components/home/HomeHero";
@@ -11,6 +12,7 @@ function HomePage() {
       <HomeFeature />
       <HomeCommunity />
       <HomeService />
+      <Events />
       <HomePartnership />
     </>
   );
