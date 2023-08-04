@@ -42,6 +42,10 @@ function Header() {
       label: "Trang chủ",
     },
     {
+      url: "/blog",
+      label: "Blog",
+    },
+    {
       url: "/bai-dang/tao-bai-dang",
       label: "Đăng bài",
     },
@@ -55,6 +59,10 @@ function Header() {
     {
       url: "/",
       label: "Trang chủ",
+    },
+    {
+      url: "/blog",
+      label: "Blog",
     },
     {
       url: "/dang-ky",

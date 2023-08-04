@@ -21,7 +21,7 @@ const EventCard = ({
 }: EventCardData) => {
   return (
     <div
-      className={`my-2 card group shadow-md md:max-w-[355px] rounded-[20px] overflow-hidden transition-colors ${
+      className={`my-2 card group shadow-md md:max-w-[400px] rounded-[20px] overflow-hidden transition-colors ${
         classname ?? ""
       }`}
     >
@@ -40,7 +40,7 @@ const EventCard = ({
           <div className="card__desc text-content text-base line-clamp-3">
             {description}
           </div>
-          <div className="card__time text-base text-content font-bold mt-[30px] mb-10">
+          <div className="card__time italic text-content mt-[30px] mb-10 font-thin text-sm">
             {time}
           </div>
           <div className="card__action">

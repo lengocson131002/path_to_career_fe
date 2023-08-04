@@ -6,10 +6,11 @@ import PlaceHolder from "@/assets/placeholder.png";
 import { Button, Image } from "antd";
 import { EventCardData } from "./EventCard";
 import EventCarousel from "./EventCarousel";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
-const events: EventCardData[] = [
+export const events: EventCardData[] = [
   {
     thumbnail: Event1,
     title: "Cách viết CV chuẩn nhất mọi ngành nghề, chinh phục nhà tuyển dụng",
@@ -47,9 +48,14 @@ const events: EventCardData[] = [
 const Events = (props: Props) => {
   return (
     <section className="home__events w-full relative lg:px-24 px-0 my-[72px]">
-      <div className="section__title mb-6 z-10 text-xs lg:text-xl ml-7">
-        Blog{" "}
-        <div className="lg:mx-3 mx:1 inline-block w-[50px] lg:w-[90px] bg-[#7E8595] h-[0.5px] lg:h-[1px] align-middle"></div>
+      <div className="section__title mb-10 z-10 text-xs lg:text-xl ml-7 flex justify-between items-center">
+        <div>
+          Blog{" "}
+          <div className="lg:mx-3 mx:1 inline-block w-[50px] lg:w-[90px] bg-[#7E8595] h-[0.5px] lg:h-[1px] align-middle"></div>
+        </div>
+        <Button>
+          <Link to={"/blog"}>Xem tất cả</Link>
+        </Button>
       </div>
       <div className="events relative overflow-visible lg:px-24 px-0 lg:mt-0 mt-4">
         <div className="events__slider lg:flex hidden justify-between w-full">
@@ -73,7 +79,9 @@ const Events = (props: Props) => {
                   <div className="events__stack--description text-[11px] mt-3">
                     {event.description}
                   </div>
-                  <Button className="max-h-[27px] mt-3">Xem ngay</Button>
+                  <Button className="max-h-[27px] mt-3">
+                    <Link to={event.link}>Xem ngay</Link>
+                  </Button>
                 </div>
               </div>
             );
