@@ -15,10 +15,12 @@ jobs:
       packages: write
     if: github.ref == 'refs/heads/develop'
     steps:
+      - name: Specify environment
+        run: echo ${{ env.ENVIRONMENT }}
+        
       - uses: actions/checkout@v1
       - name: Use Node.js 18
         uses: actions/setup-node@v1
-        run: echo ${{ env.ENVIRONMENT }}
         
         with: 
           node-version: "18.13.0"
