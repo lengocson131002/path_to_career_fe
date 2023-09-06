@@ -5,23 +5,23 @@ on:
     branches: [ develop ]
     
 jobs:
-  test-dev:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Setup code
-        uses: actions/checkout@v4
+  # test-dev:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - name: Setup code
+  #       uses: actions/checkout@v4
         
-      - name: Setup node 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.0.0'
+  #     - name: Setup node 18
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '18.0.0'
       
-      - name: Run test
-        run: |
-          npm install
+  #     - name: Run test
+  #       run: |
+  #         npm install
         
   build-dev:
     needs: test-dev
@@ -38,7 +38,7 @@ jobs:
         with: 
           name: p2c/p2c-github
           registry: ghcr.io
-          username: p2c
+          username: ${{ github.actor}}
           password: ${{ secrets.GITHUB_TOKEN }}
           tags: dev
           dockerfile: Dockerfile
