@@ -44,12 +44,12 @@ jobs:
       - name: Publish to GITHUB packages Registry
         uses: elgohr/Publish-Docker-Github-Action@v4
         with:
-          name: ${{ github.repository }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}
+          name: ${{ github.repository }}/${{ vars.IMAGE_NAME }}
           registry: ${{ vars.IMAGE_REGISTRY }}
           username: ${{ secrets.GH_USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
           dockerfile: Dockerfile
-          tags: latest
+          tags: ${{ vars.IMAGE_TAG }}
   deploy-dev:
     needs: build-dev
     environment:
