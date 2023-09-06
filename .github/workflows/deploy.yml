@@ -27,11 +27,11 @@ jobs:
       - name: Setup code
         uses: actions/checkout@v4
         
-      - name: Build and push docker image to gcr
+      - name: Build and push docker image to ghcr
         uses: elgohr/Publish-Docker-Github-Action@v4
         with: 
           name: p2c/p2c-github
-          registry: gcr.io
+          registry: ghcr.io
           username: p2c
           password: ${{ secrets.GITHUB_TOKEN }}
           tags: dev
