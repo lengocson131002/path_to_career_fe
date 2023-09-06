@@ -54,4 +54,4 @@ jobs:
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
             docker pull docker.pkg.github.com/lengocson131002/path-to-career/p2c
-            docker run -d --name $CONTAINER_NAME --restart unless-stopped 3002:80 docker.pkg.github.com/lengocson131002/path-to-career/p2c
+            docker run -d --name $CONTAINER_NAME --restart unless-stopped -p 3002:80 docker.pkg.github.com/lengocson131002/path-to-career/p2c
