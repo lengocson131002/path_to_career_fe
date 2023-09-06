@@ -14,11 +14,12 @@ jobs:
       contents: read
       packages: write
     if: github.ref == 'refs/heads/develop'
-    run: echo ${{ env.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 18
         uses: actions/setup-node@v1
+        run: echo ${{ env.ENVIRONMENT }}
+        
         with: 
           node-version: "18.13.0"
       - name: Get npm cache directory
