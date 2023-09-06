@@ -1,0 +1,29 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+      
+jobs:
+  build:
+    run-on: ubuntu-latest
+    step:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 18
+        uses: actions/setup-node@v1
+        with: 
+          node-version: "18.13.0"
+      - name: Install npm
+        run: |
+          npm install
+        env:
+          CI: true
+      - name: Publish to GITHUB packages Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: lengocson131002/path-to-career
+          username: ${{ secrets.GITHUB_USERNAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile: Dockerfile
+          tags: latest

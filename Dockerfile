@@ -1,7 +1,6 @@
 FROM node:18-alpine as development
 WORKDIR /app
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json ./
 
 RUN npm ci
 COPY . .
