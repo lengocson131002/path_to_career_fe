@@ -71,12 +71,9 @@ jobs:
           host: ${{ secrets.SERVER_HOST}}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          envs: GITHUB_USERNAME, GITHUB_TOKEN, CONTAINER_NAME
           script: |
-            echo $CONTAINER_NAME
-            echo $IMAGE
-            docker login ${{ vars.IMAGE_REGISTRY}} -u $GITHUB_USERNAME -p $GITHUB_TOKEN
-            docker stop $CONTAINER_NAME || true
-            docker rm $CONTAINER_NAME || true
+            echo ${{ env.GITHUB_TOKEN }} | docker login ${{ vars.IMAGE_REGISTRY}} -u ${{ env.GITHUB_USERNAME}} --password-stdin
+            docker stop ${{ env.CONTAINER_NAME }} || true
+            docker rm ${{ env.CONTAINER_NAME }} || true
             docker pull $IMAGE
-            docker run -d --name $CONTAINER_NAME --restart unless-stopped -p 3002:80 $IMAGE
+            docker run -d --name ${{ env.CONTAINER_NAME }} --restart unless-stopped -p 3002:80 ${{ env.IMAGE }}
