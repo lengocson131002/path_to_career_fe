@@ -22,12 +22,14 @@ jobs:
           echo "TEST SUCCESSFULLy"
         
   build-dev:
+    needs: test-dev
     runs-on: ubuntu-latest
     steps:
       - name: Build
         run: echo "Build..."
         
   deploy-dev:
+    needs: build-dev
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
