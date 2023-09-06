@@ -19,14 +19,25 @@ jobs:
       - name: Run test
         run: |
           npm install
-          echo "TEST SUCCESSFULLy"
+          npm run test
         
   build-dev:
     needs: test-dev
     runs-on: ubuntu-latest
     steps:
-      - name: Build
-        run: echo "Build..."
+      - name: Setup code
+        uses: actions/checkout@v4
+        
+      - name: Build and push docker image to gcr
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        with: 
+          name: p2c/p2c-github
+          registry: gcr.io
+          username: p2c
+          password: ${{ secrets.GITHUB_TOKEN }}
+          tags: dev
+          dockerfile: Dockerfile
+           
         
   deploy-dev:
     needs: build-dev
