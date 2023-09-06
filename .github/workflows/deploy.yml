@@ -8,11 +8,13 @@ jobs:
   build-dev:
     environment:
       name: develop
+      url: https://p2c.site
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     if: github.ref == 'refs/heads/develop'
+    run: echo ${{ env.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 18
@@ -53,7 +55,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    if: github.ref == 'refs/heads/developr'
+    if: github.ref == 'refs/heads/develop'
     steps:
       - name: Deploy package to VPS Server
         uses: appleboy/ssh-action@v1.0.0
