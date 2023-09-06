@@ -48,10 +48,10 @@ jobs:
           host: ${{ secrets.SERVER_HOST}}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
-          envs: GITHUB_USERNAME, GITHUB_TOKEN
+          envs: GITHUB_USERNAME, GITHUB_TOKEN, CONTAINER_NAME
           script: |
             docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
             docker pull docker.pkg.github.com/lengocson131002/path-to-career/p2c
-            docker runrun -d --restart unless-stopped 3002:80 docker.pkg.github.com/lengocson131002/path-to-career/p2c
+            docker run -d --name $CONTAINER_NAME --restart unless-stopped 3002:80 docker.pkg.github.com/lengocson131002/path-to-career/p2c
