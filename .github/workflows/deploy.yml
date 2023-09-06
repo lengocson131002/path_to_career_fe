@@ -22,7 +22,7 @@ jobs:
       - name: Publish to GITHUB packages Registry
         uses: elgohr/Publish-Docker-Github-Action@v4
         with:
-          name: lengocson131002/path-to-career
+          name: lengocson131002/path-to-career/p2c
           registry: docker.pkg.github.com
           username: ${{ secrets.GH_USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
