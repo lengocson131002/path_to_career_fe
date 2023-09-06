@@ -47,6 +47,9 @@ jobs:
   deploy-dev:
     needs: build-dev
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Deploy
         run: echo "Deploy..."
