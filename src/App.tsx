@@ -86,6 +86,9 @@ const App = () => {
       });
     }
   }, []);
+  
+  console.log("Hello");
+  
 
   const queryClient = new QueryClient({
     defaultOptions: {
