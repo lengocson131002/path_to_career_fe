@@ -20,7 +20,7 @@ jobs:
         env:
           CI: true
       - name: Publish to GITHUB packages Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v4
         with:
           name: lengocson131002/path-to-career
           username: ${{ secrets.GH_USERNAME }}
