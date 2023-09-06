@@ -7,11 +7,14 @@ on:
       - master
       
 jobs:
-  build:
+  build-dev:
+    environment:
+      name: develop
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    if: github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js 18
@@ -38,34 +41,37 @@ jobs:
       - name: Publish to GITHUB packages Registry
         uses: elgohr/Publish-Docker-Github-Action@v4
         with:
-          name: lengocson131002/path-to-career/p2c
-          registry: docker.pkg.github.com
+          name: ${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          registry: ${{ env.IMAGE_REGISTRY }}
           username: ${{ secrets.GH_USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
           dockerfile: Dockerfile
           tags: latest
-  deploy:
-    needs: build
+  deploy-dev:
+    needs: build-dev
+    environment:
+      name: develop
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    if : github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/developr'
     steps:
       - name: Deploy package to VPS Server
         uses: appleboy/ssh-action@v1.0.0
         env:
-          CONTAINER_NAME: p2c-github
+          CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
           GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE:  ${{ env.IMAGE_REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
         with:
           host: ${{ secrets.SERVER_HOST}}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           envs: GITHUB_USERNAME, GITHUB_TOKEN, CONTAINER_NAME
           script: |
-            docker login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
+            docker login ${{ env.IMAGE_REGISTRY}} -u $GITHUB_USERNAME -p $GITHUB_TOKEN
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
-            docker pull docker.pkg.github.com/lengocson131002/path-to-career/p2c
-            docker run -d --name $CONTAINER_NAME --restart unless-stopped -p 3002:80 docker.pkg.github.com/lengocson131002/path-to-career/p2c
+            docker pull $IMAGE
+            docker run -d --name $CONTAINER_NAME --restart unless-stopped -p 3002:80 $IMAGE
