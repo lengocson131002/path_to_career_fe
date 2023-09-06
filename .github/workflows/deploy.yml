@@ -1,55 +1,76 @@
-name: deploy
+name: build
 
 on:
   push:
-    branches: [ develop ]
-    
-jobs:
-  # test-dev:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: read
-  #     packages: write
-  #   steps:
-  #     - name: Setup code
-  #       uses: actions/checkout@v4
-        
-  #     - name: Setup node 18
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '18.0.0'
+    branches: [ develop, staging, master]
       
-  #     - name: Run test
-  #       run: |
-  #         npm install
-        
+jobs:
   build-dev:
-    # needs: test-dev
+    environment:
+      name: develop
+      url: https://p2c.site
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    if: github.ref == 'refs/heads/develop'
     steps:
-      - name: Setup code
-        uses: actions/checkout@v4
+      - name: Specify environment
+        run: echo ${{ vars.ENVIRONMENT }}
         
-      - name: Build and push docker image to ghcr
-        uses: elgohr/Publish-Docker-Github-Action@v4
+      - uses: actions/checkout@v1
+      - name: Use Node.js 18
+        uses: actions/setup-node@v1
+        
         with: 
-          name: p2c/p2c-github
-          registry: ghcr.io
-          username: ${{ github.actor}}
+          node-version: "18.13.0"
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - name: Caching npm packages
+        uses: actions/cache@v3
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install npm
+        run: |
+          npm install
+        env:
+          CI: true
+      - name: Publish to GITHUB packages Registry
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        with:
+          name: ${{ github.repository }}/${{ vars.IMAGE_NAME }}
+          registry: ${{ vars.IMAGE_REGISTRY }}
+          username: ${{ secrets.GH_USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          tags: dev
           dockerfile: Dockerfile
-           
-        
+          tags: ${{ vars.IMAGE_TAG }}
   deploy-dev:
     needs: build-dev
+    environment:
+      name: develop
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    if: github.ref == 'refs/heads/develop'
     steps:
-      - name: Deploy
-        run: echo "Deploy..."
+      - name: Deploy package to VPS Server
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          IMAGE: ${{ vars.IMAGE_REGISTRY }}/${{ github.repository }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG }}
+        with:
+          host: ${{ secrets.SERVER_HOST}}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          script: |
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ vars.IMAGE_REGISTRY}} -u ${{ secrets.GH_USERNAME }} --password-stdin
+            docker stop ${{ vars.CONTAINER_NAME }} || true
+            docker rm ${{ vars.CONTAINER_NAME }} || true
+            docker pull ${{ env.IMAGE }}
+            docker run -d --name ${{ vars.CONTAINER_NAME }} --restart unless-stopped -p 3002:80 ${{ env.IMAGE }}
