@@ -1,10 +1,8 @@
 name: build
 
 on:
-  pull_request:
   push:
-    branches:
-      - master
+    branches: [ develop, staging, master]
       
 jobs:
   build-dev:
