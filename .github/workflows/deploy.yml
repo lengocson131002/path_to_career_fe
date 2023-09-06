@@ -1,6 +1,7 @@
 name: build
 
 on:
+  pull_request:
   push:
     branches:
       - master
@@ -37,6 +38,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+    if : github.ref == 'refs/heads/master'
     steps:
       - name: Deploy package to VPS Server
         uses: appleboy/ssh-action@v1.0.0
