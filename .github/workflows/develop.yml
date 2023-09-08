@@ -2,11 +2,12 @@ name: Develop deploy
 
 on:
   pull_request:
+    branches: [ develop ]
   push:
     branches: [ develop ]
     
 jobs:
-  test-staging:
+  test-dev:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,8 +24,9 @@ jobs:
       - name: Run test
         run: |
           npm install
+          echo "TESTING...."
         
-  build-staging:
+  build-dev:
     if: github.ref == 'refs/heads/develop'
     needs: test-dev
     runs-on: ubuntu-latest
@@ -46,7 +48,7 @@ jobs:
           dockerfile: Dockerfile
 
         
-  deploy-staging:
+  deploy-dev:
     if: github.ref == 'refs/heads/develop'
     needs: build-dev
     runs-on: ubuntu-latest
