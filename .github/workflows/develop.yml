@@ -1,6 +1,7 @@
-name: deploy
+name: Develop deploy
 
 on:
+  pull_request:
   push:
     branches: [ develop ]
     
@@ -24,6 +25,7 @@ jobs:
           npm install
         
   build-dev:
+    if: github.ref == 'refs/heads/develop'
     needs: test-dev
     runs-on: ubuntu-latest
     permissions:
@@ -45,6 +47,7 @@ jobs:
 
         
   deploy-dev:
+    if: github.ref == 'refs/heads/develop'
     needs: build-dev
     runs-on: ubuntu-latest
     steps:
@@ -57,6 +60,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           script: |
+            echo ${{ vars.TEST }}
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ vars.CONTAINER_REGISTRY }} -u p2c --password-stdin
             docker stop p2c-container || true
             docker rm p2c-container || true

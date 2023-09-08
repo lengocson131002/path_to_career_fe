@@ -1,0 +1,69 @@
+name: Staging deploy
+
+on:
+  pull_request:
+  push:
+    branches: [ staging ]
+    
+jobs:
+  test-dev:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Setup code
+        uses: actions/checkout@v4
+        
+      - name: Setup node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.0.0'
+      
+      - name: Run test
+        run: |
+          npm install
+        
+  build-dev:
+    if: github.ref == 'refs/heads/staging'
+    needs: test-dev
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Setup code
+        uses: actions/checkout@v4
+        
+      - name: Build and push docker image to ghcr
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        with: 
+          name: ${{ github.repository }}/p2c-github
+          registry: ${{ vars.CONTAINER_REGISTRY }}
+          username: p2c
+          password: ${{ secrets.GITHUB_TOKEN }}
+          tags: dev
+          dockerfile: Dockerfile
+
+        
+  deploy-dev:
+    if: github.ref == 'refs/heads/staging'
+    needs: build-dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy package to VPS
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          IMAGE: ${{ vars.CONTAINER_REGISTRY }}/${{ github.repository }}/p2c-github:dev
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          script: |
+            echo ${{ vars.TEST }}
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ vars.CONTAINER_REGISTRY }} -u p2c --password-stdin
+            docker stop p2c-container || true
+            docker rm p2c-container || true
+            docker pull ${{ env.IMAGE }}
+            docker run -d --name p2c-container --restart unless-stopped -p 3002:80 ${{ env.IMAGE }}
+            
