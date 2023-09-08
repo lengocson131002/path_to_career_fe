@@ -6,7 +6,7 @@ on:
     branches: [ staging ]
     
 jobs:
-  test-dev:
+  test-staging:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,7 +24,7 @@ jobs:
         run: |
           npm install
         
-  build-dev:
+  build-staging:
     if: github.ref == 'refs/heads/staging'
     needs: test-dev
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
           dockerfile: Dockerfile
 
         
-  deploy-dev:
+  deploy-staging:
     if: github.ref == 'refs/heads/staging'
     needs: build-dev
     runs-on: ubuntu-latest
