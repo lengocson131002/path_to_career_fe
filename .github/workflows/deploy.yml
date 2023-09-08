@@ -36,20 +36,30 @@ jobs:
       - name: Build and push docker image to ghcr
         uses: elgohr/Publish-Docker-Github-Action@v4
         with: 
-          name: lengocson131002/p2c/p2c-github
+          name: ${{ github.repository }}/p2c-github
           registry: ghcr.io
           username: p2c
           password: ${{ secrets.GITHUB_TOKEN }}
           tags: dev
           dockerfile: Dockerfile
-           
+
         
   deploy-dev:
     needs: build-dev
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
-      - name: Deploy
-        run: echo "Deploy..."
+      - name: Deploy package to VPS
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          IMAGE: ghrc.io/${{ github.repository }}/p2c-github:dev
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          script: |
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u p2c --password-stdin
+            docker stop p2c-container || true
+            docker rm p2c-container || true
+            docker pull ${{ env.IMAGE }}
+            docker run -d --name p2c-container --restart unless-stopped -p 3002:80 ${{ env.IMAGE }}
+            
