@@ -1,12 +1,12 @@
-name: Staging deploy
+name: Producion deploy
 
 on:
   pull_request:
   push:
-    branches: [ staging ]
+    branches: [ production ]
     
 jobs:
-  test-staging:
+  test-production:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -24,9 +24,9 @@ jobs:
         run: |
           npm install
         
-  build-staging:
-    if: github.ref == 'refs/heads/staging'
-    needs: test-staging
+  build-production:
+    if: github.ref == 'refs/heads/production'
+    needs: test-production
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -46,9 +46,9 @@ jobs:
           dockerfile: Dockerfile
 
         
-  deploy-staging:
-    if: github.ref == 'refs/heads/staging'
-    needs: build-staging
+  deploy-production:
+    if: github.ref == 'refs/heads/production'
+    needs: build-production
     runs-on: ubuntu-latest
     steps:
       - name: Deploy package to VPS
