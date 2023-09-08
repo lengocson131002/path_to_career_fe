@@ -2,6 +2,7 @@ name: Producion deploy
 
 on:
   pull_request:
+    branches: [ staging ]
   push:
     branches: [ production ]
     

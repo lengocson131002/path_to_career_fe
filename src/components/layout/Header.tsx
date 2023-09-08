@@ -82,7 +82,7 @@ function Header() {
         <div className="md:hidden block"></div>
         <Link to={"/"} className="h-full flex items-center">
           <img src={Logo} alt="p2c_logo" className="md:h-3/4 h-2/3" />
-          UPDATE CICD
+          SON UPDATE
         </Link>
         <div className="float-right md:hidden">
           <FaBars size={24} className="text-primary" onClick={showDrawer} />
