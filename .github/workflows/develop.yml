@@ -2,6 +2,7 @@ name: Develop deploy
 
 on:
   pull_request:
+    branches: [ develop ]
   push:
     branches: [ develop ]
     
@@ -23,6 +24,7 @@ jobs:
       - name: Run test
         run: |
           npm install
+          echo "TESTING...."
         
   build-dev:
     if: github.ref == 'refs/heads/develop'
