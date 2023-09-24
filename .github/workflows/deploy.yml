@@ -33,7 +33,6 @@ jobs:
             ${{ runner.os }}-node-
       - name: Install npm
         run: |
-          echo "Install npm packages"
           npm install
         env:
           CI: true
